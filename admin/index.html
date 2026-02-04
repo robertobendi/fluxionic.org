@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- FOUC Prevention: Apply theme class before React loads -->
+    <script>
+      (function() {
+        // Try to read zustand store preference first
+        var storeData = localStorage.getItem('slatestack-theme-store');
+        var preference = null;
+        if (storeData) {
+          try {
+            var parsed = JSON.parse(storeData);
+            preference = parsed.state && parsed.state.preference;
+          } catch(e) {}
+        }
+
+        // Fallback to simple theme key (legacy or set by store for quick access)
+        var simpleTheme = localStorage.getItem('slatestack-theme');
+
+        // Detect system preference
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Determine if dark theme should be applied
+        // Priority: explicit preference > simple key > system preference
+        var isDark = preference === 'dark' ||
+                     (preference === 'system' && prefersDark) ||
+                     (!preference && simpleTheme === 'dark') ||
+                     (!preference && !simpleTheme && prefersDark);
+
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        }
+
+        // Apply color preset
+        var colorPreset = null;
+        if (storeData) {
+          try {
+            var parsed = JSON.parse(storeData);
+            colorPreset = parsed.state && parsed.state.colorPreset;
+          } catch(e) {}
+        }
+        if (colorPreset && colorPreset !== 'default') {
+          document.documentElement.setAttribute('data-preset', colorPreset);
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/admin/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/admin/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/admin/favicon-16.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slatestack Admin</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

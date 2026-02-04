@@ -1,0 +1,245 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Arsenal Base Colors - Light Theme */
+    --background: 0 0% 100%;              /* Pure white #FFFFFF */
+    --foreground: 0 0% 0%;                /* Pure black #000000 */
+
+    /* Surface Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    /* Interactive Colors */
+    --primary: 0 0% 0%;                   /* Black buttons */
+    --primary-foreground: 0 0% 100%;      /* White text on black */
+    --secondary: 0 0% 96%;                /* Subtle gray for secondary */
+    --secondary-foreground: 0 0% 0%;
+
+    /* Muted Colors */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;         /* 40% black for muted text */
+
+    /* Preset accent colors - default is Arsenal blue */
+    --preset-accent: 217 91% 60%;         /* #3B82F6 */
+    --preset-highlight: 217 91% 70%;
+    --preset-tint: 217 30% 95%;
+    --preset-chart: 217 91% 60%;
+
+    /* Accent (wired to preset system) */
+    --accent: var(--preset-accent);
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive (Arsenal red) */
+    --destructive: 0 84% 60%;             /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders - 15% black opacity */
+    --border: 0 0% 0% / 0.15;
+    --input: 0 0% 0% / 0.15;
+    --ring: 0 0% 0%;
+
+    /* Radius - Arsenal minimal */
+    --radius: 2px;
+  }
+
+  .dark {
+    /* Arsenal Base Colors */
+    --background: 0 0% 0%;              /* Pure black #000000 */
+    --foreground: 0 0% 100%;            /* Pure white #FFFFFF */
+
+    /* Surface Colors */
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Interactive Colors */
+    --primary: 0 0% 100%;               /* White buttons */
+    --primary-foreground: 0 0% 0%;      /* Black text on white */
+    --secondary: 0 0% 15%;              /* Subtle gray for secondary */
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted Colors */
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;       /* 60% white for muted text */
+
+    /* Preset dark mode overrides */
+    --preset-tint: 217 30% 15%;
+
+    /* Accent (wired to preset system) */
+    --accent: var(--preset-accent);
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive (Arsenal red) */
+    --destructive: 0 84% 60%;           /* #EF4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders - 15% white opacity */
+    --border: 0 0% 100% / 0.15;
+    --input: 0 0% 100% / 0.15;
+    --ring: 0 0% 100%;
+
+    /* Radius - Arsenal minimal */
+    --radius: 2px;
+  }
+
+  /* Ocean preset */
+  [data-preset="ocean"] {
+    --preset-accent: 168 80% 40%;
+    --preset-highlight: 168 70% 50%;
+    --preset-tint: 168 30% 93%;
+    --preset-chart: 168 75% 45%;
+  }
+  [data-preset="ocean"].dark {
+    --preset-accent: 168 70% 50%;
+    --preset-highlight: 168 60% 60%;
+    --preset-tint: 168 30% 12%;
+    --preset-chart: 168 65% 55%;
+  }
+
+  /* Forest preset */
+  [data-preset="forest"] {
+    --preset-accent: 142 76% 36%;
+    --preset-highlight: 142 70% 50%;
+    --preset-tint: 142 30% 93%;
+    --preset-chart: 142 72% 40%;
+  }
+  [data-preset="forest"].dark {
+    --preset-accent: 142 70% 50%;
+    --preset-highlight: 142 60% 60%;
+    --preset-tint: 142 30% 12%;
+    --preset-chart: 142 65% 55%;
+  }
+
+  /* Sunset preset */
+  [data-preset="sunset"] {
+    --preset-accent: 25 95% 48%;
+    --preset-highlight: 25 85% 58%;
+    --preset-tint: 25 40% 93%;
+    --preset-chart: 25 90% 52%;
+  }
+  [data-preset="sunset"].dark {
+    --preset-accent: 25 85% 55%;
+    --preset-highlight: 25 75% 65%;
+    --preset-tint: 25 35% 12%;
+    --preset-chart: 25 80% 60%;
+  }
+
+  /* Midnight preset */
+  [data-preset="midnight"] {
+    --preset-accent: 262 83% 58%;
+    --preset-highlight: 262 70% 65%;
+    --preset-tint: 262 35% 93%;
+    --preset-chart: 262 78% 60%;
+  }
+  [data-preset="midnight"].dark {
+    --preset-accent: 262 75% 65%;
+    --preset-highlight: 262 65% 72%;
+    --preset-tint: 262 30% 12%;
+    --preset-chart: 262 70% 68%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    height: 100%;
+    overflow: hidden;
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  /* Arsenal tracking variants */
+  .tracking-arsenal-tight {
+    letter-spacing: -0.025em;
+  }
+  .tracking-arsenal-wide {
+    letter-spacing: 0.08em;
+  }
+
+  /* Arsenal text opacity utilities - theme aware */
+  .text-secondary {
+    color: hsl(0 0% 0% / 0.85);
+  }
+  .text-tertiary {
+    color: hsl(0 0% 0% / 0.6);
+  }
+  .text-muted-arsenal {
+    color: hsl(0 0% 0% / 0.45);
+  }
+  .dark .text-secondary {
+    color: hsl(0 0% 100% / 0.85);
+  }
+  .dark .text-tertiary {
+    color: hsl(0 0% 100% / 0.6);
+  }
+  .dark .text-muted-arsenal {
+    color: hsl(0 0% 100% / 0.45);
+  }
+
+  /* Arsenal transition timing */
+  .transition-arsenal {
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Reduced motion support for custom animations */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-scale-in {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* Typography Hierarchy - Brutalist Scale */
+  /* Based on existing usage: text-3xl/2xl for h1, text-xl for h2, text-lg for h3, text-sm for labels */
+
+  .heading-1 {
+    @apply text-3xl font-bold tracking-tight;
+  }
+
+  .heading-2 {
+    @apply text-2xl font-bold tracking-tight;
+  }
+
+  .heading-3 {
+    @apply text-xl font-semibold;
+  }
+
+  .heading-4 {
+    @apply text-lg font-semibold;
+  }
+
+  .heading-5 {
+    @apply text-base font-medium;
+  }
+
+  .label {
+    @apply text-sm font-medium;
+  }
+
+  .body {
+    @apply text-sm;
+  }
+
+  .caption {
+    @apply text-xs text-muted-foreground;
+  }
+}

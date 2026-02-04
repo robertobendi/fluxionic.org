@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Drizzle migrations (generated)
+drizzle/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test artifacts (Phase 24 cleanup)
+*cookies.txt
+*-cookies.txt
+test-*.jpg
+test-*.png
+test-*.gif
+test-*.webp
+debug-*.json
+login-response*.json
+
+# Uploads (tracked initially, contents excluded going forward)
+uploads/**/*.jpg
+uploads/**/*.jpeg
+uploads/**/*.png
+uploads/**/*.gif
+uploads/**/*.webp
+uploads/**/*.pdf
+!uploads/.gitkeep

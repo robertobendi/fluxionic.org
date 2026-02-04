@@ -1,0 +1,9 @@
+# Protected directories - user customizations preserved during updates
+# These directories use the "ours" merge strategy to keep local changes
+# Requires one-time setup: git config merge.ours.driver true
+
+# Public directory - demo frontend, custom themes, user assets
+public/** merge=ours
+
+# Custom admin components - user extensions to the admin panel
+admin/src/custom/** merge=ours

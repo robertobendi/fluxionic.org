@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entry - Slatestack</title>
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16.png">
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/" class="logo"><img src="/public/slatestack.png" alt="Slatestack" class="logo-img">Slatestack</a>
+      <a href="/admin" class="admin-link">Admin Panel →</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="breadcrumb">
+      <a href="/">Home</a> / <a href="#" id="collection-link">Collection</a> / <span id="entry-title">Loading...</span>
+    </section>
+
+    <article id="entry-content" class="entry-content">
+      <p class="loading">Loading entry...</p>
+    </article>
+  </main>
+
+  <footer>
+    <p>Powered by <a href="/admin">Slatestack CMS</a></p>
+  </footer>
+
+  <script src="/public/app.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const collection = params.get('c');
+    const entrySlug = params.get('e');
+    if (collection && entrySlug) {
+      loadEntry(collection, entrySlug);
+    } else {
+      document.getElementById('entry-content').innerHTML = '<p>Entry not found</p>';
+    }
+  </script>
+</body>
+</html>

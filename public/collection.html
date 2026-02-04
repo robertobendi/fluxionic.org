@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection - Slatestack</title>
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon-16.png">
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/" class="logo"><img src="/public/slatestack.png" alt="Slatestack" class="logo-img">Slatestack</a>
+      <a href="/admin" class="admin-link">Admin Panel →</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="breadcrumb">
+      <a href="/">Home</a> / <span id="collection-name">Loading...</span>
+    </section>
+
+    <section class="collection-header">
+      <h1 id="collection-title">Loading...</h1>
+    </section>
+
+    <section class="entries">
+      <div id="entries-list" class="entries-grid">
+        <p class="loading">Loading entries...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Powered by <a href="/admin">Slatestack CMS</a></p>
+  </footer>
+
+  <script src="/public/app.js"></script>
+  <script>
+    const slug = new URLSearchParams(window.location.search).get('c');
+    if (slug) {
+      loadCollection(slug);
+    } else {
+      document.getElementById('entries-list').innerHTML = '<p>No collection specified</p>';
+    }
+  </script>
+</body>
+</html>

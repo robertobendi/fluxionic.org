@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="stack" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="25%" stop-color="#c0c0c0"/>
+      <stop offset="50%" stop-color="#808080"/>
+      <stop offset="75%" stop-color="#404040"/>
+      <stop offset="100%" stop-color="#202020"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" fill="#000"/>
+  <!-- Top: single bar -->
+  <rect x="12" y="2" width="8" height="4" fill="url(#stack)"/>
+  <!-- Row 2: three blocks -->
+  <rect x="4" y="7" width="6" height="4" fill="url(#stack)"/>
+  <rect x="12" y="7" width="8" height="4" fill="url(#stack)"/>
+  <rect x="22" y="7" width="6" height="4" fill="url(#stack)"/>
+  <!-- Row 3 -->
+  <rect x="4" y="12" width="6" height="4" fill="url(#stack)"/>
+  <rect x="12" y="12" width="8" height="4" fill="url(#stack)"/>
+  <rect x="22" y="12" width="6" height="4" fill="url(#stack)"/>
+  <!-- Row 4 -->
+  <rect x="4" y="17" width="6" height="4" fill="url(#stack)"/>
+  <rect x="12" y="17" width="8" height="4" fill="url(#stack)"/>
+  <rect x="22" y="17" width="6" height="4" fill="url(#stack)"/>
+  <!-- Bottom: two bars + one center below -->
+  <rect x="8" y="22" width="6" height="4" fill="url(#stack)"/>
+  <rect x="18" y="22" width="6" height="4" fill="url(#stack)"/>
+  <rect x="12" y="26" width="8" height="4" fill="url(#stack)"/>
+</svg>
