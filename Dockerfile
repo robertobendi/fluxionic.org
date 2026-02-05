@@ -8,7 +8,15 @@ COPY version.json ./
 COPY src ./src
 RUN npm run build
 
-# Stage 2 - Admin Builder
+# Stage 2 - Frontend Builder
+FROM node:20-alpine AS frontend-builder
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
+
+# Stage 3 - Admin Builder
 FROM node:20-alpine AS admin-builder
 WORKDIR /app
 COPY admin/package*.json ./
@@ -16,7 +24,7 @@ RUN npm ci
 COPY admin/ ./
 RUN npm run build
 
-# Stage 3 - Production
+# Stage 4 - Production
 FROM node:20-alpine AS production
 RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 
@@ -26,6 +34,7 @@ RUN apk add --no-cache postgresql-client git
 WORKDIR /app
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=frontend-builder --chown=nodejs:nodejs /app/dist ./frontend/dist
 COPY --from=admin-builder --chown=nodejs:nodejs /app/dist ./admin/dist
 COPY --chown=nodejs:nodejs package*.json ./
 COPY --chown=nodejs:nodejs drizzle.config.ts ./
