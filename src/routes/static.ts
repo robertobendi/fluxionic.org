@@ -19,12 +19,13 @@ export default async function staticRoutes(fastify: FastifyInstance) {
   if (frontendAvailable) {
     frontendIndexHtml = readFileSync(path.join(frontendDistPath, "index.html"), "utf-8");
 
-    // Serve frontend static assets at root
+    // Serve frontend static assets at root (index: false to avoid conflict with explicit GET /)
     await fastify.register(fastifyStatic, {
       root: frontendDistPath,
       prefix: "/",
       decorateReply: false,
       wildcard: false,
+      index: false,
     });
 
     // Serve index.html at /

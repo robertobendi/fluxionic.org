@@ -32,7 +32,7 @@ function mapFieldToTypeBox(field: FieldDefinition): TSchema {
       return Type.Boolean();
 
     case "date":
-      return Type.String({ format: "date-time" });
+      return Type.String({ minLength: 1 });
 
     case "rich-text": {
       const constraints: { minLength?: number; maxLength?: number } = {};
