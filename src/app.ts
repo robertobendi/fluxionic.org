@@ -43,14 +43,9 @@ export async function buildApp() {
     dotenv: true,
   });
 
-  // Register CORS
+  // Register CORS - allow all origins
   await fastify.register(fastifyCors, {
-    origin: [
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
-      "http://localhost:5174",
-      "http://127.0.0.1:5174",
-    ],
+    origin: true,
     credentials: true,
   });
 
