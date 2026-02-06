@@ -2,19 +2,20 @@
 
 ## Current Position
 
-Phase: v1.5 nearly complete
+Phase: —
 Plan: —
-Status: One task remaining (repo cleanup)
-Last activity: 2026-02-04 — Status audit completed
+Status: Between milestones — v1.5 shipped
+Last activity: 2026-02-06 — v1.5 milestone completed
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-04)
+See: .planning/PROJECT.md (updated 2026-02-06)
 
 **Core value:** Zero-friction backend module for content management
-**Current focus:** v1.5 Production Polish (finishing repo cleanup)
+**Current focus:** Planning next milestone
 
 ## Accumulated Context
 
-- Self-update, settings redesign, UX audit all completed
-- Only remaining: remove test artifacts from git tracking
+- v1.5 shipped: self-update, settings redesign, UX audit, frontend pageview tracking
+- ~15,400 lines TypeScript across 210+ files
+- All metrics pipeline now wired end-to-end (frontend → backend → admin dashboard)

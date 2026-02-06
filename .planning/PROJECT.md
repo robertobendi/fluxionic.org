@@ -83,7 +83,7 @@ Zero-friction backend module: define your content schema in the UI, get stable A
 
 ### Active
 
-(None — v1.5 complete)
+(None — ready for next milestone)
 
 ### Out of Scope
 
@@ -141,24 +141,10 @@ The content schema should be simple enough that an AI can generate a frontend fr
 | Pino-pretty only in development | Production gets structured JSON for log aggregation | ✓ Good |
 | 90% heap threshold for degraded status | Early warning before OOM errors | ✓ Good |
 
-## Current Milestone: v1.5 Production Polish ✓ COMPLETE
+## Previous Milestones
 
-**Goal:** Self-update capability, Settings UX improvements, repository cleanup, and friction audit.
-
-**Shipped:** 2026-02-04
-
-**What was delivered:**
-- ✓ Self-update system (full implementation with backup, merge, migrate, restart, rollback)
-- ✓ Settings page redesign (collapsible sections, visual hierarchy)
-- ✓ UX friction audit (heuristic evaluation, workflow testing, form improvements)
-- ✓ Server restart button in admin settings
-- ✓ Update banner with changelog preview
-- ✓ Entry cache invalidation fix
-- ✓ Repository cleanup (removed test artifacts from git tracking)
-
-## Previous Milestone: v1.4 Robustness & Observability (shipped 2026-01-27)
-
-Fixed reliability issues with status indicators, caching, and Docker permissions; added basic observability for debugging and monitoring.
+- **v1.5 Production Polish** (shipped 2026-02-06) — Self-update, settings UX, friction audit, frontend pageview tracking
+- **v1.4 Robustness & Observability** (shipped 2026-01-27) — Unified health, Docker fixes, error boundaries, structured logging
 
 ---
-*Last updated: 2026-02-04 after v1.5 completion*
+*Last updated: 2026-02-06 after v1.5 milestone completion*

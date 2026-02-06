@@ -45,19 +45,12 @@ Phases: 1-5 (estimated, not tracked in GSD)
 - Structured JSON logging
 - Health dashboard with memory metrics
 
-## Current
-
 ### v1.5 — Production Polish
-Started: 2026-01-27
-Status: Nearly complete
-
-**Completed:**
-- ✓ Self-update system (backup, merge, migrate, restart, rollback)
-- ✓ Settings page redesign (collapsible sections)
-- ✓ UX friction audit (heuristic evaluation, form improvements)
-- ✓ Server restart button
-- ✓ Update banner with changelog
-- ✓ Entry cache invalidation fix
-
-**Remaining:**
-- [ ] Repository cleanup (remove tracked test artifacts from git)
+Shipped: 2026-02-06
+- Self-update system (backup, merge, migrate, restart, rollback)
+- Settings page redesign (collapsible sections)
+- UX friction audit (heuristic evaluation, form improvements)
+- Server restart button
+- Update banner with changelog
+- Entry cache invalidation fix
+- Frontend pageview tracking wired to metrics endpoint
