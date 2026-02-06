@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -12,6 +13,17 @@ import LesHouches from './pages/event/LesHouches'
 function App() {
   const location = useLocation()
   const isEventPage = location.pathname.startsWith('/events/')
+
+  useEffect(() => {
+    fetch('/api/metrics/pageview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        path: location.pathname,
+        referrer: document.referrer || undefined,
+      }),
+    }).catch(() => {})
+  }, [location.pathname])
 
   if (isEventPage) {
     return (
