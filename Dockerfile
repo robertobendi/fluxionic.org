@@ -39,6 +39,7 @@ COPY --from=admin-builder --chown=nodejs:nodejs /app/dist ./admin/dist
 COPY --chown=nodejs:nodejs package*.json ./
 COPY --chown=nodejs:nodejs drizzle.config.ts ./
 COPY --chown=nodejs:nodejs version.json ./
+COPY --from=builder --chown=nodejs:nodejs /app/src/shared/database/schema.ts ./src/shared/database/schema.ts
 
 # Create uploads directory with correct ownership BEFORE switching users
 # Named volumes will inherit this ownership when first mounted
