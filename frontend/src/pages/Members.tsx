@@ -191,7 +191,7 @@ function InstitutionCard({ institution }: { institution: Institution }) {
         <div className="space-y-3">
           {institution.pis.map((pi) => (
             <div key={pi.name} className="flex items-center">
-              <div className="w-12 h-12 rounded-full overflow-hidden mr-3 flex-shrink-0 ring-2 ring-primary/20">
+              <div className="w-16 h-16 rounded-full overflow-hidden mr-3 flex-shrink-0 ring-2 ring-primary/20">
                 {pi.photo ? (
                   <img
                     src={pi.photo}

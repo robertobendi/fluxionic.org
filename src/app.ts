@@ -15,6 +15,7 @@ import { mediaRoutes } from "./modules/media/index.js";
 import { metricsRoutes, metricsAdminRoutes, metricsPublicRoutes } from "./modules/metrics/index.js";
 import { systemInfoRoutes } from "./modules/admin/index.js";
 import { updateRoutes } from "./modules/update/index.js";
+import { instagramRoutes } from "./modules/instagram/index.js";
 import staticRoutes from "./routes/static.js";
 import healthRoutes from "./routes/health.js";
 
@@ -103,6 +104,9 @@ export async function buildApp() {
 
   // Register metrics routes (public pageview tracking, rate-limited)
   await fastify.register(metricsRoutes);
+
+  // Register Instagram feed proxy (public)
+  await fastify.register(instagramRoutes);
 
   // Register public content routes (no auth required)
   await fastify.register(publicContentRoutes);

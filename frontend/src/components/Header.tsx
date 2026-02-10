@@ -6,6 +6,7 @@ const navItems = [
   { path: '/', label: 'Home' },
   { path: '/member-institutions-and-pis', label: 'Member Institutions and PIs' },
   { path: '/project', label: 'Project' },
+  { path: '/events', label: 'Events' },
   { path: '/news', label: 'News' },
 ]
 

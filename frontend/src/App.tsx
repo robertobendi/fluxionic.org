@@ -8,6 +8,7 @@ import Project from './pages/Project'
 import Members from './pages/Members'
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
+import Events from './pages/Events'
 import LesHouches from './pages/event/LesHouches'
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/project" element={<Project />} />
           <Route path="/member-institutions-and-pis" element={<Members />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsArticle />} />
         </Routes>

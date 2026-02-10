@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Instagram } from 'lucide-react'
 import HeroAnimation from '../components/HeroAnimation'
 
 interface NewsEntry {
@@ -14,9 +14,20 @@ interface NewsEntry {
   createdAt: string
 }
 
+interface InstagramPost {
+  id: string
+  caption: string
+  mediaType: string
+  mediaUrl: string
+  thumbnailUrl: string
+  permalink: string
+  timestamp: string
+}
+
 export default function Home() {
   const [news, setNews] = useState<NewsEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const [igPosts, setIgPosts] = useState<InstagramPost[]>([])
 
   useEffect(() => {
     fetch('/api/content/news?limit=4')
@@ -24,6 +35,11 @@ export default function Home() {
       .then((json) => setNews(json.data ?? []))
       .catch(() => setNews([]))
       .finally(() => setLoading(false))
+
+    fetch('/api/instagram/feed')
+      .then((res) => (res.ok ? res.json() : { data: [] }))
+      .then((json) => setIgPosts(json.data ?? []))
+      .catch(() => setIgPosts([]))
   }, [])
 
   return (
@@ -53,30 +69,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* News Section */}
-      <section className="section bg-white">
-        <div className="container">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-dark mb-4">
-              Latest News
-            </h2>
-            <Link
-              to="/news"
-              className="text-primary hover:text-primary-dark font-medium inline-flex items-center"
-            >
-              View all news
-              <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
-          {loading ? (
-            <div className="flex justify-center py-12">
-              <div className="animate-pulse text-gray-text">Loading news...</div>
+      {/* News Section - only shown when there are articles */}
+      {!loading && news.length > 0 && (
+        <section className="section bg-white">
+          <div className="container">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-dark mb-4">
+                Latest News
+              </h2>
+              <Link
+                to="/news"
+                className="text-primary hover:text-primary-dark font-medium inline-flex items-center"
+              >
+                View all news
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
             </div>
-          ) : news.length === 0 ? (
-            <p className="text-center text-gray-text py-12">
-              No news articles yet. Check back soon.
-            </p>
-          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
               {news.map((entry) => (
                 <Link
@@ -110,9 +118,55 @@ export default function Home() {
                 </Link>
               ))}
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
+
+      {/* Instagram Section - only shown when there are posts */}
+      {igPosts.length > 0 && (
+        <section className="section bg-gradient-to-b from-white to-light-blue/30">
+          <div className="container">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-dark mb-4">
+                Follow Us on Instagram
+              </h2>
+              <a
+                href="https://www.instagram.com/fluxionic_msca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary-dark font-medium inline-flex items-center"
+              >
+                <Instagram className="mr-2 h-5 w-5" />
+                @fluxionic_msca
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </a>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+              {igPosts.map((post) => (
+                <a
+                  key={post.id}
+                  href={post.permalink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative aspect-square rounded-xl overflow-hidden bg-gray-100"
+                >
+                  <img
+                    src={post.mediaType === 'VIDEO' ? post.thumbnailUrl : post.mediaUrl}
+                    alt={post.caption.slice(0, 100)}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
+                    <p className="text-white text-sm p-3 opacity-0 group-hover:opacity-100 transition-opacity line-clamp-3">
+                      {post.caption}
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Partner Logos Section */}
       <section className="section bg-light-blue">
