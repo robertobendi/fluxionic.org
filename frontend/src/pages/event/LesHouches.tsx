@@ -241,8 +241,8 @@ export default function LesHouches() {
               <h3 className="text-xl font-heading font-bold text-dark mb-4">Key Dates</h3>
               <ul className="space-y-4">
                 <DateItem date="January 4, 2026" event="Registration opens" />
-                <DateItem date="March 16, 2026" event="Registration deadline" highlight />
-                <DateItem date="April 8, 2026" event="Notification of acceptance" />
+                <DateItem date="April 30, 2026" event="Registration deadline" highlight />
+                <DateItem date="May 15, 2026" event="Notification of acceptance" />
                 <DateItem date="September 14, 2026" event="School begins (arrival day)" />
                 <DateItem date="September 25, 2026" event="School ends (morning session)" />
               </ul>
@@ -417,7 +417,7 @@ export default function LesHouches() {
             <ExternalLink className="w-5 h-5" />
           </a>
           <p className="text-sm text-white/70 mt-6">
-            Registration deadline: March 16th, 2026
+            Registration deadline: April 30th, 2026
           </p>
         </div>
       </section>
