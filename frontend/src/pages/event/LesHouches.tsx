@@ -176,7 +176,7 @@ export default function LesHouches() {
             <InfoCard
               icon={<Users className="w-6 h-6" />}
               title="Registration Deadline"
-              description="March 16th, 2026"
+              description="April 30th, 2026"
             />
             <InfoCard
               icon={<MapPin className="w-6 h-6" />}
@@ -405,7 +405,9 @@ export default function LesHouches() {
           <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
             Registration is through the CECAM website. You will need to create a CECAM account
             if you don't have one. As part of your application, please provide a motivation letter
-            and a reference letter.
+            and a reference letter. The motivation letter is to be uploaded at the time of application
+            on the CECAM website, while the reference letter needs to be sent separately to the
+            address: jd489@cam.ac.uk.
           </p>
           <a
             href="https://www.cecam.org/workshop-details/nonequilibrium-physics-in-nanoconfinement-1473"
