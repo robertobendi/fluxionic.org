@@ -252,14 +252,15 @@ export default function LesHouches() {
               <h3 className="text-xl font-heading font-bold text-dark mb-4">Fees & Support</h3>
               <div className="space-y-4 text-gray-text">
                 <p>
-                  <span className="text-3xl font-bold text-dark">€950</span>
+                  <span className="text-3xl font-bold text-dark">€474</span>
                   <span className="text-sm ml-2">participation fee</span>
                 </p>
-                <p className="text-sm">Includes lodging and meals for the entire school period.</p>
+                <p className="text-sm">Includes lodging and meals for the entire school period. This is a reduced participation fee that is possible due to a generous donation from the WE-Heraeus Foundation.</p>
                 <div className="border-t pt-4 mt-4">
                   <p className="text-sm">
                     <strong className="text-dark">Financial support available:</strong> We can waive
-                    participation fees for a number of applicants. Indicate your need in the application.
+                    full participation fee for a number of applicants. If you want to apply for the
+                    waiver, please indicate and justify this in the application.
                   </p>
                 </div>
               </div>
@@ -410,7 +411,7 @@ export default function LesHouches() {
             address: jd489@cam.ac.uk.
           </p>
           <a
-            href="https://www.cecam.org/workshop-details/nonequilibrium-physics-in-nanoconfinement-1473"
+            href="https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary font-semibold rounded-xl hover:bg-gray-100 transition-all hover:scale-105 shadow-lg"
@@ -488,7 +489,7 @@ export default function LesHouches() {
             For any further inquiries, please contact us through the CECAM website.
           </p>
           <a
-            href="https://www.cecam.org/workshop-details/nonequilibrium-physics-in-nanoconfinement-1473"
+            href="https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-xl hover:bg-primary-dark transition-colors"
