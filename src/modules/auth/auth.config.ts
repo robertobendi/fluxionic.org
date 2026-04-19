@@ -28,6 +28,8 @@ export const auth = betterAuth({
     process.env.BETTER_AUTH_URL!,
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
   ],
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
