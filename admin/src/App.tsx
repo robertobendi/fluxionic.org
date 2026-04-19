@@ -10,6 +10,9 @@ import { MediaPage } from '@/features/media'
 import { MetricsPage } from '@/features/metrics'
 import { UsersPage } from '@/features/users'
 import { SettingsPage } from '@/features/settings'
+import { ApiKeysPage } from '@/features/api-keys'
+import { WebhooksPage } from '@/features/webhooks'
+import { SubmissionsPage } from '@/features/submissions'
 
 const router = createBrowserRouter(
   [
@@ -46,6 +49,14 @@ const router = createBrowserRouter(
           ),
         },
         {
+          path: 'collections/:collectionId/submissions',
+          element: (
+            <SectionErrorBoundary section="Submissions">
+              <SubmissionsPage />
+            </SectionErrorBoundary>
+          ),
+        },
+        {
           path: 'media',
           element: (
             <SectionErrorBoundary section="Media">
@@ -75,6 +86,26 @@ const router = createBrowserRouter(
             <AdminRoute>
               <SectionErrorBoundary section="Users">
                 <UsersPage />
+              </SectionErrorBoundary>
+            </AdminRoute>
+          ),
+        },
+        {
+          path: 'api-keys',
+          element: (
+            <AdminRoute>
+              <SectionErrorBoundary section="API Keys">
+                <ApiKeysPage />
+              </SectionErrorBoundary>
+            </AdminRoute>
+          ),
+        },
+        {
+          path: 'webhooks',
+          element: (
+            <AdminRoute>
+              <SectionErrorBoundary section="Webhooks">
+                <WebhooksPage />
               </SectionErrorBoundary>
             </AdminRoute>
           ),

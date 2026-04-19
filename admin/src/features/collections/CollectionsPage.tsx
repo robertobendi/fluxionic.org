@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card'
 import { CollectionDialog } from './CollectionDialog'
 import { useCollections, useDeleteCollection } from '@/hooks/use-collections'
 import type { Collection } from '@/types/collection'
-import { Plus, Edit, Trash2, Database, FileText, Loader2 } from 'lucide-react'
+import { Plus, Edit, Trash2, Database, FileText, Loader2, Inbox } from 'lucide-react'
 import { toast } from 'sonner'
 
 export function CollectionsPage() {
@@ -124,15 +124,27 @@ export function CollectionsPage() {
 
                 {/* Actions */}
                 <div className="mt-4 flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => navigate(`/collections/${collection.id}/entries`)}
-                    className="flex-1"
-                  >
-                    <FileText className="mr-2 h-4 w-4" />
-                    Entries
-                  </Button>
+                  {collection.isForm ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate(`/collections/${collection.id}/submissions`)}
+                      className="flex-1"
+                    >
+                      <Inbox className="mr-2 h-4 w-4" />
+                      Submissions
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate(`/collections/${collection.id}/entries`)}
+                      className="flex-1"
+                    >
+                      <FileText className="mr-2 h-4 w-4" />
+                      Entries
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"

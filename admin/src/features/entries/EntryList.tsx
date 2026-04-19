@@ -19,7 +19,11 @@ import {
 } from '@/components/ui/table'
 import type { Entry } from '@/types/entry'
 import type { Collection } from '@/types/collection'
-import { Edit, FileText } from 'lucide-react'
+import { Edit, FileText, Eye, History } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { fetcher } from '@/lib/api'
+import { RevisionsDialog } from './RevisionsDialog'
 import type { UseMutationResult } from '@tanstack/react-query'
 import { formatDate } from '@/lib/formatters'
 import { getEntryTitle } from './entry-utils'
@@ -52,6 +56,22 @@ export function EntryList({
   totalPages,
   onPageChange,
 }: EntryListProps) {
+  const [revisionsEntry, setRevisionsEntry] = useState<Entry | null>(null)
+
+  const copyPreviewLink = async (entry: Entry) => {
+    try {
+      const res = await fetcher<{ token: string; expiresAt: string }>(
+        `/admin/collections/${collection.id}/entries/${entry.id}/preview-token`,
+        { method: 'POST' }
+      )
+      const url = `${window.location.origin}/api/content/${collection.slug}/${entry.slug}?preview=${res.token}`
+      await navigator.clipboard.writeText(url)
+      toast.success('Preview link copied (valid 1h)')
+    } catch (err: any) {
+      toast.error(err?.message || 'Failed to create preview link')
+    }
+  }
+
   if (isLoading) {
     return (
       <Card className="p-12">
@@ -105,6 +125,26 @@ export function EntryList({
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
+                      {entry.status === 'draft' && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => copyPreviewLink(entry)}
+                          aria-label="Copy preview link"
+                          title="Copy preview link"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setRevisionsEntry(entry)}
+                        aria-label="Revisions history"
+                        title="Revisions"
+                      >
+                        <History className="h-4 w-4" />
+                      </Button>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -174,6 +214,15 @@ export function EntryList({
       </div>
 
       <Pagination page={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+
+      {revisionsEntry && (
+        <RevisionsDialog
+          open={!!revisionsEntry}
+          onOpenChange={(v) => !v && setRevisionsEntry(null)}
+          collection={collection}
+          entry={revisionsEntry}
+        />
+      )}
     </div>
   )
 }

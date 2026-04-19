@@ -5,6 +5,7 @@ import { Type, Static } from '@sinclair/typebox';
 export const CreateEntrySchema = Type.Object({
   data: Type.Record(Type.String(), Type.Unknown()),
   status: Type.Optional(Type.Union([Type.Literal('draft'), Type.Literal('published')])),
+  publishAt: Type.Optional(Type.Union([Type.String(), Type.Null()])),
 });
 export type CreateEntryInput = Static<typeof CreateEntrySchema>;
 
@@ -12,6 +13,7 @@ export const UpdateEntrySchema = Type.Object({
   data: Type.Optional(Type.Record(Type.String(), Type.Unknown())),
   status: Type.Optional(Type.Union([Type.Literal('draft'), Type.Literal('published')])),
   position: Type.Optional(Type.Number({ minimum: 0 })),
+  publishAt: Type.Optional(Type.Union([Type.String(), Type.Null()])),
 });
 export type UpdateEntryInput = Static<typeof UpdateEntrySchema>;
 
@@ -22,6 +24,7 @@ export const EntryResponseSchema = Type.Object({
   data: Type.Record(Type.String(), Type.Unknown()),
   status: Type.Union([Type.Literal('draft'), Type.Literal('published')]),
   position: Type.Number(),
+  publishAt: Type.Union([Type.String(), Type.Null()]),
   createdAt: Type.String(),
   updatedAt: Type.String(),
 });

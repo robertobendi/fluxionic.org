@@ -1,3 +1,17 @@
+export interface ImageVariant {
+  url: string;
+  width: number;
+  height: number;
+  format: string;
+  size: number;
+}
+
+export interface MediaVariants {
+  thumbnail?: ImageVariant;
+  medium?: ImageVariant;
+  large?: ImageVariant;
+}
+
 export interface MediaFile {
   id: string;
   filename: string;
@@ -10,6 +24,7 @@ export interface MediaFile {
   altText?: string | null;
   width?: number | null;
   height?: number | null;
+  variants?: MediaVariants | null;
   uploadedBy: string;
   createdAt: string;
   updatedAt: string;

@@ -7,7 +7,15 @@ import path from "path";
 import fs from "fs/promises";
 import crypto from "crypto";
 import { eq, or, ilike, sql, desc, count, inArray, sum } from "drizzle-orm";
-import type { MediaFileInput, MediaFileResponse } from "./media.types.js";
+import type { MediaFileInput, MediaFileResponse, MediaVariants, ImageVariant } from "./media.types.js";
+
+const VARIANT_SIZES: Array<{ name: keyof MediaVariants; width: number }> = [
+  { name: "thumbnail", width: 200 },
+  { name: "medium", width: 800 },
+  { name: "large", width: 1600 },
+];
+
+const SKIP_VARIANT_TYPES = new Set(["image/gif", "image/svg+xml"]);
 
 const ALLOWED_TYPES = [
   "image/jpeg",
@@ -64,10 +72,13 @@ export async function uploadFile(
 
   // Process images
   if (validatedMimeType.startsWith("image/")) {
-    const processedImage = await processImage(filePath);
-    fileData.width = processedImage.width;
-    fileData.height = processedImage.height;
-    fileData.thumbnailPath = processedImage.thumbnailPath;
+    const processed = await processImage(filePath, validatedMimeType);
+    fileData.width = processed.width;
+    fileData.height = processed.height;
+    fileData.thumbnailPath = processed.variants.thumbnail
+      ? filePathFromUrl(processed.variants.thumbnail.url)
+      : undefined;
+    fileData.variants = processed.variants;
   }
 
   // Insert into database
@@ -79,49 +90,63 @@ export async function uploadFile(
     })
     .returning();
 
-  // Build response with URLs
-  return {
-    id: inserted.id,
-    filename: inserted.filename,
-    originalName: inserted.originalName,
-    mimeType: inserted.mimeType,
-    size: inserted.size,
-    width: inserted.width,
-    height: inserted.height,
-    altText: inserted.altText,
-    path: inserted.path,
-    thumbnailPath: inserted.thumbnailPath,
-    url: buildMediaUrl(inserted.path),
-    thumbnailUrl: inserted.thumbnailPath
-      ? buildMediaUrl(inserted.thumbnailPath)
-      : null,
-    uploadedBy: inserted.uploadedBy,
-    createdAt: inserted.createdAt.toISOString(),
-    updatedAt: inserted.updatedAt.toISOString(),
-  };
+  return toMediaFileResponse(inserted);
 }
 
+/**
+ * Generate WebP variants at thumbnail/medium/large widths. Original file is
+ * preserved untouched. For small images we skip upscaling: if the source is
+ * narrower than a target width, we clamp to source width instead.
+ */
 export async function processImage(
-  filePath: string
-): Promise<{ width: number; height: number; thumbnailPath: string }> {
-  const image = sharp(filePath);
-
-  // Get metadata
+  filePath: string,
+  mimeType: string
+): Promise<{ width: number; height: number; variants: MediaVariants }> {
+  const image = sharp(filePath, { failOn: "none" });
   const metadata = await image.metadata();
+  const srcWidth = metadata.width || 0;
+  const srcHeight = metadata.height || 0;
 
-  // Generate WebP version
-  const webpPath = filePath.replace(/\.[^.]+$/, ".webp");
-  await image.toFormat("webp").toFile(webpPath);
+  const variants: MediaVariants = {};
 
-  // Generate 200x200 thumbnail
-  const thumbnailPath = filePath.replace(/\.[^.]+$/, "-thumb.webp");
-  await sharp(filePath).resize(200, 200, { fit: "cover" }).webp().toFile(thumbnailPath);
+  if (SKIP_VARIANT_TYPES.has(mimeType)) {
+    return { width: srcWidth, height: srcHeight, variants };
+  }
 
-  return {
-    width: metadata.width || 0,
-    height: metadata.height || 0,
-    thumbnailPath,
-  };
+  for (const { name, width } of VARIANT_SIZES) {
+    const targetWidth = srcWidth > 0 ? Math.min(width, srcWidth) : width;
+    const variantPath = filePath.replace(/\.[^.]+$/, `-${name}.webp`);
+    try {
+      const info = await sharp(filePath, { failOn: "none" })
+        .resize({ width: targetWidth, withoutEnlargement: true })
+        .webp({ quality: 82 })
+        .toFile(variantPath);
+      variants[name] = {
+        url: buildMediaUrl(variantPath),
+        width: info.width,
+        height: info.height,
+        format: "webp",
+        size: info.size,
+      };
+    } catch (err) {
+      // Leave the variant out on failure; original is still stored.
+      // eslint-disable-next-line no-console
+      console.warn(`Variant '${name}' failed for ${filePath}:`, err);
+    }
+  }
+
+  return { width: srcWidth, height: srcHeight, variants };
+}
+
+/**
+ * Convert a /uploads/... URL back to the filesystem path. Used to keep the
+ * legacy thumbnailPath column populated.
+ */
+function filePathFromUrl(url: string): string {
+  if (url.startsWith("/uploads/")) {
+    return path.join(process.env.UPLOAD_DIR || "./uploads", url.slice("/uploads/".length));
+  }
+  return url;
 }
 
 async function getUploadDir(): Promise<string> {
@@ -155,6 +180,7 @@ function buildMediaUrl(filePath: string): string {
 }
 
 function toMediaFileResponse(row: typeof mediaFile.$inferSelect): MediaFileResponse {
+  const variants = row.variants as MediaVariants | null;
   return {
     id: row.id,
     filename: row.filename,
@@ -168,6 +194,7 @@ function toMediaFileResponse(row: typeof mediaFile.$inferSelect): MediaFileRespo
     thumbnailPath: row.thumbnailPath,
     url: buildMediaUrl(row.path),
     thumbnailUrl: row.thumbnailPath ? buildMediaUrl(row.thumbnailPath) : null,
+    variants: variants ?? null,
     uploadedBy: row.uploadedBy,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
@@ -433,26 +460,7 @@ export async function cropImage(
     })
     .returning();
 
-  // Build response with URLs
-  return {
-    id: inserted.id,
-    filename: inserted.filename,
-    originalName: inserted.originalName,
-    mimeType: inserted.mimeType,
-    size: inserted.size,
-    width: inserted.width,
-    height: inserted.height,
-    altText: inserted.altText,
-    path: inserted.path,
-    thumbnailPath: inserted.thumbnailPath,
-    url: buildMediaUrl(inserted.path),
-    thumbnailUrl: inserted.thumbnailPath
-      ? buildMediaUrl(inserted.thumbnailPath)
-      : null,
-    uploadedBy: inserted.uploadedBy,
-    createdAt: inserted.createdAt.toISOString(),
-    updatedAt: inserted.updatedAt.toISOString(),
-  };
+  return toMediaFileResponse(inserted);
 }
 
 export async function getStorageStats(): Promise<{

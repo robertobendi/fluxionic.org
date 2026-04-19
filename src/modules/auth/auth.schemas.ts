@@ -12,7 +12,7 @@ export const CreateUserSchema = Type.Object({
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 8, maxLength: 128 }),
   name: Type.String({ minLength: 1, maxLength: 100 }),
-  role: Type.Union([Type.Literal("admin"), Type.Literal("editor")]),
+  role: Type.Union([Type.Literal("admin"), Type.Literal("editor"), Type.Literal("viewer")]),
 });
 
 export type CreateUserInput = Static<typeof CreateUserSchema>;

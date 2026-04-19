@@ -1,5 +1,19 @@
 import { Type } from "@sinclair/typebox";
 
+export const ImageVariantSchema = Type.Object({
+  url: Type.String(),
+  width: Type.Number(),
+  height: Type.Number(),
+  format: Type.String(),
+  size: Type.Number(),
+});
+
+export const MediaVariantsSchema = Type.Object({
+  thumbnail: Type.Optional(ImageVariantSchema),
+  medium: Type.Optional(ImageVariantSchema),
+  large: Type.Optional(ImageVariantSchema),
+});
+
 export const MediaFileResponseSchema = Type.Object({
   id: Type.String(),
   filename: Type.String(),
@@ -13,6 +27,7 @@ export const MediaFileResponseSchema = Type.Object({
   thumbnailPath: Type.Union([Type.String(), Type.Null()]),
   url: Type.String(),
   thumbnailUrl: Type.Union([Type.String(), Type.Null()]),
+  variants: Type.Union([MediaVariantsSchema, Type.Null()]),
   uploadedBy: Type.String(),
   createdAt: Type.String(),
   updatedAt: Type.String(),

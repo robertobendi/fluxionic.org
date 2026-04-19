@@ -1,31 +1,43 @@
 import { Type, Static } from "@sinclair/typebox";
 
-// Field definition schema matching content.types.ts
-export const FieldDefinitionSchema = Type.Object({
-  id: Type.String(),
-  name: Type.String({ minLength: 1 }),
-  label: Type.String({ minLength: 1 }),
-  type: Type.Union([
-    Type.Literal("string"),
-    Type.Literal("text"),
-    Type.Literal("number"),
-    Type.Literal("boolean"),
-    Type.Literal("date"),
-    Type.Literal("rich-text"),
-    Type.Literal("media"),
-    Type.Literal("select"),
-    Type.Literal("multi-select"),
-    Type.Literal("slug"),
-  ]),
-  required: Type.Optional(Type.Boolean()),
-  unique: Type.Optional(Type.Boolean()),
-  minLength: Type.Optional(Type.Number({ minimum: 0 })),
-  maxLength: Type.Optional(Type.Number({ minimum: 1 })),
-  min: Type.Optional(Type.Number()),
-  max: Type.Optional(Type.Number()),
-  options: Type.Optional(Type.Array(Type.String())),
-  generateFrom: Type.Optional(Type.String()),
-});
+// Field definition schema — recursive so repeater sub-fields validate too.
+// Defined in two passes: a self-referential Type.Recursive returns the full
+// schema including the subFields array.
+export const FieldDefinitionSchema: any = Type.Recursive((Self) =>
+  Type.Object({
+    id: Type.String(),
+    name: Type.String({ minLength: 1 }),
+    label: Type.String({ minLength: 1 }),
+    type: Type.Union([
+      Type.Literal("string"),
+      Type.Literal("text"),
+      Type.Literal("number"),
+      Type.Literal("boolean"),
+      Type.Literal("date"),
+      Type.Literal("rich-text"),
+      Type.Literal("media"),
+      Type.Literal("select"),
+      Type.Literal("multi-select"),
+      Type.Literal("slug"),
+      Type.Literal("reference"),
+      Type.Literal("multi-reference"),
+      Type.Literal("repeater"),
+    ]),
+    required: Type.Optional(Type.Boolean()),
+    unique: Type.Optional(Type.Boolean()),
+    minLength: Type.Optional(Type.Number({ minimum: 0 })),
+    maxLength: Type.Optional(Type.Number({ minimum: 1 })),
+    min: Type.Optional(Type.Number()),
+    max: Type.Optional(Type.Number()),
+    options: Type.Optional(Type.Array(Type.String())),
+    generateFrom: Type.Optional(Type.String()),
+    referenceCollection: Type.Optional(Type.String()),
+    labelField: Type.Optional(Type.String()),
+    subFields: Type.Optional(Type.Array(Self)),
+    minItems: Type.Optional(Type.Number({ minimum: 0 })),
+    maxItems: Type.Optional(Type.Number({ minimum: 1 })),
+  })
+);
 
 // Note: FieldDefinition type is defined in content.types.ts
 

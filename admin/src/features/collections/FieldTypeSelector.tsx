@@ -18,6 +18,9 @@ const FIELD_TYPES: { value: FieldType; label: string; description: string }[] = 
   { value: 'select', label: 'Select', description: 'Dropdown selection' },
   { value: 'multi-select', label: 'Multi-Select', description: 'Multiple selection' },
   { value: 'slug', label: 'Slug', description: 'URL-friendly identifier' },
+  { value: 'reference', label: 'Reference', description: 'Link to another entry' },
+  { value: 'multi-reference', label: 'Multi-Reference', description: 'Link to multiple entries' },
+  { value: 'repeater', label: 'Repeater', description: 'Array of sub-objects' },
 ]
 
 export function FieldTypeSelector({ value, onChange, disabled }: FieldTypeSelectorProps) {

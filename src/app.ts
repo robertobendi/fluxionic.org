@@ -9,6 +9,7 @@ import fastifyStatic from "@fastify/static";
 import path from "path";
 import { envSchema } from "./shared/config/index.js";
 import authPlugin from "./plugins/auth.js";
+import tickerPlugin from "./plugins/ticker.js";
 import { authRoutes, userRoutes } from "./modules/auth/index.js";
 import { collectionRoutes, entryRoutes, publicContentRoutes } from "./modules/content/index.js";
 import { mediaRoutes } from "./modules/media/index.js";
@@ -16,6 +17,9 @@ import { metricsRoutes, metricsAdminRoutes, metricsPublicRoutes } from "./module
 import { systemInfoRoutes } from "./modules/admin/index.js";
 import { updateRoutes } from "./modules/update/index.js";
 import { instagramRoutes } from "./modules/instagram/index.js";
+import { apiKeyRoutes } from "./modules/apikeys/index.js";
+import { webhookRoutes } from "./modules/webhooks/index.js";
+import { formRoutes } from "./modules/forms/index.js";
 import staticRoutes from "./routes/static.js";
 import healthRoutes from "./routes/health.js";
 
@@ -99,6 +103,13 @@ export async function buildApp() {
   // Register update routes (admin only)
   await fastify.register(updateRoutes);
 
+  // API keys / webhooks admin routes
+  await fastify.register(apiKeyRoutes);
+  await fastify.register(webhookRoutes);
+
+  // Form collection routes (public submit + admin list/delete)
+  await fastify.register(formRoutes);
+
   // Register metrics public routes (public, rate-limited)
   await fastify.register(metricsPublicRoutes);
 
@@ -110,6 +121,9 @@ export async function buildApp() {
 
   // Register public content routes (no auth required)
   await fastify.register(publicContentRoutes);
+
+  // Background ticker for scheduled publishing + webhook deliveries
+  await fastify.register(tickerPlugin);
 
   // Register static file serving for admin SPA (must be last)
   await fastify.register(staticRoutes);

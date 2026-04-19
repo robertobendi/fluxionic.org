@@ -1,3 +1,17 @@
+export interface ImageVariant {
+  url: string;
+  width: number;
+  height: number;
+  format: string;
+  size: number;
+}
+
+export interface MediaVariants {
+  thumbnail?: ImageVariant;
+  medium?: ImageVariant;
+  large?: ImageVariant;
+}
+
 export interface MediaFileInput {
   filename: string;
   originalName: string;
@@ -5,8 +19,10 @@ export interface MediaFileInput {
   size: number;
   width?: number;
   height?: number;
+  altText?: string;
   path: string;
   thumbnailPath?: string;
+  variants?: MediaVariants;
   uploadedBy: string;
 }
 
@@ -23,6 +39,7 @@ export interface MediaFileResponse {
   thumbnailPath: string | null;
   url: string;
   thumbnailUrl: string | null;
+  variants: MediaVariants | null;
   uploadedBy: string;
   createdAt: string;
   updatedAt: string;

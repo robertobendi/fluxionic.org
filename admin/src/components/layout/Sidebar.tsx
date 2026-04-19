@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, FolderOpen, Image, Users, LogOut, BarChart3, Settings } from 'lucide-react'
+import { LayoutDashboard, FolderOpen, Image, Users, LogOut, BarChart3, Settings, Key, Webhook } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useSession, signOut } from '@/lib/auth'
 
@@ -18,9 +18,11 @@ export function Sidebar() {
     { to: '/settings', label: 'Settings', icon: Settings },
   ]
 
-  // Only show Users link if user is admin
+  // Only show Users/API Keys/Webhooks link if user is admin
   if (session?.user && (session.user as any).role === 'admin') {
     navItems.push({ to: '/users', label: 'Users', icon: Users })
+    navItems.push({ to: '/api-keys', label: 'API Keys', icon: Key })
+    navItems.push({ to: '/webhooks', label: 'Webhooks', icon: Webhook })
   }
 
   return (

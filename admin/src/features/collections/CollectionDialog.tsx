@@ -9,9 +9,10 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select } from '@/components/ui/select'
 import { SchemaBuilder } from './SchemaBuilder'
 import { useCreateCollection, useUpdateCollection } from '@/hooks/use-collections'
-import type { Collection, FieldDefinition } from '@/types/collection'
+import type { Collection, CollectionPermissions, FieldDefinition } from '@/types/collection'
 import { toast } from 'sonner'
 import { Loader2, Save } from 'lucide-react'
 
@@ -32,6 +33,9 @@ export function CollectionDialog({
   const [slug, setSlug] = useState('')
   const [fields, setFields] = useState<FieldDefinition[]>([])
   const [slugTouched, setSlugTouched] = useState(false)
+  const [editorLevel, setEditorLevel] = useState<'write' | 'read' | 'none'>('write')
+  const [viewerLevel, setViewerLevel] = useState<'read' | 'none'>('read')
+  const [isForm, setIsForm] = useState(false)
 
   const createMutation = useCreateCollection()
   const updateMutation = useUpdateCollection()
@@ -45,11 +49,17 @@ export function CollectionDialog({
       setSlug(collection.slug)
       setFields(collection.fields)
       setSlugTouched(true)
+      setEditorLevel(collection.permissions?.editor ?? 'write')
+      setViewerLevel(collection.permissions?.viewer ?? 'read')
+      setIsForm(collection.isForm ?? false)
     } else {
       setName('')
       setSlug('')
       setFields([])
       setSlugTouched(false)
+      setEditorLevel('write')
+      setViewerLevel('read')
+      setIsForm(false)
     }
   }, [collection, open])
 
@@ -120,15 +130,20 @@ export function CollectionDialog({
       return
     }
 
+    const permissions: CollectionPermissions = {
+      editor: editorLevel,
+      viewer: viewerLevel,
+    }
+
     try {
       if (isEdit) {
         await updateMutation.mutateAsync({
           id: collection.id,
-          data: { name, fields },
+          data: { name, fields, permissions, isForm },
         })
         toast.success('Collection updated successfully')
       } else {
-        await createMutation.mutateAsync({ name, slug, fields })
+        await createMutation.mutateAsync({ name, slug, fields, permissions, isForm })
         toast.success('Collection created successfully')
       }
       onOpenChange(false)
@@ -186,6 +201,48 @@ export function CollectionDialog({
                   pattern="^[a-z0-9]+(?:-[a-z0-9]+)*$"
                   title="Lowercase letters, numbers, and hyphens only"
                 />
+              </div>
+            </div>
+
+            {/* Permissions + form flag */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-md border p-4 bg-muted/30">
+              <div className="space-y-2">
+                <Label htmlFor="editor-perm">Editor access</Label>
+                <Select
+                  id="editor-perm"
+                  value={editorLevel}
+                  onChange={(e) => setEditorLevel(e.target.value as any)}
+                  disabled={isPending}
+                >
+                  <option value="write">Write</option>
+                  <option value="read">Read only</option>
+                  <option value="none">No access</option>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="viewer-perm">Viewer access</Label>
+                <Select
+                  id="viewer-perm"
+                  value={viewerLevel}
+                  onChange={(e) => setViewerLevel(e.target.value as any)}
+                  disabled={isPending}
+                >
+                  <option value="read">Read</option>
+                  <option value="none">No access</option>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="is-form">Accepts public form submissions</Label>
+                <label className="flex items-center gap-2 text-sm h-10">
+                  <input
+                    id="is-form"
+                    type="checkbox"
+                    checked={isForm}
+                    onChange={(e) => setIsForm(e.target.checked)}
+                    disabled={isPending}
+                  />
+                  Treat as a form collection
+                </label>
               </div>
             </div>
 

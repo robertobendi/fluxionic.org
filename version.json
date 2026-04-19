@@ -1,6 +1,6 @@
 {
-  "version": "1.5.0",
+  "version": "1.6.0",
   "name": "slatestack",
-  "releasedAt": "2026-02-02",
+  "releasedAt": "2026-04-19",
   "description": "Lightweight self-hosted headless CMS"
 }

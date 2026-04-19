@@ -2,6 +2,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select } from '@/components/ui/select'
+import { useCollections } from '@/hooks/use-collections'
 import type { FieldDefinition } from '@/types/collection'
 
 interface FieldConfigProps {
@@ -14,6 +15,7 @@ export function FieldConfig({ field, allFields, onChange }: FieldConfigProps) {
   const updateField = (updates: Partial<FieldDefinition>) => {
     onChange({ ...field, ...updates })
   }
+  const { data: collections } = useCollections()
 
   return (
     <div className="space-y-4 rounded-md border border-border bg-muted/50 p-4">
@@ -205,6 +207,55 @@ export function FieldConfig({ field, allFields, onChange }: FieldConfigProps) {
               Unique
             </Label>
           </div>
+        </div>
+      )}
+
+      {(field.type === 'reference' || field.type === 'multi-reference') && (
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label htmlFor={`${field.id}-referenceCollection`}>Target Collection</Label>
+            <Select
+              id={`${field.id}-referenceCollection`}
+              value={field.referenceCollection || ''}
+              onChange={(e) => updateField({ referenceCollection: e.target.value || undefined })}
+            >
+              <option value="">Select collection...</option>
+              {collections?.map((c) => (
+                <option key={c.id} value={c.slug}>
+                  {c.name}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor={`${field.id}-labelField`}>Label Field (optional)</Label>
+            <Input
+              id={`${field.id}-labelField`}
+              value={field.labelField || ''}
+              onChange={(e) => updateField({ labelField: e.target.value || undefined })}
+              placeholder="title"
+            />
+            <p className="text-xs text-muted-foreground">
+              Field name to display in the dropdown. Defaults to the first string field.
+            </p>
+          </div>
+          <Label htmlFor={`${field.id}-required`}>
+            <input
+              id={`${field.id}-required`}
+              type="checkbox"
+              checked={field.required || false}
+              onChange={(e) => updateField({ required: e.target.checked })}
+              className="mr-2"
+            />
+            Required
+          </Label>
+        </div>
+      )}
+
+      {field.type === 'repeater' && (
+        <div className="space-y-2 text-sm text-muted-foreground">
+          Add sub-fields from the schema builder once the field is saved.
+          Slugs, references, and nested repeaters are not allowed inside a repeater.
         </div>
       )}
 

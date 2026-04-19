@@ -8,6 +8,8 @@ import {
   UpdateCollectionInput,
   CollectionResponse,
 } from './collection.schemas.js';
+import { validateFieldDefinitions } from './content.validation.js';
+import { ValidationError } from '../../shared/errors/index.js';
 
 /**
  * Create a new collection
@@ -15,6 +17,18 @@ import {
 export async function createCollection(
   input: CreateCollectionInput
 ): Promise<CollectionResponse> {
+  // Semantic validation (reference/repeater invariants beyond TypeBox shape)
+  const sem = validateFieldDefinitions(input.fields as FieldDefinition[]);
+  if (!sem.valid) {
+    throw new ValidationError(
+      'Invalid field definitions',
+      sem.errors.map((e) => {
+        const [field, ...rest] = e.split(': ');
+        return { field, message: rest.join(': ') };
+      })
+    );
+  }
+
   // Check slug uniqueness
   const existing = await db
     .select()
@@ -101,6 +115,19 @@ export async function updateCollection(
   id: string,
   input: UpdateCollectionInput
 ): Promise<CollectionResponse | null> {
+  if (input.fields !== undefined) {
+    const sem = validateFieldDefinitions(input.fields as FieldDefinition[]);
+    if (!sem.valid) {
+      throw new ValidationError(
+        'Invalid field definitions',
+        sem.errors.map((e) => {
+          const [field, ...rest] = e.split(': ');
+          return { field, message: rest.join(': ') };
+        })
+      );
+    }
+  }
+
   // Build update object with only provided fields
   const updateData: any = {
     updatedAt: new Date(),

@@ -1,13 +1,116 @@
 import { nanoid } from 'nanoid';
 import { db } from '../../shared/database/index.js';
 import { entry } from '../../shared/database/schema.js';
-import { eq, and, desc, asc, count, sql } from 'drizzle-orm';
+import { eq, and, desc, asc, count, sql, inArray } from 'drizzle-orm';
 import { validateEntryData } from './content.validation.js';
 import { getCollection } from './collection.service.js';
 import { generateSlug, ensureUniqueSlug } from './slug.utils.js';
 import { CreateEntryInput, UpdateEntryInput, EntryResponse, SearchEntriesQuery } from './entry.schemas.js';
 import { PublicEntry } from './public.schemas.js';
 import { NotFoundError, ValidationError } from '../../shared/errors/index.js';
+import { ParsedQuery } from './query.parser.js';
+import { buildFilterSql, buildSortSql, projectFields } from './query.translator.js';
+import { FieldDefinition } from './content.types.js';
+import { collection } from '../../shared/database/schema.js';
+import { enqueueEvent } from '../webhooks/webhook.service.js';
+import { recordRevision, REVISION_LIMIT } from './revision.service.js';
+
+function toEntryResponse(e: typeof entry.$inferSelect): EntryResponse {
+  return {
+    id: e.id,
+    collectionId: e.collectionId,
+    slug: e.slug,
+    data: e.data as Record<string, unknown>,
+    status: e.status as 'draft' | 'published',
+    position: e.position,
+    publishAt: e.publishAt ? e.publishAt.toISOString() : null,
+    createdAt: e.createdAt.toISOString(),
+    updatedAt: e.updatedAt.toISOString(),
+  };
+}
+
+async function emitEntryEvent(
+  event:
+    | 'entry.created'
+    | 'entry.updated'
+    | 'entry.deleted'
+    | 'entry.published'
+    | 'entry.unpublished',
+  collectionSlug: string,
+  entryData: Record<string, unknown>
+) {
+  try {
+    await enqueueEvent(event, collectionSlug, entryData);
+  } catch (err) {
+    // Never block the request path on webhook enqueue failures.
+    // eslint-disable-next-line no-console
+    console.warn(`enqueueEvent failed for ${event}:`, err);
+  }
+}
+
+/**
+ * Verify that every ID referenced by a reference/multi-reference field
+ * exists in its target collection. Throws ValidationError with per-field
+ * details on mismatch.
+ */
+async function validateReferences(
+  fields: FieldDefinition[],
+  data: Record<string, unknown>
+): Promise<void> {
+  const refFields = fields.filter(
+    (f) => f.type === 'reference' || f.type === 'multi-reference'
+  );
+  if (refFields.length === 0) return;
+
+  const byCollection = new Map<string, Set<string>>();
+  const fieldByPair = new Map<string, string>();
+
+  for (const f of refFields) {
+    if (!f.referenceCollection) continue;
+    const raw = data[f.name];
+    if (raw === undefined || raw === null) continue;
+    const ids = Array.isArray(raw)
+      ? raw.filter((v): v is string => typeof v === 'string')
+      : typeof raw === 'string'
+        ? [raw]
+        : [];
+    if (ids.length === 0) continue;
+    const set = byCollection.get(f.referenceCollection) ?? new Set<string>();
+    for (const id of ids) {
+      set.add(id);
+      fieldByPair.set(`${f.referenceCollection}:${id}`, f.name);
+    }
+    byCollection.set(f.referenceCollection, set);
+  }
+
+  const errors: { field: string; message: string }[] = [];
+  for (const [collSlug, ids] of byCollection.entries()) {
+    const [coll] = await db
+      .select()
+      .from(collection)
+      .where(eq(collection.slug, collSlug))
+      .limit(1);
+    if (!coll) {
+      errors.push({ field: collSlug, message: `Referenced collection '${collSlug}' not found` });
+      continue;
+    }
+    const rows = await db
+      .select({ id: entry.id })
+      .from(entry)
+      .where(and(eq(entry.collectionId, coll.id), inArray(entry.id, Array.from(ids))));
+    const found = new Set(rows.map((r) => r.id));
+    for (const id of ids) {
+      if (!found.has(id)) {
+        const fname = fieldByPair.get(`${collSlug}:${id}`) ?? collSlug;
+        errors.push({ field: fname, message: `Referenced entry '${id}' not found in '${collSlug}'` });
+      }
+    }
+  }
+
+  if (errors.length > 0) {
+    throw new ValidationError('Reference validation failed', errors);
+  }
+}
 
 /**
  * Create a new entry in a collection
@@ -31,6 +134,9 @@ export async function createEntry(
     });
     throw new ValidationError('Validation failed', details);
   }
+
+  // Validate references (existence checks)
+  await validateReferences(coll.fields, input.data);
 
   // Generate slug from configured field or fallback to 'title'
   const slugField = coll.fields.find((f) => f.type === 'slug');
@@ -66,16 +172,25 @@ export async function createEntry(
     })
     .returning();
 
-  return {
-    id: newEntry[0].id,
-    collectionId: newEntry[0].collectionId,
-    slug: newEntry[0].slug,
-    data: newEntry[0].data as Record<string, unknown>,
-    status: newEntry[0].status as 'draft' | 'published',
-    position: newEntry[0].position,
-    createdAt: newEntry[0].createdAt.toISOString(),
-    updatedAt: newEntry[0].updatedAt.toISOString(),
+  const created = newEntry[0];
+  await recordRevision(created.id, {
+    data: created.data as Record<string, unknown>,
+    status: created.status,
+  }, null);
+
+  const payload = {
+    id: created.id,
+    collection: coll.slug,
+    slug: created.slug,
+    status: created.status,
+    data: created.data as Record<string, unknown>,
   };
+  await emitEntryEvent('entry.created', coll.slug, payload);
+  if (created.status === 'published') {
+    await emitEntryEvent('entry.published', coll.slug, payload);
+  }
+
+  return toEntryResponse(created);
 }
 
 /**
@@ -95,17 +210,7 @@ export async function getEntry(
     return null;
   }
 
-  const e = result[0];
-  return {
-    id: e.id,
-    collectionId: e.collectionId,
-    slug: e.slug,
-    data: e.data as Record<string, unknown>,
-    status: e.status as 'draft' | 'published',
-    position: e.position,
-    createdAt: e.createdAt.toISOString(),
-    updatedAt: e.updatedAt.toISOString(),
-  };
+  return toEntryResponse(result[0]);
 }
 
 /**
@@ -144,17 +249,7 @@ export async function listEntries(
 
   const total = countResult.count;
 
-  const entries = results.map((e) => ({
-    id: e.id,
-    collectionId: e.collectionId,
-    slug: e.slug,
-    data: e.data as Record<string, unknown>,
-    status: e.status as 'draft' | 'published',
-    position: e.position,
-    createdAt: e.createdAt.toISOString(),
-    updatedAt: e.updatedAt.toISOString(),
-  }));
-
+  const entries = results.map(toEntryResponse);
   return { entries, total };
 }
 
@@ -203,17 +298,7 @@ export async function searchEntries(
 
   const total = countResult.count;
 
-  const entries = results.map((e) => ({
-    id: e.id,
-    collectionId: e.collectionId,
-    slug: e.slug,
-    data: e.data as Record<string, unknown>,
-    status: e.status as 'draft' | 'published',
-    position: e.position,
-    createdAt: e.createdAt.toISOString(),
-    updatedAt: e.updatedAt.toISOString(),
-  }));
-
+  const entries = results.map(toEntryResponse);
   return { entries, total };
 }
 
@@ -223,7 +308,8 @@ export async function searchEntries(
 export async function updateEntry(
   collectionId: string,
   entryId: string,
-  input: UpdateEntryInput
+  input: UpdateEntryInput,
+  updatedBy: string | null = null
 ): Promise<EntryResponse> {
   // Fetch existing entry
   const existingEntry = await getEntry(collectionId, entryId);
@@ -231,15 +317,16 @@ export async function updateEntry(
     throw new NotFoundError('Entry', entryId);
   }
 
-  // If data is being updated, validate it
-  if (input.data) {
-    const coll = await getCollection(collectionId);
-    if (!coll) {
-      throw new NotFoundError('Collection', collectionId);
-    }
+  const coll = await getCollection(collectionId);
+  if (!coll) {
+    throw new NotFoundError('Collection', collectionId);
+  }
 
-    // Merge existing data with updates for validation
-    const mergedData = { ...existingEntry.data, ...input.data };
+  // If data is being updated, validate it
+  let mergedData: Record<string, unknown> | undefined;
+  let newSlug: string | undefined;
+  if (input.data) {
+    mergedData = { ...existingEntry.data, ...input.data };
     const validation = validateEntryData(coll.fields, mergedData);
     if (!validation.valid) {
       const details = validation.errors.map((err) => {
@@ -248,6 +335,7 @@ export async function updateEntry(
       });
       throw new ValidationError('Validation failed', details);
     }
+    await validateReferences(coll.fields, mergedData);
 
     // Check if slug needs regeneration
     const slugField = coll.fields.find((f) => f.type === 'slug');
@@ -256,51 +344,20 @@ export async function updateEntry(
       const oldSourceValue = existingEntry.data[sourceFieldName];
       const newSourceValue = input.data[sourceFieldName];
 
-      // If the source field changed, regenerate slug
       if (newSourceValue !== undefined && newSourceValue !== oldSourceValue) {
         const newBaseSlug = generateSlug(String(newSourceValue));
-        const newSlug = await ensureUniqueSlug(collectionId, newBaseSlug, entryId);
-
-        // Update entry with new slug and data
-        const updated = await db
-          .update(entry)
-          .set({
-            slug: newSlug,
-            data: mergedData,
-            status: input.status ?? existingEntry.status,
-            position: input.position ?? existingEntry.position,
-            updatedAt: new Date(),
-          })
-          .where(and(eq(entry.id, entryId), eq(entry.collectionId, collectionId)))
-          .returning();
-
-        const e = updated[0];
-        return {
-          id: e.id,
-          collectionId: e.collectionId,
-          slug: e.slug,
-          data: e.data as Record<string, unknown>,
-          status: e.status as 'draft' | 'published',
-          position: e.position,
-          createdAt: e.createdAt.toISOString(),
-          updatedAt: e.updatedAt.toISOString(),
-        };
+        newSlug = await ensureUniqueSlug(collectionId, newBaseSlug, entryId);
       }
     }
   }
 
-  // Update entry without slug change
-  const updateData: any = {
-    updatedAt: new Date(),
-  };
-  if (input.data) {
-    updateData.data = { ...existingEntry.data, ...input.data };
-  }
-  if (input.status !== undefined) {
-    updateData.status = input.status;
-  }
-  if (input.position !== undefined) {
-    updateData.position = input.position;
+  const updateData: Record<string, unknown> = { updatedAt: new Date() };
+  if (mergedData) updateData.data = mergedData;
+  if (newSlug) updateData.slug = newSlug;
+  if (input.status !== undefined) updateData.status = input.status;
+  if (input.position !== undefined) updateData.position = input.position;
+  if (input.publishAt !== undefined) {
+    updateData.publishAt = input.publishAt ? new Date(input.publishAt) : null;
   }
 
   const updated = await db
@@ -310,16 +367,23 @@ export async function updateEntry(
     .returning();
 
   const e = updated[0];
-  return {
+  await recordRevision(e.id, { data: e.data as Record<string, unknown>, status: e.status }, updatedBy);
+
+  const payload = {
     id: e.id,
-    collectionId: e.collectionId,
+    collection: coll.slug,
     slug: e.slug,
+    status: e.status,
     data: e.data as Record<string, unknown>,
-    status: e.status as 'draft' | 'published',
-    position: e.position,
-    createdAt: e.createdAt.toISOString(),
-    updatedAt: e.updatedAt.toISOString(),
   };
+  await emitEntryEvent('entry.updated', coll.slug, payload);
+  if (existingEntry.status !== 'published' && e.status === 'published') {
+    await emitEntryEvent('entry.published', coll.slug, payload);
+  } else if (existingEntry.status === 'published' && e.status !== 'published') {
+    await emitEntryEvent('entry.unpublished', coll.slug, payload);
+  }
+
+  return toEntryResponse(e);
 }
 
 /**
@@ -329,14 +393,74 @@ export async function deleteEntry(
   collectionId: string,
   entryId: string
 ): Promise<void> {
+  const coll = await getCollection(collectionId);
   const result = await db
     .delete(entry)
     .where(and(eq(entry.id, entryId), eq(entry.collectionId, collectionId)))
-    .returning({ id: entry.id });
+    .returning();
 
   if (result.length === 0) {
     throw new NotFoundError('Entry');
   }
+
+  const e = result[0];
+  if (coll) {
+    const payload = {
+      id: e.id,
+      collection: coll.slug,
+      slug: e.slug,
+      status: e.status,
+      data: e.data as Record<string, unknown>,
+    };
+    await emitEntryEvent('entry.deleted', coll.slug, payload);
+    if (e.status === 'published') {
+      await emitEntryEvent('entry.unpublished', coll.slug, payload);
+    }
+  }
+}
+
+/**
+ * Find entries that reference the given entry ID. Used to surface orphan-risk
+ * warnings to the admin UI before a delete. Does NOT prevent deletion —
+ * dangling references are intentionally left to the frontend to handle.
+ */
+export async function findReferencers(
+  entryId: string
+): Promise<Array<{ collectionSlug: string; collectionName: string; entryId: string; entrySlug: string; fieldName: string }>> {
+  // Find any collection that references this entry via jsonb lookup.
+  // We search all entries whose data contains this id (as value or array item).
+  const results = await db.execute(sql`
+    SELECT e.id, e.slug, e.data, c.slug as collection_slug, c.name as collection_name, c.fields
+    FROM entry e
+    JOIN collection c ON c.id = e.collection_id
+    WHERE e.data::text LIKE ${'%' + entryId + '%'}
+    LIMIT 50
+  `);
+
+  const rows = (results as any).rows ?? results;
+  const out: Array<{ collectionSlug: string; collectionName: string; entryId: string; entrySlug: string; fieldName: string }> = [];
+
+  for (const row of rows as any[]) {
+    const data = row.data as Record<string, unknown>;
+    const fields = row.fields as FieldDefinition[];
+    const refFields = fields.filter((f) => f.type === 'reference' || f.type === 'multi-reference');
+    for (const f of refFields) {
+      const val = data[f.name];
+      const matches = Array.isArray(val)
+        ? val.includes(entryId)
+        : val === entryId;
+      if (matches) {
+        out.push({
+          collectionSlug: row.collection_slug,
+          collectionName: row.collection_name,
+          entryId: row.id,
+          entrySlug: row.slug,
+          fieldName: f.name,
+        });
+      }
+    }
+  }
+  return out;
 }
 
 /**
@@ -410,36 +534,102 @@ export async function listPublishedEntries(
 }
 
 /**
- * Get a single published entry for public API
+ * Query published entries with rich filters / sort / pagination / field selection.
+ * Returns projected entries plus total count.
  */
-export async function getPublishedEntry(
+export async function queryPublishedEntries(
   collectionSlug: string,
-  entrySlug: string
-): Promise<PublicEntry | null> {
-  // Get collection by slug
+  query: ParsedQuery
+): Promise<{ entries: PublicEntry[]; total: number; collectionFields: FieldDefinition[] }> {
   const coll = await getCollection(collectionSlug);
   if (!coll) {
     throw new NotFoundError('Collection', collectionSlug);
   }
 
-  // Find published entry by slug
+  const conditions = [
+    eq(entry.collectionId, coll.id),
+    eq(entry.status, 'published'),
+  ];
+  for (const f of query.filters) {
+    conditions.push(buildFilterSql(f));
+  }
+  if (query.q) {
+    conditions.push(
+      sql`to_tsvector('english', ${entry.data}::text) @@ websearch_to_tsquery('english', ${query.q})`
+    );
+  }
+  const whereClause = and(...conditions);
+
+  const orderExprs = query.sort.length > 0
+    ? query.sort.map(buildSortSql)
+    : [asc(entry.position), desc(entry.createdAt)];
+
+  const results = await db
+    .select()
+    .from(entry)
+    .where(whereClause)
+    .orderBy(...orderExprs)
+    .limit(query.limit)
+    .offset(query.offset);
+
+  const [countResult] = await db
+    .select({ count: count() })
+    .from(entry)
+    .where(whereClause);
+
+  const entries: PublicEntry[] = results.map((e) =>
+    projectFields(
+      {
+        slug: e.slug,
+        data: e.data as Record<string, unknown>,
+        createdAt: e.createdAt.toISOString(),
+        updatedAt: e.updatedAt.toISOString(),
+      },
+      query.fields
+    )
+  );
+
+  return { entries, total: countResult.count, collectionFields: coll.fields };
+}
+
+/**
+ * Get a single entry for public API. When a valid preview token is supplied
+ * the caller may see the draft version; otherwise only published entries
+ * are returned.
+ */
+export async function getPublishedEntry(
+  collectionSlug: string,
+  entrySlug: string,
+  options: { previewToken?: string } = {}
+): Promise<PublicEntry | null> {
+  const coll = await getCollection(collectionSlug);
+  if (!coll) {
+    throw new NotFoundError('Collection', collectionSlug);
+  }
+
+  let previewEntryId: string | null = null;
+  if (options.previewToken) {
+    const { verifyPreviewToken } = await import('./preview.service.js');
+    previewEntryId = verifyPreviewToken(options.previewToken);
+  }
+
   const result = await db
     .select()
     .from(entry)
     .where(
       and(
         eq(entry.collectionId, coll.id),
-        eq(entry.slug, entrySlug),
-        eq(entry.status, 'published')
+        eq(entry.slug, entrySlug)
       )
     )
     .limit(1);
 
-  if (result.length === 0) {
-    return null;
-  }
-
+  if (result.length === 0) return null;
   const e = result[0];
+
+  const isPreviewMatch = previewEntryId !== null && previewEntryId === e.id;
+  if (e.status !== 'published' && !isPreviewMatch) return null;
+
   return {
     slug: e.slug,
     data: e.data as Record<string, unknown>,

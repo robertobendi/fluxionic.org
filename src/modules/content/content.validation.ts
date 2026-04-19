@@ -1,6 +1,6 @@
 import { Type, TSchema } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
-import { FieldDefinition, FieldType } from "./content.types.js";
+import { FieldDefinition } from "./content.types.js";
 
 /**
  * Maps a single FieldDefinition to the appropriate TypeBox schema
@@ -61,10 +61,29 @@ function mapFieldToTypeBox(field: FieldDefinition): TSchema {
     case "slug":
       return Type.String({ pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$" });
 
-    default:
-      // TypeScript exhaustiveness check - should never reach here
+    case "reference":
+      return Type.String({ minLength: 1 });
+
+    case "multi-reference": {
+      const constraints: { minItems?: number; maxItems?: number } = {};
+      if (field.minItems !== undefined) constraints.minItems = field.minItems;
+      if (field.maxItems !== undefined) constraints.maxItems = field.maxItems;
+      return Type.Array(Type.String({ minLength: 1 }), constraints);
+    }
+
+    case "repeater": {
+      const subSchema = buildSchemaFromFields(field.subFields ?? []);
+      const constraints: { minItems?: number; maxItems?: number } = {};
+      if (field.minItems !== undefined) constraints.minItems = field.minItems;
+      if (field.maxItems !== undefined) constraints.maxItems = field.maxItems;
+      return Type.Array(subSchema, constraints);
+    }
+
+    default: {
+      // TypeScript exhaustiveness check
       const _exhaustive: never = field.type;
       return Type.String();
+    }
   }
 }
 
@@ -80,6 +99,53 @@ export function buildSchemaFromFields(fields: FieldDefinition[]) {
   }
 
   return Type.Object(properties, { additionalProperties: false });
+}
+
+/**
+ * Semantic validation of field definitions on collection create/update.
+ * TypeBox validates the shape; this checks cross-field invariants.
+ */
+export function validateFieldDefinitions(
+  fields: FieldDefinition[],
+  { allowNested = true }: { allowNested?: boolean } = {}
+): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  const names = new Set<string>();
+
+  for (const field of fields) {
+    if (names.has(field.name)) {
+      errors.push(`${field.name}: duplicate field name`);
+    }
+    names.add(field.name);
+
+    if (field.type === 'reference' || field.type === 'multi-reference') {
+      if (!field.referenceCollection) {
+        errors.push(`${field.name}: referenceCollection is required for ${field.type}`);
+      }
+      if (!allowNested) {
+        errors.push(`${field.name}: ${field.type} not allowed inside a repeater`);
+      }
+    }
+
+    if (field.type === 'repeater') {
+      if (!field.subFields || field.subFields.length === 0) {
+        errors.push(`${field.name}: repeater requires at least one subField`);
+      } else {
+        if (!allowNested) {
+          errors.push(`${field.name}: repeater cannot be nested inside another repeater`);
+        }
+        const nested = validateFieldDefinitions(field.subFields, { allowNested: false });
+        if (!nested.valid) errors.push(...nested.errors.map((e) => `${field.name}.${e}`));
+        for (const sub of field.subFields) {
+          if (sub.type === 'slug') {
+            errors.push(`${field.name}.${sub.name}: slug fields are not allowed inside repeaters`);
+          }
+        }
+      }
+    }
+  }
+
+  return { valid: errors.length === 0, errors };
 }
 
 /**

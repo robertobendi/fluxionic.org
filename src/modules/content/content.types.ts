@@ -1,28 +1,36 @@
 export type FieldType =
-  | "string"       // single-line text
-  | "text"         // multi-line text
-  | "number"       // numeric value
-  | "boolean"      // true/false
-  | "date"         // ISO date string
-  | "rich-text"    // markdown content
-  | "media"        // reference to media file (future phase)
-  | "select"       // single option from list
-  | "multi-select" // multiple options from list
-  | "slug";        // auto-generated URL-friendly string
+  | "string"          // single-line text
+  | "text"            // multi-line text
+  | "number"          // numeric value
+  | "boolean"         // true/false
+  | "date"            // ISO date string
+  | "rich-text"       // markdown content
+  | "media"           // reference to media file
+  | "select"          // single option from list
+  | "multi-select"    // multiple options from list
+  | "slug"            // auto-generated URL-friendly string
+  | "reference"       // single entry ID from another collection
+  | "multi-reference" // array of entry IDs from another collection
+  | "repeater";       // array of sub-objects
 
 export interface FieldDefinition {
-  id: string;            // unique within collection (nanoid)
-  name: string;          // field key in data object (camelCase)
-  label: string;         // display label
+  id: string;                   // unique within collection (nanoid)
+  name: string;                 // field key in data object (camelCase)
+  label: string;                // display label
   type: FieldType;
   required?: boolean;
-  unique?: boolean;      // for slug type primarily
-  minLength?: number;    // for string, text, rich-text
-  maxLength?: number;    // for string, text, rich-text
-  min?: number;          // for number type
-  max?: number;          // for number type
-  options?: string[];    // for select, multi-select
-  generateFrom?: string; // for slug type - field name to generate from
+  unique?: boolean;             // for slug type primarily
+  minLength?: number;           // for string, text, rich-text
+  maxLength?: number;           // for string, text, rich-text
+  min?: number;                 // for number type
+  max?: number;                 // for number type
+  options?: string[];           // for select, multi-select
+  generateFrom?: string;        // for slug type - field name to generate from
+  referenceCollection?: string; // for reference, multi-reference - target collection slug
+  labelField?: string;          // for reference, multi-reference - field to display in admin dropdown
+  subFields?: FieldDefinition[]; // for repeater - schema of each item
+  minItems?: number;            // for repeater, multi-reference
+  maxItems?: number;            // for repeater, multi-reference
 }
 
 export interface CollectionSchema {

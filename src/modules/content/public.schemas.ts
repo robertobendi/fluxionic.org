@@ -1,7 +1,9 @@
 import { Type, Static } from '@sinclair/typebox';
 
 /**
- * Public entry schema - exposes only public-facing fields
+ * Public entry schema - exposes only public-facing fields.
+ * The data object may be populated with resolved references when ?populate=
+ * is used, so values can be Unknown (nested objects or arrays).
  */
 export const PublicEntrySchema = Type.Object({
   slug: Type.String(),
@@ -12,7 +14,8 @@ export const PublicEntrySchema = Type.Object({
 export type PublicEntry = Static<typeof PublicEntrySchema>;
 
 /**
- * Pagination metadata
+ * Legacy pagination metadata. Kept for backward compat with existing
+ * consumers (admin + any frontends that rely on { page, totalPages }).
  */
 export const PaginationMetaSchema = Type.Object({
   page: Type.Number(),
@@ -22,11 +25,23 @@ export const PaginationMetaSchema = Type.Object({
 });
 
 /**
- * Public entry list response with pagination
+ * New offset-based pagination envelope introduced with rich query params.
+ */
+export const PaginationOffsetSchema = Type.Object({
+  total: Type.Number(),
+  limit: Type.Number(),
+  offset: Type.Number(),
+  hasMore: Type.Boolean(),
+});
+
+/**
+ * Public entry list response — emits both legacy `meta` and new `pagination`
+ * alongside the data array so callers can migrate at their own pace.
  */
 export const PublicEntryListSchema = Type.Object({
   data: Type.Array(PublicEntrySchema),
   meta: PaginationMetaSchema,
+  pagination: PaginationOffsetSchema,
 });
 export type PublicEntryList = Static<typeof PublicEntryListSchema>;
 
@@ -48,10 +63,19 @@ export const ErrorResponseSchema = Type.Object({
 });
 
 /**
- * Query parameters for listing entries
- * Query params are strings by default, so we use String and parse in the handler
+ * Permissive query schema — actual parsing happens in query.parser.ts so we
+ * accept any string-valued keys here (where[...], sort, fields, populate,
+ * limit, offset, page, preview).
  */
-export const ListEntriesQuerySchema = Type.Object({
-  page: Type.Optional(Type.String()),
-  limit: Type.Optional(Type.String()),
-});
+export const ListEntriesQuerySchema = Type.Object(
+  {
+    page: Type.Optional(Type.String()),
+    limit: Type.Optional(Type.String()),
+    offset: Type.Optional(Type.String()),
+    sort: Type.Optional(Type.String()),
+    fields: Type.Optional(Type.String()),
+    populate: Type.Optional(Type.String()),
+    preview: Type.Optional(Type.String()),
+  },
+  { additionalProperties: Type.String() }
+);

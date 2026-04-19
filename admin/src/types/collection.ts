@@ -10,6 +10,9 @@ export type FieldType =
   | 'select'
   | 'multi-select'
   | 'slug'
+  | 'reference'
+  | 'multi-reference'
+  | 'repeater'
 
 export interface FieldDefinition {
   id: string
@@ -24,6 +27,16 @@ export interface FieldDefinition {
   max?: number
   options?: string[]
   generateFrom?: string
+  referenceCollection?: string
+  labelField?: string
+  subFields?: FieldDefinition[]
+  minItems?: number
+  maxItems?: number
+}
+
+export interface CollectionPermissions {
+  editor?: 'write' | 'read' | 'none'
+  viewer?: 'read' | 'none'
 }
 
 export interface Collection {
@@ -31,6 +44,8 @@ export interface Collection {
   name: string
   slug: string
   fields: FieldDefinition[]
+  permissions?: CollectionPermissions | null
+  isForm?: boolean
   createdAt: string
   updatedAt: string
 }
@@ -39,9 +54,13 @@ export interface CreateCollectionInput {
   name: string
   slug: string
   fields: FieldDefinition[]
+  permissions?: CollectionPermissions
+  isForm?: boolean
 }
 
 export interface UpdateCollectionInput {
   name?: string
   fields?: FieldDefinition[]
+  permissions?: CollectionPermissions
+  isForm?: boolean
 }

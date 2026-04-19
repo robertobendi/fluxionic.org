@@ -11,6 +11,8 @@ import {
   SlugField,
   RichTextField,
   MediaField,
+  ReferenceField,
+  RepeaterField,
 } from './fields'
 
 interface FieldRendererProps {
@@ -50,6 +52,13 @@ export function FieldRenderer({ field, control, error }: FieldRendererProps) {
 
     case 'media':
       return <MediaField field={field} control={control} error={error} />
+
+    case 'reference':
+    case 'multi-reference':
+      return <ReferenceField field={field} control={control} error={error} />
+
+    case 'repeater':
+      return <RepeaterField field={field} control={control} error={error} />
 
     default:
       return <StringField field={field} control={control} error={error} />

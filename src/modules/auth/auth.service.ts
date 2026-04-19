@@ -6,26 +6,72 @@ import { nanoid } from "nanoid";
 import { eq } from "drizzle-orm";
 import { CreateUserInput, UserResponse } from "./auth.schemas.js";
 
-export function requireRole(role: "admin" | "editor") {
+export type Role = "admin" | "editor" | "viewer";
+
+const ROLE_RANK: Record<string, number> = {
+  admin: 3,
+  editor: 2,
+  viewer: 1,
+  user: 0,
+};
+
+/**
+ * Gate a handler on a minimum role. Viewers can reach read endpoints;
+ * editors can reach write endpoints; admins can reach anything.
+ *
+ * Also allows requests authenticated via API key with read scope when the
+ * minimum is 'viewer' — specific routes must still enforce write scopes.
+ */
+export function requireRole(minRole: Role) {
+  const required = ROLE_RANK[minRole];
   return async (request: FastifyRequest, reply: FastifyReply) => {
+    // API keys are valid for admin API when the route accepts them.
+    // Caller is expected to enforce scope checks on top.
+    if (request.apiKey && minRole === "viewer") return;
+
     if (!request.user) {
       return reply.status(401).send({ error: "Unauthorized" });
     }
 
-    if (role === "admin" && request.user.role !== "admin") {
-      return reply
-        .status(403)
-        .send({ error: "Forbidden: Admin access required" });
-    }
-
-    // For editor role: both admin and editor are allowed
-    if (
-      role === "editor" &&
-      !["admin", "editor"].includes(request.user.role)
-    ) {
+    const rank = ROLE_RANK[request.user.role] ?? 0;
+    if (rank < required) {
       return reply.status(403).send({ error: "Forbidden" });
     }
   };
+}
+
+export type CollectionPermissionLevel = "none" | "read" | "write";
+
+export interface CollectionPermissions {
+  editor?: CollectionPermissionLevel;
+  viewer?: CollectionPermissionLevel;
+}
+
+/**
+ * Resolve the effective access level a user (or api key) has on a given
+ * collection. Admins always have write access. If the collection has no
+ * permissions declared, editors default to write and viewers to read.
+ */
+export function resolveCollectionAccess(
+  user: { role: string } | null,
+  apiKey: { scopes: { read: "*" | string[]; write: "*" | string[] } } | null,
+  collectionSlug: string,
+  permissions: CollectionPermissions | null | undefined
+): CollectionPermissionLevel {
+  if (user?.role === "admin") return "write";
+
+  const perms = permissions ?? {};
+  if (user?.role === "editor") return perms.editor ?? "write";
+  if (user?.role === "viewer") return perms.viewer ?? "read";
+
+  if (apiKey) {
+    const writeAllowed = apiKey.scopes.write === "*" || apiKey.scopes.write.includes(collectionSlug);
+    if (writeAllowed) return "write";
+    const readAllowed = apiKey.scopes.read === "*" || apiKey.scopes.read.includes(collectionSlug);
+    if (readAllowed) return "read";
+  }
+
+  return "none";
 }
 
 export async function createUser(
