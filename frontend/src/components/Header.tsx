@@ -4,9 +4,12 @@ import { Menu, X } from 'lucide-react'
 
 const navItems = [
   { path: '/', label: 'Home' },
-  { path: '/member-institutions-and-pis', label: 'Member Institutions and PIs' },
+  { path: '/member-institutions-and-pis', label: 'Institutions and PIs' },
+  { path: '/fellows', label: 'Fellows' },
   { path: '/project', label: 'Project' },
   { path: '/events', label: 'Events' },
+  { path: '/publications', label: 'Publications' },
+  { path: '/outreach', label: 'Outreach' },
   { path: '/news', label: 'News' },
 ]
 

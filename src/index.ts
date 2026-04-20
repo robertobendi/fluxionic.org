@@ -1,12 +1,15 @@
 import "dotenv/config";
 import { buildApp } from "./app.js";
-import { seedAdminUser } from "./shared/database/seed.js";
+import { seedAdminUser, seedContentCollections } from "./shared/database/seed.js";
 
 async function main() {
   const app = await buildApp();
 
   // Seed admin user if needed
   await seedAdminUser();
+
+  // Seed Fluxionic content collections (PIs, Fellows, Publications, Outreach)
+  await seedContentCollections();
 
   try {
     await app.listen({
