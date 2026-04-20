@@ -47,3 +47,12 @@ uploads/**/*.pdf
 
 # Deployment guide (contains credentials)
 DEPLOYMENT.md
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Local-only upgrade backups
+backups/
+
+# Framework roadmap doc (lives in the Slatestack repo, not this project)
+SLATESTACK_WISHLIST.md
