@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { nanoid } from "nanoid";
+import geoip from "geoip-lite";
 import { db } from "../../shared/database/index.js";
 import { pageview } from "../../shared/database/schema.js";
 import { envSchema } from "../../shared/config/index.js";
@@ -48,6 +49,19 @@ export function extractReferrerDomain(
 }
 
 /**
+ * Resolve country from IP using bundled GeoLite database.
+ * IP is never persisted — only the resulting 2-char country code.
+ */
+export function resolveCountry(ip: string | undefined): string | null {
+  if (!ip) return null;
+  try {
+    return geoip.lookup(ip)?.country ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Record pageview with privacy-friendly hashing
  */
 export async function recordPageview(params: {
@@ -58,11 +72,13 @@ export async function recordPageview(params: {
 }): Promise<void> {
   const visitorHash = generateVisitorHash(params.ip, params.userAgent);
   const referrerDomain = extractReferrerDomain(params.referrer);
+  const country = resolveCountry(params.ip);
 
   await db.insert(pageview).values({
     id: nanoid(),
     path: params.path,
     referrerDomain,
     visitorHash,
+    country,
   });
 }

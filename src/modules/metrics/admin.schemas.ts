@@ -54,3 +54,26 @@ export const TrendResponseSchema = Type.Object({
 });
 
 export type TrendResponse = Static<typeof TrendResponseSchema>;
+
+// Top Countries Query Parameters
+export const TopCountriesQuerySchema = Type.Object({
+  days: Type.Optional(Type.String({ pattern: '^[0-9]+$' })),
+  limit: Type.Optional(Type.String({ pattern: '^[0-9]+$' })),
+});
+
+export type TopCountriesQuery = Static<typeof TopCountriesQuerySchema>;
+
+// Top Country Schema
+export const TopCountrySchema = Type.Object({
+  country: Type.String({ minLength: 2, maxLength: 2 }),
+  visitors: Type.Number(),
+});
+
+export type TopCountry = Static<typeof TopCountrySchema>;
+
+// Top Countries Response
+export const TopCountriesResponseSchema = Type.Object({
+  data: Type.Array(TopCountrySchema),
+});
+
+export type TopCountriesResponse = Static<typeof TopCountriesResponseSchema>;

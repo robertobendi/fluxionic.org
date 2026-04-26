@@ -235,7 +235,10 @@ export const pageview = pgTable("pageview", {
   path: text("path").notNull(),
   referrerDomain: text("referrer_domain"),
   visitorHash: text("visitor_hash").notNull(),
+  // ISO 3166-1 alpha-2 country code, derived from IP at insert time. IP is never stored.
+  country: text("country"),
   createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => ({
   timePathIdx: index("pageview_time_path_idx").on(table.createdAt.desc(), table.path),
+  countryIdx: index("pageview_country_idx").on(table.country, table.createdAt.desc()),
 }));

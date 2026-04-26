@@ -1,4 +1,4 @@
-import { sql, count, countDistinct, desc, gte } from "drizzle-orm";
+import { sql, and, count, countDistinct, desc, gte, isNotNull } from "drizzle-orm";
 import { db } from "../../shared/database/index.js";
 import { pageview } from "../../shared/database/schema.js";
 
@@ -153,6 +153,37 @@ export async function getMetricsTrend(
   }
 
   return result;
+}
+
+/**
+ * Get top countries by visitor count over the last N days.
+ * Uses unique visitorHash (daily-rotating) so the count reflects distinct visitors,
+ * not raw pageviews. Rows with null country (local IPs, unresolvable) are excluded.
+ */
+export async function getTopCountries(params?: {
+  days?: number;
+  limit?: number;
+}): Promise<Array<{ country: string; visitors: number }>> {
+  const days = params?.days ?? 7;
+  const limit = params?.limit ?? 20;
+
+  const daysAgo = new Date();
+  daysAgo.setDate(daysAgo.getDate() - days);
+
+  const results = await db
+    .select({
+      country: pageview.country,
+      visitors: countDistinct(pageview.visitorHash),
+    })
+    .from(pageview)
+    .where(and(isNotNull(pageview.country), gte(pageview.createdAt, daysAgo)))
+    .groupBy(pageview.country)
+    .orderBy(desc(countDistinct(pageview.visitorHash)))
+    .limit(limit);
+
+  return results
+    .filter((r): r is { country: string; visitors: number } => r.country !== null)
+    .map((r) => ({ country: r.country, visitors: r.visitors }));
 }
 
 /**
