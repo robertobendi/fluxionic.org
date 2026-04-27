@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import { Type } from '@sinclair/typebox';
-import { requireRole } from '../auth/auth.service.js';
+import { requireRole, requireCollectionAccess } from '../auth/auth.service.js';
 import { ErrorResponseSchema, ValidationErrorResponseSchema } from '../../shared/schemas/index.js';
 import { isAppError, NotFoundError, ValidationError } from '../../shared/errors/index.js';
 import {
@@ -45,7 +45,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections/:collectionId/entries
   app.get('/api/admin/collections/:collectionId/entries', {
-    preHandler: [requireRole('viewer')],
+    preHandler: [requireCollectionAccess('read')],
     schema: {
       params: CollectionIdParamSchema,
       querystring: SearchEntriesQuerySchema,
@@ -72,7 +72,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections/:collectionId/entries/:entryId
   app.get('/api/admin/collections/:collectionId/entries/:entryId', {
-    preHandler: [requireRole('viewer')],
+    preHandler: [requireCollectionAccess('read')],
     schema: {
       params: EntryIdParamSchema,
       response: { 200: EntryResponseSchema, 404: ErrorResponseSchema },
@@ -87,7 +87,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // POST /api/admin/collections/:collectionId/entries
   app.post('/api/admin/collections/:collectionId/entries', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: {
       params: CollectionIdParamSchema,
       body: CreateEntrySchema,
@@ -110,7 +110,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // PATCH /api/admin/collections/:collectionId/entries/:entryId
   app.patch('/api/admin/collections/:collectionId/entries/:entryId', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: {
       params: EntryIdParamSchema,
       body: UpdateEntrySchema,
@@ -133,7 +133,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // DELETE /api/admin/collections/:collectionId/entries/:entryId
   app.delete('/api/admin/collections/:collectionId/entries/:entryId', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: {
       params: EntryIdParamSchema,
       response: { 204: Type.Null(), 404: ErrorResponseSchema },
@@ -152,7 +152,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // POST /api/admin/collections/:collectionId/entries/reorder
   app.post('/api/admin/collections/:collectionId/entries/reorder', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: {
       params: CollectionIdParamSchema,
       body: ReorderEntriesSchema,
@@ -168,7 +168,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections/:collectionId/entries/:entryId/referencers
   app.get('/api/admin/collections/:collectionId/entries/:entryId/referencers', {
-    preHandler: [requireRole('viewer')],
+    preHandler: [requireCollectionAccess('read')],
     schema: { params: EntryIdParamSchema },
     handler: async (request) => {
       const { entryId } = request.params;
@@ -178,14 +178,14 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections/:collectionId/entries/:entryId/revisions
   app.get('/api/admin/collections/:collectionId/entries/:entryId/revisions', {
-    preHandler: [requireRole('viewer')],
+    preHandler: [requireCollectionAccess('read')],
     schema: { params: EntryIdParamSchema },
     handler: async (request) => listRevisions(request.params.entryId),
   });
 
   // POST /api/admin/collections/:collectionId/entries/:entryId/revisions/:version/restore
   app.post('/api/admin/collections/:collectionId/entries/:entryId/revisions/:version/restore', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: {
       params: Type.Object({
         collectionId: Type.String(),
@@ -209,7 +209,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // POST /api/admin/collections/:collectionId/entries/:entryId/preview-token
   app.post('/api/admin/collections/:collectionId/entries/:entryId/preview-token', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: { params: EntryIdParamSchema },
     handler: async (request) => {
       return issuePreviewToken(request.params.entryId);
@@ -218,7 +218,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections/:collectionId/export
   app.get('/api/admin/collections/:collectionId/export', {
-    preHandler: [requireRole('viewer')],
+    preHandler: [requireCollectionAccess('read')],
     schema: { params: CollectionIdParamSchema },
     handler: async (request, reply) => {
       const { collectionId } = request.params;
@@ -230,7 +230,7 @@ export const entryRoutes: FastifyPluginAsync = async (fastify) => {
 
   // POST /api/admin/collections/:collectionId/import
   app.post('/api/admin/collections/:collectionId/import', {
-    preHandler: [requireRole('editor')],
+    preHandler: [requireCollectionAccess('write')],
     schema: {
       params: CollectionIdParamSchema,
       body: Type.Object({

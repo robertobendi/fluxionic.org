@@ -2,17 +2,27 @@ import { Shell } from '@/components/layout/Shell'
 import { StatsCard } from './StatsCard'
 import { MetricsCard } from './MetricsCard'
 import { useStats } from '@/hooks/use-stats'
+import { useSession } from '@/lib/auth'
 import { FolderOpen, FileText, Image, Users } from 'lucide-react'
 
-const statCards = [
-  { title: 'Collections', icon: FolderOpen, key: 'collections' as const },
-  { title: 'Entries', icon: FileText, key: 'entries' as const },
-  { title: 'Media Files', icon: Image, key: 'media' as const },
-  { title: 'Users', icon: Users, key: 'users' as const },
-]
+const collectionsCard = { title: 'Collections', icon: FolderOpen, key: 'collections' as const }
+const entriesCard = { title: 'Entries', icon: FileText, key: 'entries' as const }
+const mediaCard = { title: 'Media Files', icon: Image, key: 'media' as const }
+const usersCard = { title: 'Users', icon: Users, key: 'users' as const }
 
 export function DashboardPage() {
   const { data: stats, isLoading } = useStats()
+  const { data: session } = useSession()
+  const role = (session?.user as any)?.role
+  const isAdmin = role === 'admin'
+  const canUseEditorFeatures = role === 'admin' || role === 'editor'
+
+  const statCards = [
+    collectionsCard,
+    entriesCard,
+    ...(canUseEditorFeatures ? [mediaCard] : []),
+    ...(isAdmin ? [usersCard] : []),
+  ]
 
   return (
     <Shell title="Dashboard">
@@ -36,10 +46,12 @@ export function DashboardPage() {
           ))}
         </div>
 
-        {/* Metrics card with trend visualization */}
-        <div className="mt-6 md:mt-4">
-          <MetricsCard />
-        </div>
+        {/* Metrics card with trend visualization — editor-only. */}
+        {canUseEditorFeatures && (
+          <div className="mt-6 md:mt-4">
+            <MetricsCard />
+          </div>
+        )}
       </div>
     </Shell>
   )

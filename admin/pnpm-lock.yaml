@@ -26,6 +26,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.91.2
         version: 5.91.2(@tanstack/react-query@5.90.20(react@19.2.3))(react@19.2.3)
+      '@tiptap/extension-image':
+        specifier: ~3.17.0
+        version: 3.17.1(@tiptap/core@3.17.1(@tiptap/pm@3.17.1))
       '@tiptap/extension-placeholder':
         specifier: ^3.17.0
         version: 3.17.1(@tiptap/extensions@3.17.1(@tiptap/core@3.17.1(@tiptap/pm@3.17.1))(@tiptap/pm@3.17.1))
@@ -61,7 +64,7 @@ importers:
         version: 19.2.3(react@19.2.3)
       react-error-boundary:
         specifier: ^6.1.0
-        version: 6.1.0(react@19.2.3)
+        version: 6.1.1(react@19.2.3)
       react-hook-form:
         specifier: ^7.71.1
         version: 7.71.1(react@19.2.3)
@@ -962,6 +965,11 @@ packages:
     peerDependencies:
       '@tiptap/core': ^3.17.1
       '@tiptap/pm': ^3.17.1
+
+  '@tiptap/extension-image@3.17.1':
+    resolution: {integrity: sha512-VbSSZ//5qijm8F0lQQ6K+DGnZgjLKYQY2c+O56QNEoN8BaCFrJlsVgF1ttrSRUmoG4XBNIMlAS07kZXvMZQr0g==}
+    peerDependencies:
+      '@tiptap/core': ^3.17.1
 
   '@tiptap/extension-italic@3.17.1':
     resolution: {integrity: sha512-unfRLmvf680Y0UkBToUcrDkSEKO/wAjd3nQ7CNPMfAc8m+ZMReXkcgLpeVvnDEiHNsJ0PlYSW7a45tnQD9HQdg==}
@@ -1971,8 +1979,8 @@ packages:
     peerDependencies:
       react: ^19.2.3
 
-  react-error-boundary@6.1.0:
-    resolution: {integrity: sha512-02k9WQ/mUhdbXir0tC1NiMesGzRPaCsJEWU/4bcFrbY1YMZOtHShtZP6zw0SJrBWA/31H0KT9/FgdL8+sPKgHA==}
+  react-error-boundary@6.1.1:
+    resolution: {integrity: sha512-BrYwPOdXi5mqkk5lw+Uvt0ThHx32rCt3BkukS4X23A2AIWDPSGX6iaWTc0y9TU/mHDA/6qOSGel+B2ERkOvD1w==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
 
@@ -3040,6 +3048,10 @@ snapshots:
       '@tiptap/core': 3.17.1(@tiptap/pm@3.17.1)
       '@tiptap/pm': 3.17.1
 
+  '@tiptap/extension-image@3.17.1(@tiptap/core@3.17.1(@tiptap/pm@3.17.1))':
+    dependencies:
+      '@tiptap/core': 3.17.1(@tiptap/pm@3.17.1)
+
   '@tiptap/extension-italic@3.17.1(@tiptap/core@3.17.1(@tiptap/pm@3.17.1))':
     dependencies:
       '@tiptap/core': 3.17.1(@tiptap/pm@3.17.1)
@@ -4069,7 +4081,7 @@ snapshots:
       react: 19.2.3
       scheduler: 0.27.0
 
-  react-error-boundary@6.1.0(react@19.2.3):
+  react-error-boundary@6.1.1(react@19.2.3):
     dependencies:
       react: 19.2.3
 

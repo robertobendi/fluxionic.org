@@ -3,12 +3,29 @@ import { Upload } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUploadMedia } from '@/hooks/use-media'
 import { Progress } from '@/components/ui/progress'
+import type { MediaFile } from '@/types/media'
 
-export function UploadZone() {
+interface UploadZoneProps {
+  onUploadSuccess?: (files: MediaFile[]) => void
+  accept?: string
+}
+
+export function UploadZone({ onUploadSuccess, accept }: UploadZoneProps = {}) {
   const [isDragging, setIsDragging] = useState(false)
   const [uploadingFileName, setUploadingFileName] = useState<string>('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const uploadMutation = useUploadMedia()
+
+  const startUpload = (files: FileList | File[]) => {
+    const fileArray = Array.from(files)
+    const fileNames = fileArray.map(f => f.name).join(', ')
+    setUploadingFileName(fileNames)
+    uploadMutation.mutate(files, {
+      onSuccess: (data: { files: MediaFile[] }) => {
+        onUploadSuccess?.(data.files)
+      },
+    })
+  }
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -26,18 +43,14 @@ export function UploadZone() {
 
     const files = e.dataTransfer.files
     if (files.length > 0) {
-      const fileNames = Array.from(files).map(f => f.name).join(', ')
-      setUploadingFileName(fileNames)
-      uploadMutation.mutate(files)
+      startUpload(files)
     }
   }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (files && files.length > 0) {
-      const fileNames = Array.from(files).map(f => f.name).join(', ')
-      setUploadingFileName(fileNames)
-      uploadMutation.mutate(files)
+      startUpload(files)
       // Reset input so the same file can be selected again
       e.target.value = ''
     }
@@ -63,6 +76,7 @@ export function UploadZone() {
         ref={fileInputRef}
         type="file"
         multiple
+        accept={accept}
         className="hidden"
         onChange={handleFileSelect}
       />

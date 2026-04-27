@@ -1,6 +1,11 @@
 import { FastifyPluginAsync } from "fastify";
 import { requireRole } from "../auth/auth.service.js";
-import { getMetricsSummary, getTopPages, getMetricsTrend } from "./metrics.queries.js";
+import {
+  getMetricsSummary,
+  getTopPages,
+  getMetricsTrend,
+  getTopCountries,
+} from "./metrics.queries.js";
 import {
   MetricsSummarySchema,
   TopPagesQuerySchema,
@@ -9,6 +14,9 @@ import {
   TrendQuerySchema,
   TrendResponseSchema,
   TrendQuery,
+  TopCountriesQuerySchema,
+  TopCountriesResponseSchema,
+  TopCountriesQuery,
 } from "./admin.schemas.js";
 
 export const metricsAdminRoutes: FastifyPluginAsync = async (fastify) => {
@@ -75,6 +83,28 @@ export const metricsAdminRoutes: FastifyPluginAsync = async (fastify) => {
 
       const trend = await getMetricsTrend(days);
       return reply.send({ data: trend });
+    }
+  );
+
+  // GET /api/admin/metrics/top-countries - Visitors grouped by country
+  fastify.get(
+    "/api/admin/metrics/top-countries",
+    {
+      preHandler: [requireRole("editor")],
+      schema: {
+        querystring: TopCountriesQuerySchema,
+        response: {
+          200: TopCountriesResponseSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const query = request.query as TopCountriesQuery;
+      const days = query.days ? parseInt(query.days, 10) : undefined;
+      const limit = query.limit ? parseInt(query.limit, 10) : undefined;
+
+      const topCountries = await getTopCountries({ days, limit });
+      return reply.send({ data: topCountries });
     }
   );
 };

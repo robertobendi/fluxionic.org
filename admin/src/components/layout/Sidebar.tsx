@@ -10,16 +10,25 @@ export function Sidebar() {
     await signOut()
   }
 
+  const role = (session?.user as any)?.role as string | undefined
+  const canUseEditorFeatures = role === 'admin' || role === 'editor'
+
   const navItems = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/collections', label: 'Collections', icon: FolderOpen },
-    { to: '/metrics', label: 'Metrics', icon: BarChart3 },
-    { to: '/media', label: 'Media', icon: Image },
-    { to: '/settings', label: 'Settings', icon: Settings },
   ]
 
+  // Metrics and Media are editor-level features; hide from viewers so the
+  // nav doesn't lead them into pages that 403 on every fetch.
+  if (canUseEditorFeatures) {
+    navItems.push({ to: '/metrics', label: 'Metrics', icon: BarChart3 })
+    navItems.push({ to: '/media', label: 'Media', icon: Image })
+  }
+
+  navItems.push({ to: '/settings', label: 'Settings', icon: Settings })
+
   // Only show Users/API Keys/Webhooks link if user is admin
-  if (session?.user && (session.user as any).role === 'admin') {
+  if (role === 'admin') {
     navItems.push({ to: '/users', label: 'Users', icon: Users })
     navItems.push({ to: '/api-keys', label: 'API Keys', icon: Key })
     navItems.push({ to: '/webhooks', label: 'Webhooks', icon: Webhook })

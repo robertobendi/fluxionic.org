@@ -6,7 +6,7 @@ interface User {
   id: string
   email: string
   name: string
-  role: 'admin' | 'editor'
+  role: 'admin' | 'editor' | 'viewer'
   createdAt: string
 }
 
@@ -14,7 +14,7 @@ interface CreateUserInput {
   email: string
   name: string
   password: string
-  role: 'admin' | 'editor'
+  role: 'admin' | 'editor' | 'viewer'
 }
 
 export function useUsers() {

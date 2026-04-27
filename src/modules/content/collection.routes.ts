@@ -22,7 +22,7 @@ export const collectionRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections - List all collections
   app.get("/api/admin/collections", {
-    preHandler: [requireRole("admin")],
+    preHandler: [requireRole("viewer")],
     schema: {
       response: { 200: CollectionListResponseSchema },
     },
@@ -34,7 +34,7 @@ export const collectionRoutes: FastifyPluginAsync = async (fastify) => {
 
   // GET /api/admin/collections/:id - Get collection by id or slug
   app.get("/api/admin/collections/:id", {
-    preHandler: [requireRole("admin")],
+    preHandler: [requireRole("viewer")],
     schema: {
       params: Type.Object({ id: Type.String() }),
       response: {

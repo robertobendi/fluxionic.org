@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
 import { Type } from '@sinclair/typebox';
-import { requireRole } from '../auth/auth.service.js';
+import { requireRole, requireCollectionAccess } from '../auth/auth.service.js';
 import { submitForm, listSubmissions, deleteSubmission } from './form.service.js';
 import { BadRequestError, NotFoundError, ValidationError, isAppError } from '../../shared/errors/index.js';
 
@@ -36,7 +36,7 @@ export const formRoutes: FastifyPluginAsync = async (fastify) => {
 
   // Admin: list submissions for a form collection.
   fastify.get('/api/admin/collections/:collectionId/submissions', {
-    preHandler: [requireRole('viewer')],
+    preHandler: [requireCollectionAccess('read')],
     schema: { params: Type.Object({ collectionId: Type.String() }) },
     handler: async (request) => {
       const { collectionId } = request.params as { collectionId: string };

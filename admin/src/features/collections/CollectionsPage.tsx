@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { CollectionDialog } from './CollectionDialog'
 import { useCollections, useDeleteCollection } from '@/hooks/use-collections'
+import { useSession } from '@/lib/auth'
 import type { Collection } from '@/types/collection'
 import { Plus, Edit, Trash2, Database, FileText, Loader2, Inbox } from 'lucide-react'
 import { toast } from 'sonner'
@@ -17,6 +18,8 @@ export function CollectionsPage() {
 
   const { data: collections, isLoading } = useCollections()
   const deleteMutation = useDeleteCollection()
+  const { data: session } = useSession()
+  const canManage = (session?.user as any)?.role === 'admin'
 
   const handleCreate = () => {
     setEditingCollection(null)
@@ -54,10 +57,12 @@ export function CollectionsPage() {
               Define content types with custom field schemas
             </p>
           </div>
-          <Button onClick={handleCreate}>
-            <Plus className="mr-2 h-4 w-4" />
-            New Collection
-          </Button>
+          {canManage && (
+            <Button onClick={handleCreate}>
+              <Plus className="mr-2 h-4 w-4" />
+              New Collection
+            </Button>
+          )}
         </div>
 
         {/* Loading state */}
@@ -73,12 +78,16 @@ export function CollectionsPage() {
             <Database className="mx-auto h-12 w-12 text-muted-foreground" />
             <h3 className="mt-4 text-lg font-semibold">No collections yet</h3>
             <p className="mt-2 text-muted-foreground">
-              Get started by creating your first content collection.
+              {canManage
+                ? 'Get started by creating your first content collection.'
+                : 'No collections have been created yet. Ask an administrator to set one up.'}
             </p>
-            <Button onClick={handleCreate} className="mt-6">
-              <Plus className="mr-2 h-4 w-4" />
-              Create Collection
-            </Button>
+            {canManage && (
+              <Button onClick={handleCreate} className="mt-6">
+                <Plus className="mr-2 h-4 w-4" />
+                Create Collection
+              </Button>
+            )}
           </Card>
         )}
 
@@ -145,49 +154,53 @@ export function CollectionsPage() {
                       Entries
                     </Button>
                   )}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleEdit(collection)}
-                    aria-label={`Edit ${collection.name}`}
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  {deleteConfirm === collection.id ? (
+                  {canManage && (
                     <>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDelete(collection.id)}
-                        disabled={deleteMutation.isPending}
-                      >
-                        {deleteMutation.isPending ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Deleting...
-                          </>
-                        ) : (
-                          'Confirm'
-                        )}
-                      </Button>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setDeleteConfirm(null)}
-                        disabled={deleteMutation.isPending}
+                        onClick={() => handleEdit(collection)}
+                        aria-label={`Edit ${collection.name}`}
                       >
-                        Cancel
+                        <Edit className="h-4 w-4" />
                       </Button>
+                      {deleteConfirm === collection.id ? (
+                        <>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDelete(collection.id)}
+                            disabled={deleteMutation.isPending}
+                          >
+                            {deleteMutation.isPending ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Deleting...
+                              </>
+                            ) : (
+                              'Confirm'
+                            )}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setDeleteConfirm(null)}
+                            disabled={deleteMutation.isPending}
+                          >
+                            Cancel
+                          </Button>
+                        </>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setDeleteConfirm(collection.id)}
+                          aria-label={`Delete ${collection.name}`}
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      )}
                     </>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setDeleteConfirm(collection.id)}
-                      aria-label={`Delete ${collection.name}`}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
                   )}
                 </div>
               </Card>

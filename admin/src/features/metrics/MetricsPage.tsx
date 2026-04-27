@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Shell } from '@/components/layout/Shell'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table } from '@/components/ui/table'
-import { useMetricsSummary, useTopPages, useMetricsTrend } from '@/hooks/use-metrics'
-import { TrendingUp, BarChart3, Calendar, Activity } from 'lucide-react'
+import { useMetricsSummary, useTopPages, useMetricsTrend, useTopCountries } from '@/hooks/use-metrics'
+import { TrendingUp, BarChart3, Calendar, Activity, Globe } from 'lucide-react'
 import { PageviewsChart } from './PageviewsChart'
 import { TopPagesChart } from './TopPagesChart'
+import { TopCountriesList } from './TopCountriesList'
 import { DateRangeSelector } from './DateRangeSelector'
 import { MetricsCard } from './MetricsCard'
 import { MetricsCardSkeleton, TableSkeleton } from './MetricsSkeleton'
@@ -16,6 +17,7 @@ export function MetricsPage() {
   const { data: summary, isLoading: summaryLoading } = useMetricsSummary()
   const { data: topPages, isLoading: topPagesLoading } = useTopPages({ days, limit: 20 })
   const { data: trendData, isLoading: trendLoading } = useMetricsTrend({ days })
+  const { data: topCountries, isLoading: countriesLoading } = useTopCountries({ days, limit: 12 })
 
   // Calculate trend values for comparison
   // Using trend data: compare first half vs second half of the period
@@ -113,6 +115,35 @@ export function MetricsPage() {
                 <PageviewsChart
                   data={trendData?.data ?? []}
                   isLoading={trendLoading}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Top Countries Section */}
+        <div
+          className="mt-6 md:mt-8 opacity-0 animate-slide-up"
+          style={{ animationDelay: '180ms', animationFillMode: 'forwards' }}
+        >
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-4 w-4 text-muted-foreground" />
+                Top Countries
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {!countriesLoading && (!topCountries?.data || topCountries.data.length === 0) ? (
+                <EmptyState
+                  icon={<Globe className="h-12 w-12" />}
+                  title="No country data yet"
+                  description="Anonymous, country-level visitor breakdown appears once you have traffic. No IP is stored — only an ISO code derived at request time."
+                />
+              ) : (
+                <TopCountriesList
+                  data={topCountries?.data ?? []}
+                  isLoading={countriesLoading}
                 />
               )}
             </CardContent>

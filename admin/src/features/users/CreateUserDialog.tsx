@@ -22,7 +22,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
-  const [role, setRole] = useState<'admin' | 'editor'>('editor')
+  const [role, setRole] = useState<'admin' | 'editor' | 'viewer'>('editor')
 
   const createUser = useCreateUser()
 
@@ -95,8 +95,9 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
               <Select
                 id="role"
                 value={role}
-                onChange={(e) => setRole(e.target.value as 'admin' | 'editor')}
+                onChange={(e) => setRole(e.target.value as 'admin' | 'editor' | 'viewer')}
               >
+                <option value="viewer">Viewer</option>
                 <option value="editor">Editor</option>
                 <option value="admin">Admin</option>
               </Select>

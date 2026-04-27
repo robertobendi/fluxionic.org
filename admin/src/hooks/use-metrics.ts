@@ -62,3 +62,28 @@ export function useMetricsTrend(options: UseMetricsTrendOptions = {}) {
     throwOnError: true,
   })
 }
+
+interface TopCountry {
+  country: string
+  visitors: number
+}
+
+interface TopCountriesResponse {
+  data: TopCountry[]
+}
+
+interface UseTopCountriesOptions {
+  days?: number
+  limit?: number
+}
+
+export function useTopCountries(options: UseTopCountriesOptions = {}) {
+  const { days = 7, limit = 20 } = options
+
+  return useQuery({
+    queryKey: ['metrics', 'top-countries', days, limit],
+    queryFn: () =>
+      fetcher<TopCountriesResponse>(`/admin/metrics/top-countries?days=${days}&limit=${limit}`),
+    throwOnError: true,
+  })
+}

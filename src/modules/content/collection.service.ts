@@ -90,6 +90,23 @@ export async function getCollection(
 }
 
 /**
+ * Lightweight lookup that also returns the raw permissions blob. Used by the
+ * access-control helpers to resolve per-collection read/write rules without
+ * materialising the full CollectionResponse.
+ */
+export async function getCollectionAccessInfo(
+  idOrSlug: string
+): Promise<{ id: string; slug: string; permissions: unknown } | null> {
+  const [result] = await db
+    .select({ id: collection.id, slug: collection.slug, permissions: collection.permissions })
+    .from(collection)
+    .where(or(eq(collection.id, idOrSlug), eq(collection.slug, idOrSlug)))
+    .limit(1);
+
+  return result ?? null;
+}
+
+/**
  * List all collections ordered by name
  */
 export async function listCollections(): Promise<CollectionResponse[]> {

@@ -5,8 +5,9 @@ import { auth } from "./auth.config.js";
 import { nanoid } from "nanoid";
 import { eq } from "drizzle-orm";
 import { CreateUserInput, UserResponse } from "./auth.schemas.js";
+import { getCollectionAccessInfo } from "../content/collection.service.js";
 
-export type Role = "admin" | "editor" | "viewer";
+export type Role = "admin" | "editor" | "viewer" | "user";
 
 const ROLE_RANK: Record<string, number> = {
   admin: 3,
@@ -16,17 +17,13 @@ const ROLE_RANK: Record<string, number> = {
 };
 
 /**
- * Gate a handler on a minimum role. Viewers can reach read endpoints;
- * editors can reach write endpoints; admins can reach anything.
- *
- * Also allows requests authenticated via API key with read scope when the
- * minimum is 'viewer' — specific routes must still enforce write scopes.
+ * Gate a handler on a minimum role for a logged-in user. API keys pass only
+ * the 'viewer' threshold here — write access for API keys is collection-scoped
+ * and must be checked via requireCollectionAccess instead.
  */
 export function requireRole(minRole: Role) {
   const required = ROLE_RANK[minRole];
   return async (request: FastifyRequest, reply: FastifyReply) => {
-    // API keys are valid for admin API when the route accepts them.
-    // Caller is expected to enforce scope checks on top.
     if (request.apiKey && minRole === "viewer") return;
 
     if (!request.user) {
@@ -35,6 +32,45 @@ export function requireRole(minRole: Role) {
 
     const rank = ROLE_RANK[request.user.role] ?? 0;
     if (rank < required) {
+      return reply.status(403).send({ error: "Forbidden" });
+    }
+  };
+}
+
+/**
+ * Gate a handler on read/write access to a specific collection. Resolves the
+ * collection via its `:collectionId` (or `:id`) param, then uses the collection's
+ * permissions blob plus the caller's role / API-key scopes to decide access.
+ *
+ * This is the path that activates per-collection overrides and the API-key
+ * `write` scope — use it on entry/submission routes that are scoped to a
+ * single collection.
+ */
+export function requireCollectionAccess(level: "read" | "write") {
+  return async (request: FastifyRequest, reply: FastifyReply) => {
+    const params = request.params as { collectionId?: string; id?: string } | undefined;
+    const idOrSlug = params?.collectionId ?? params?.id;
+    if (!idOrSlug) {
+      return reply.status(400).send({ error: "Missing collection identifier" });
+    }
+
+    const row = await getCollectionAccessInfo(idOrSlug);
+    if (!row) {
+      return reply.status(404).send({ error: "Collection not found" });
+    }
+
+    if (!request.user && !request.apiKey) {
+      return reply.status(401).send({ error: "Unauthorized" });
+    }
+
+    const access = resolveCollectionAccess(
+      request.user ? { role: request.user.role } : null,
+      request.apiKey,
+      row.slug,
+      (row.permissions as CollectionPermissions | null) ?? null
+    );
+
+    if (access === "none" || (level === "write" && access === "read")) {
       return reply.status(403).send({ error: "Forbidden" });
     }
   };
