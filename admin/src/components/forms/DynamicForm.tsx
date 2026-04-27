@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, type Control } from 'react-hook-form'
 import type { Collection } from '@/types/collection'
 import { FieldRenderer } from './FieldRenderer'
 import { Button } from '@/components/ui/button'
@@ -101,7 +101,7 @@ export function DynamicForm({
           <FieldRenderer
             key={field.id}
             field={field}
-            control={control}
+            control={control as Control<any>}
             error={fieldError?.message as string | undefined}
           />
         )
