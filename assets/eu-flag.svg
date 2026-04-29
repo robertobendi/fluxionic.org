@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 540">
+  <rect width="810" height="540" fill="#003399"/>
+  <defs>
+    <polygon id="star" points="0,-20 5.88,-8.09 20,-6.18 9.51,3.09 11.76,16.18 0,10 -11.76,16.18 -9.51,3.09 -20,-6.18 -5.88,-8.09" fill="#FFCC00"/>
+  </defs>
+  <g transform="translate(405,270)">
+    <use href="#star" transform="rotate(0) translate(0,-110)"/>
+    <use href="#star" transform="rotate(30) translate(0,-110)"/>
+    <use href="#star" transform="rotate(60) translate(0,-110)"/>
+    <use href="#star" transform="rotate(90) translate(0,-110)"/>
+    <use href="#star" transform="rotate(120) translate(0,-110)"/>
+    <use href="#star" transform="rotate(150) translate(0,-110)"/>
+    <use href="#star" transform="rotate(180) translate(0,-110)"/>
+    <use href="#star" transform="rotate(210) translate(0,-110)"/>
+    <use href="#star" transform="rotate(240) translate(0,-110)"/>
+    <use href="#star" transform="rotate(270) translate(0,-110)"/>
+    <use href="#star" transform="rotate(300) translate(0,-110)"/>
+    <use href="#star" transform="rotate(330) translate(0,-110)"/>
+  </g>
+</svg>
