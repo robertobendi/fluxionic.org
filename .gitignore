@@ -1,58 +1,23 @@
-# Dependencies
-node_modules/
+# Pebblestack ships vendor/ and composer.lock so the repo is drop-in
+# deployable on shared hosts that don't have Composer installed. Run
+# `composer install --no-dev --optimize-autoloader` to refresh after
+# editing composer.json.
 
-# Build output
-dist/
+# Per-install state (never commit — different on every site).
+/data/*.sqlite
+/data/*.sqlite-journal
+/data/*.sqlite-wal
+/data/*.sqlite-shm
+/data/installed.lock
+/data/cache/
 
-# Environment variables
-.env
-.env.local
-.env.*.local
+# User uploads, but keep the security .htaccess and the keepfile.
+/uploads/*
+!/uploads/.gitkeep
+!/uploads/.htaccess
 
-# Drizzle migrations (generated)
-drizzle/
-
-# IDE
+# Editor / OS clutter.
+.DS_Store
 .idea/
 .vscode/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
 *.log
-npm-debug.log*
-
-# Test artifacts (Phase 24 cleanup)
-*cookies.txt
-*-cookies.txt
-test-*.jpg
-test-*.png
-test-*.gif
-test-*.webp
-debug-*.json
-login-response*.json
-
-# Uploads (tracked initially, contents excluded going forward)
-uploads/**/*.jpg
-uploads/**/*.jpeg
-uploads/**/*.png
-uploads/**/*.gif
-uploads/**/*.webp
-uploads/**/*.pdf
-!uploads/.gitkeep
-
-# Deployment guide (contains credentials)
-DEPLOYMENT.md
-
-# TypeScript incremental build cache
-*.tsbuildinfo
-
-# Local-only upgrade backups
-backups/
-
-# Framework roadmap doc (lives in the Slatestack repo, not this project)
-SLATESTACK_WISHLIST.md
