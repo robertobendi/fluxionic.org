@@ -1,85 +1,50 @@
-# Pebblestack
+# fluxionic.org
 
-A small, no-bloat PHP CMS. WordPress without the marketplace.
+The fluxionic.org website. Built on [pebblestack](https://github.com/robertobendi/pebblestack) — a small PHP+SQLite CMS by the same author.
 
-**Stack:** PHP 8.2 + SQLite + Twig. One folder. No plugin store, no theme store, no block editor, no multisite. The "no" list is the product.
+## Stack
 
-## Install on Hostinger (or any shared PHP host) in 60 seconds
+PHP 8.2 + SQLite + Twig. Drop-in deployable on any shared host. See pebblestack's [README](https://github.com/robertobendi/pebblestack#readme) and [`AGENTS.md`](AGENTS.md) for the framework's full story.
 
-1. **Download** this repo as a ZIP (green "Code → Download ZIP" button on GitHub) or `git clone` it.
-2. **Upload** the entire folder contents into `public_html/` on your host (Hostinger, Namecheap, Bluehost — any PHP 8.2+ shared plan). Include the `vendor/` folder. Yes, all of it.
-3. **Visit `https://yourdomain.com/install.php`**. Pick a site name, admin email, password.
-4. You're done. Public site is at `/`. Admin is at `/admin`.
+## Where to edit
 
-No Composer to run. No MySQL to provision. No Docker. No Node.js. The repo is drop-in deployable as-is.
+| What you change | Where |
+|---|---|
+| Public theme (HTML/CSS) | `templates/theme/<theme-name>/` |
+| Active theme name | `config/app.php` (`'theme' => '...'`) |
+| Content shape (pages, posts, fellows, events, …) | `config/collections.php` |
+| Site branding / partner logos / PI portraits | `assets/` |
 
-## Why this exists
+Everything else (`src/`, `templates/admin/`, `vendor/`, `data/migrations/`) is framework — leave it alone unless you're upstreaming a fix to pebblestack.
 
-WordPress runs on every cheap shared host on the planet, but it brings 20 years of marketplace-driven complexity with it. Pebblestack is what you'd build today if you only needed the 10 things 90% of sites actually use.
+## Local dev
 
-- **Single-folder install.** Unzip into your webroot. That's the install.
-- **One file is the database.** SQLite — back up by copying `data/pebblestack.sqlite`.
-- **Typed content collections.** Define `pages`, `posts`, or anything else in `config/collections.php`. No "Custom Post Types UI" plugin.
-- **Markdown by default.** No block editor. Write content, render it.
-- **Auto-escaped templates.** Twig means you don't ship XSS by accident.
-- **Built-in media library** with MIME-sniffed uploads + alt text + markdown snippets.
-- **Roles + multi-user** — admin/editor/viewer with sane gating.
-- **Forms** — mark a collection `is_form: true` and it accepts public submissions at `POST /forms/{name}`.
-- **Revisions + restore** — every save snapshots the prior version.
-- **Privacy-friendly metrics** — server-side page views, no JS pixel, no cookies, no IPs.
-- **SEO baked in** — `/sitemap.xml` and `/robots.txt` work out of the box.
-- **Auto-migrating** — drop in a new release, refresh the page, the DB updates itself.
-
-## Building a website with Pebblestack + an AI assistant
-
-The intended workflow:
-
-1. Clone Pebblestack into your project directory.
-2. Tell your AI assistant: *"Build the frontend for {site type} using Pebblestack as the base."*
-3. The AI edits **`templates/theme/default/`** (the theme) and **`config/collections.php`** (the content shape). Everything else stays untouched.
-4. Upload the whole thing to `public_html/`. Visit `/install.php`. Done.
-
-See [`AGENTS.md`](AGENTS.md) — it tells the AI exactly which files to touch, which to leave alone, and how the system fits together.
-
-## Project layout
-
-```
-index.php           # front controller
-install.php         # first-run installer entry
-.htaccess           # rewrites + security
-config/             # app.php + collections.php — edit these
-templates/admin/    # admin UI Twig templates — leave these
-templates/theme/    # public-facing themes — edit these
-src/                # framework — leave this
-data/               # SQLite + migrations (blocked from web)
-uploads/            # media (PHP execution disabled here)
-vendor/             # Composer deps (shipped in repo for shared hosting)
+```sh
+php -S localhost:8000
+# then visit http://localhost:8000/install.php once
 ```
 
-## Field types available in `config/collections.php`
+PHP's built-in server reads `.htaccess` poorly — for full fidelity (rewrites, security headers) use Apache or LiteSpeed. SQLite + migrations are auto-applied on first request.
 
-| Type        | UI                       |
-|-------------|--------------------------|
-| `text`      | single-line input        |
-| `textarea`  | multi-line text          |
-| `markdown`  | markdown editor (CommonMark) |
-| `slug`      | URL-safe slug input      |
-| `boolean`   | checkbox                 |
-| `number`    | numeric input            |
-| `select`    | dropdown (provide `options`) |
-| `datetime`  | datetime picker          |
-| `url`       | URL input (validated)    |
+## Syncing pebblestack updates
 
-## What's NOT in Pebblestack (and never will be)
+The pebblestack repo is wired in as a git remote:
 
-- Plugin marketplace
-- Theme marketplace
-- Block / Gutenberg editor
-- Multisite
-- Comments (use Disqus / Cusdis / Giscus)
-- A WP-style admin bar on the public site
+```sh
+git fetch pebblestack-upstream
+git diff HEAD pebblestack-upstream/main -- src/ templates/admin/ data/migrations/ vendor/
+# cherry-pick or copy what you want; histories are intentionally unrelated.
+```
 
-If you need those, use WordPress. Pebblestack stops where WordPress's bloat starts.
+Don't blindly merge — `assets/`, the active theme under `templates/theme/`, and `config/collections.php` are site-specific and should not be overwritten.
+
+## Deploy
+
+See [`DEPLOYMENT.md`](DEPLOYMENT.md).
+
+## Migration history
+
+This repo was originally built on [slatestack](https://github.com/Labyrica/slatestack) (Node/Fastify/Postgres/React) and migrated to pebblestack on 2026-04-29. The slatestack history is preserved in git — see tag `pre-pebblestack-migration` for the last commit on that stack.
 
 ## License
 

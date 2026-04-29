@@ -21,3 +21,8 @@
 .idea/
 .vscode/
 *.log
+
+# fluxionic.org additions.
+/backups/
+.env
+.env.local
