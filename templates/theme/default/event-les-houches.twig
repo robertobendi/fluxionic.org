@@ -67,7 +67,7 @@
         .lh-brand .back { font-size: .75rem; color: var(--gray-400); }
         .lh-brand .back:hover { color: #fff; }
         .lh-brand .sep { color: var(--gray-600); }
-        .lh-brand .title { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .875rem; }
+        .lh-brand .title { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .875rem; white-space: nowrap; }
         @media (min-width:768px) { .lh-brand .title { font-size: 1rem; } }
 
         .lh-nav { display: none; align-items: center; gap: .25rem; }
@@ -77,17 +77,22 @@
             font-size: .875rem;
             border-radius: .5rem;
             color: var(--gray-300);
+            white-space: nowrap;
             transition: background .2s ease, color .2s ease;
         }
         .lh-nav a:hover { color: #fff; background: rgba(255,255,255,.1); }
         .lh-nav a.is-active { background: var(--primary); color: #fff; }
 
-        .lh-toggle, .lh-toggle-label { display: none; }
+        /* Mobile nav hidden by default at every breakpoint; only revealed
+           when the hamburger checkbox is :checked AND the viewport is below
+           the desktop breakpoint. Without this default-none, <nav> falls
+           back to display:block on desktop and renders a second row. */
+        .lh-toggle, .lh-toggle-label, .lh-mnav { display: none; }
         .lh-toggle-label { padding: .5rem; cursor: pointer; color: #fff; }
         @media (max-width:1023px) {
             .lh-toggle-label { display: inline-flex; }
-            .lh-mnav {
-                display: none;
+            .lh-toggle:checked ~ .lh-mnav {
+                display: block;
                 position: absolute; top: 4rem; left: 0; right: 0;
                 background: var(--dark);
                 border-top: 1px solid var(--gray-700);
@@ -101,7 +106,6 @@
                 border-radius: .5rem;
             }
             .lh-mnav a:hover { background: rgba(255,255,255,.1); color: #fff; }
-            .lh-toggle:checked ~ .lh-mnav { display: block; }
         }
 
         /* ======= Hero ======= */
