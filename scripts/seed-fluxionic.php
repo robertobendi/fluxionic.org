@@ -366,6 +366,8 @@ echo "Inserted " . count($fellows) . " fellows.\n";
  * Events — only the routable URL is needed; the Les Houches detail page
  * is rendered by templates/theme/default/event-les-houches.twig.
  * ----------------------------------------------------------------------- */
+// publish_at must be in the past so the entry is accessible now;
+// the actual event date is in the `starts_on` field used for display.
 insert_entry($db, 'events', 'les-houches-2026', [
     'title'        => 'Nonequilibrium Physics in Nanoconfinement',
     'slug'         => 'les-houches-2026',
@@ -376,7 +378,8 @@ insert_entry($db, 'events', 'les-houches-2026', [
     'cover_url'    => '/assets/images/les-houches-mountains.png',
     'external_url' => 'https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473',
     'meta_description' => 'Les Houches – WE Heraeus School on Nonequilibrium Physics in Nanoconfinement, September 14–25, 2026.',
-], ts('2026-09-14'));
+], ts('2025-01-01'));
+echo "Inserted 1 event (les-houches-2026).\n";
 
 /* -------------------------------------------------------------------------
  * Conferences | Workshops
