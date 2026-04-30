@@ -1,0 +1,31 @@
+{% extends '@theme/layout.twig' %}
+
+{% block title %}Events · {{ site.name }}{% endblock %}
+
+{% block content %}
+<div class="wrap-wide">
+    <h1>Events</h1>
+    <p class="lede">FLUXIONIC summer schools, doctoral schools, network meetings.</p>
+
+    {% if entries|length == 0 %}
+        <div class="empty-state"><p>No events scheduled yet.</p></div>
+    {% else %}
+        <div class="card-grid">
+            {% for ev in entries %}
+                <a class="card" href="/events/{{ ev.slug }}">
+                    {% if ev.field('cover_url') %}
+                        <img src="{{ ev.field('cover_url') }}" alt="" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:.75rem;">
+                    {% endif %}
+                    <h3>{{ ev.field('title') }}</h3>
+                    <div class="card-meta">
+                        {% if ev.field('starts_on') %}{{ ev.field('starts_on')|date('F j, Y') }}{% endif %}
+                        {% if ev.field('ends_on') and ev.field('ends_on') != ev.field('starts_on') %} – {{ ev.field('ends_on')|date('F j, Y') }}{% endif %}
+                        {% if ev.field('location') %} · {{ ev.field('location') }}{% endif %}
+                    </div>
+                    {% if ev.field('summary') %}<p>{{ ev.field('summary') }}</p>{% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

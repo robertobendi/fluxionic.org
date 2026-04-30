@@ -1,0 +1,30 @@
+{% extends '@theme/layout.twig' %}
+
+{% block title %}Fellows · {{ site.name }}{% endblock %}
+
+{% block content %}
+<div class="wrap-wide">
+    <h1>Fellows</h1>
+    <p class="lede">The PhD researchers training inside the FLUXIONIC doctoral network.</p>
+
+    {% if entries|length == 0 %}
+        <div class="empty-state">
+            <p>No fellows published yet.</p>
+        </div>
+    {% else %}
+        <div class="card-grid">
+            {% for fellow in entries %}
+                <a class="card" href="/fellows/{{ fellow.slug }}">
+                    {% if fellow.field('photo_url') %}
+                        <img src="{{ fellow.field('photo_url') }}" alt="{{ fellow.field('title') }}"
+                             style="width:96px;height:96px;border-radius:50%;object-fit:cover;margin-bottom:.75rem;">
+                    {% endif %}
+                    <h3>{{ fellow.field('title') }}</h3>
+                    {% if fellow.field('node_label') %}<p>{{ fellow.field('node_label') }}</p>{% endif %}
+                    {% if fellow.field('topic') %}<p class="card-meta">{{ fellow.field('topic') }}</p>{% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

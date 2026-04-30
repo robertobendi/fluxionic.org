@@ -1,0 +1,48 @@
+{% extends '@theme/layout.twig' %}
+{% set meta_description = entry.field('meta_description') %}
+
+{% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
+
+{% block content %}
+<article class="wrap">
+    <p class="meta"><a href="/conferences">← All conferences | workshops</a></p>
+    <h1>{{ entry.field('title') }}</h1>
+
+    <div class="detail-meta">
+        {% if entry.field('starts_on') %}
+            <span><strong>Dates</strong>{{ entry.field('starts_on')|date('F j, Y') }}{% if entry.field('ends_on') and entry.field('ends_on') != entry.field('starts_on') %} – {{ entry.field('ends_on')|date('F j, Y') }}{% endif %}</span>
+        {% endif %}
+        {% if entry.field('location') %}<span><strong>Location</strong>{{ entry.field('location') }}</span>{% endif %}
+    </div>
+
+    {% if entry.field('talk_given') %}
+        <h2>Talk given</h2>
+        <p>{{ entry.field('talk_given')|nl2br }}</p>
+    {% endif %}
+
+    {% if entry.field('poster') %}
+        <h2>Poster presented</h2>
+        <p>{{ entry.field('poster')|nl2br }}</p>
+    {% endif %}
+
+    {% if entry.field('attendees') %}
+        <h2>Fellows and PIs who attended</h2>
+        <p>{{ entry.field('attendees')|nl2br }}</p>
+    {% endif %}
+
+    {% if entry.field('awards') %}
+        <h2>Awards won</h2>
+        <p>{{ entry.field('awards')|nl2br }}</p>
+    {% endif %}
+
+    {% if entry.field('photos') %}
+        <h2>Photos</h2>
+        <div class="article-body">{{ entry.field('photos')|markdown }}</div>
+    {% endif %}
+
+    {% if entry.field('notes') %}
+        <h2>Notes</h2>
+        <div class="article-body">{{ entry.field('notes')|markdown }}</div>
+    {% endif %}
+</article>
+{% endblock %}

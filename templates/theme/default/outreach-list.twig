@@ -1,0 +1,38 @@
+{% extends '@theme/layout.twig' %}
+
+{% block title %}Volunteering | Outreach · {{ site.name }}{% endblock %}
+
+{% block content %}
+<div class="wrap-wide">
+    <h1>Volunteering | Outreach</h1>
+    <p class="lede">Outreach and volunteering activities by FLUXIONIC fellows and PIs.</p>
+
+    {% if entries|length == 0 %}
+        <div class="empty-state"><p>No activities yet.</p></div>
+    {% else %}
+        <table style="width:100%;border-collapse:collapse;margin-top:1.5rem;">
+            <thead>
+                <tr style="text-align:left;border-bottom:2px solid var(--hairline);">
+                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Activity</th>
+                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Date</th>
+                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Location</th>
+                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Fellow</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in entries %}
+                    <tr style="border-bottom:1px solid var(--hairline);">
+                        <td style="padding:.85rem .5rem;">
+                            <a href="/outreach/{{ o.slug }}" style="font-weight:500;text-decoration:none;color:var(--ink);">{{ o.field('title') }}</a>
+                            {% if o.field('summary') %}<div style="font-size:.875rem;color:var(--ink-soft);margin-top:.15rem;">{{ o.field('summary') }}</div>{% endif %}
+                        </td>
+                        <td style="padding:.85rem .5rem;color:var(--ink-soft);white-space:nowrap;">{% if o.field('date_on') %}{{ o.field('date_on')|date('M j, Y') }}{% endif %}</td>
+                        <td style="padding:.85rem .5rem;color:var(--ink-soft);">{{ o.field('location') }}</td>
+                        <td style="padding:.85rem .5rem;color:var(--ink-soft);">{{ o.field('fellow_name') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

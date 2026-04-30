@@ -1,0 +1,51 @@
+{% extends '@theme/layout.twig' %}
+
+{% block title %}Nodes and Researchers · {{ site.name }}{% endblock %}
+
+{% block content %}
+<div class="wrap-wide">
+    <h1>Nodes and Researchers</h1>
+    <p class="lede">FLUXIONIC brings together {{ entries|length }} institutional nodes across Europe. Each node hosts one or more Principal Investigators and PhD researchers.</p>
+
+    {% if entries|length == 0 %}
+        <div class="empty-state">
+            <p>No nodes published yet.</p>
+        </div>
+    {% else %}
+        <div class="card-grid">
+            {% for node in entries %}
+                <a class="card" href="/nodes/{{ node.slug }}">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;margin-bottom:.5rem;">
+                        <div>
+                            <h3 style="margin:0;">{{ node.field('title') }}</h3>
+                            {% if node.field('location') %}
+                                <p class="card-meta" style="margin:.25rem 0 0;">{{ node.field('location') }}{% if node.field('country') %}, {{ node.field('country') }}{% endif %}</p>
+                            {% endif %}
+                        </div>
+                        {% if node.field('abbrev') %}
+                            <span style="background:var(--accent);color:#fff;font-size:.75rem;font-weight:600;padding:.25rem .6rem;border-radius:999px;white-space:nowrap;">{{ node.field('abbrev') }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-people">
+                        {% for i in 1..4 %}
+                            {% if node.field('pi_' ~ i ~ '_photo_url') %}
+                                <img src="{{ node.field('pi_' ~ i ~ '_photo_url') }}" alt="" title="{{ node.field('pi_' ~ i ~ '_name') }}">
+                            {% endif %}
+                        {% endfor %}
+                        {% for i in 1..4 %}
+                            {% if node.field('student_' ~ i ~ '_photo_url') %}
+                                <img src="{{ node.field('student_' ~ i ~ '_photo_url') }}" alt="" title="{{ node.field('student_' ~ i ~ '_name') }}">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% set pi_names = [] %}
+                    {% for i in 1..4 %}{% if node.field('pi_' ~ i ~ '_name') %}{% set pi_names = pi_names|merge([node.field('pi_' ~ i ~ '_name')]) %}{% endif %}{% endfor %}
+                    {% if pi_names|length > 0 %}
+                        <p style="margin-top:.75rem;font-size:.875rem;color:var(--ink-soft);">{{ pi_names|join(' · ') }}</p>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

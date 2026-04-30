@@ -1,21 +1,38 @@
 {% extends '@theme/layout.twig' %}
 
-{% block content %}
-<div class="wrap">
-    <h1>{{ site.name }}</h1>
-    <p class="lede">Welcome. This is your new Pebblestack site. Edit this page in the admin to make it your own — or create a Page with the slug <code>home</code> to replace this entirely.</p>
+{% block title %}FLUXIONIC · Marie Skłodowska-Curie Doctoral Network{% endblock %}
 
-    {% if recent_posts|length > 0 %}
-        <h2>Latest writing</h2>
-        {% for post in recent_posts %}
-            <a class="post-card" href="/blog/{{ post.slug }}">
-                <h2>{{ post.field('title', '(untitled)') }}</h2>
-                <div class="date">{{ (post.publishAt ?? post.createdAt)|date('F j, Y') }}</div>
-                {% if post.field('excerpt') %}
-                    <p>{{ post.field('excerpt') }}</p>
-                {% endif %}
-            </a>
-        {% endfor %}
-    {% endif %}
+{% block content %}
+<div class="wrap-wide">
+    <section style="text-align:center;padding:2rem 0 3rem;">
+        <h1 style="font-size:clamp(2.25rem, 6vw, 4rem);">Fluctuation-driven flows for next-generation ionic devices</h1>
+        <p class="lede" style="max-width:640px;margin:1rem auto 0;">FLUXIONIC is a Marie Skłodowska-Curie Doctoral Network training the next generation of researchers at the interface of nanofluidics, ionic transport, and machine-learning-driven simulation.</p>
+    </section>
+
+    <section class="card-grid">
+        <a class="card" href="/project">
+            <h3>The project</h3>
+            <p>Goals, work packages, and the science behind FLUXIONIC.</p>
+        </a>
+        <a class="card" href="/nodes">
+            <h3>Nodes and Researchers</h3>
+            <p>The institutions, principal investigators, and PhD researchers driving the network.</p>
+        </a>
+        <a class="card" href="/events">
+            <h3>Events</h3>
+            <p>Doctoral schools, workshops, network meetings.</p>
+        </a>
+        <a class="card" href="/news">
+            <h3>News &amp; publications</h3>
+            <p>Latest updates from the network, plus our peer-reviewed output.</p>
+        </a>
+    </section>
+
+    <section style="margin-top:4rem;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:.875rem;text-align:center;">
+        <img src="/assets/eu-flag.svg" alt="" style="height:48px;width:auto;border-radius:0;">
+        <p style="max-width:520px;margin:0;text-align:left;">
+            FLUXIONIC has received funding from the European Union's Horizon Europe research and innovation programme under the Marie Skłodowska-Curie Doctoral Network grant agreement.
+        </p>
+    </section>
 </div>
 {% endblock %}

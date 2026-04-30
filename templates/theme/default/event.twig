@@ -1,0 +1,32 @@
+{% extends '@theme/layout.twig' %}
+{% set meta_description = entry.field('meta_description', entry.field('summary')) %}
+
+{% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
+
+{% block content %}
+<article class="wrap">
+    <p class="meta"><a href="/events">← All events</a></p>
+    <h1>{{ entry.field('title') }}</h1>
+
+    <div class="detail-meta">
+        {% if entry.field('starts_on') %}
+            <span><strong>When</strong>{{ entry.field('starts_on')|date('F j, Y') }}{% if entry.field('ends_on') and entry.field('ends_on') != entry.field('starts_on') %} – {{ entry.field('ends_on')|date('F j, Y') }}{% endif %}</span>
+        {% endif %}
+        {% if entry.field('location') %}<span><strong>Where</strong>{{ entry.field('location') }}</span>{% endif %}
+    </div>
+
+    {% if entry.field('cover_url') %}
+        <img src="{{ entry.field('cover_url') }}" alt="" style="width:100%;border-radius:8px;margin-bottom:1.5rem;">
+    {% endif %}
+
+    {% if entry.field('summary') %}<p class="lede">{{ entry.field('summary') }}</p>{% endif %}
+
+    {% if entry.field('body') %}
+        <div class="article-body">{{ entry.field('body')|markdown }}</div>
+    {% endif %}
+
+    {% if entry.field('external_url') %}
+        <p><a href="{{ entry.field('external_url') }}" rel="noopener" target="_blank">Event website →</a></p>
+    {% endif %}
+</article>
+{% endblock %}

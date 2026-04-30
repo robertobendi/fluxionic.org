@@ -1,0 +1,33 @@
+{% extends '@theme/layout.twig' %}
+{% set meta_description = entry.field('meta_description', entry.field('summary')) %}
+
+{% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
+
+{% block content %}
+<article class="wrap">
+    <p class="meta"><a href="/outreach">← All volunteering | outreach</a></p>
+    <h1>{{ entry.field('title') }}</h1>
+
+    <div class="detail-meta">
+        {% if entry.field('date_on') %}<span><strong>Date</strong>{{ entry.field('date_on')|date('F j, Y') }}</span>{% endif %}
+        {% if entry.field('location') %}<span><strong>Location</strong>{{ entry.field('location') }}</span>{% endif %}
+        {% if entry.field('fellow_name') %}<span><strong>Fellow</strong>{{ entry.field('fellow_name') }}</span>{% endif %}
+    </div>
+
+    {% if entry.field('summary') %}<p class="lede">{{ entry.field('summary') }}</p>{% endif %}
+
+    {% if entry.field('role') %}
+        <h2>Role</h2>
+        <p>{{ entry.field('role')|nl2br }}</p>
+    {% endif %}
+
+    {% if entry.field('body') %}
+        <div class="article-body">{{ entry.field('body')|markdown }}</div>
+    {% endif %}
+
+    {% if entry.field('photos') %}
+        <h2>Photos</h2>
+        <div class="article-body">{{ entry.field('photos')|markdown }}</div>
+    {% endif %}
+</article>
+{% endblock %}
