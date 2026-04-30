@@ -1,41 +1,8 @@
-{% extends '@theme/layout.twig' %}
-{% set meta_description = entry.field('meta_description', entry.field('summary')) %}
-
-{% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
-
-{% block content %}
-<section class="hero hero-soft">
-    <div class="container">
-        <div class="hero-narrow">
-            <a class="back-link" href="/events">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                All events
-            </a>
-            <h1>{{ entry.field('title') }}</h1>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-        <article class="article">
-            <div class="detail-meta">
-                {% if entry.field('starts_on') %}
-                    <span><span class="label">When</span> {{ entry.field('starts_on')|date('F j, Y') }}{% if entry.field('ends_on') and entry.field('ends_on') != entry.field('starts_on') %} – {{ entry.field('ends_on')|date('F j, Y') }}{% endif %}</span>
-                {% endif %}
-                {% if entry.field('location') %}<span><span class="label">Where</span> {{ entry.field('location') }}</span>{% endif %}
-            </div>
-            {% if entry.field('cover_url') %}
-                <img src="{{ entry.field('cover_url') }}" alt="" style="width:100%;border-radius:.75rem;margin-bottom:1.5rem;">
-            {% endif %}
-            {% if entry.field('summary') %}
-                <p style="font-size:1.125rem;color:var(--dark);font-weight:500;">{{ entry.field('summary') }}</p>
-            {% endif %}
-            {% if entry.field('body') %}{{ entry.field('body')|markdown }}{% endif %}
-            {% if entry.field('external_url') %}
-                <p><a href="{{ entry.field('external_url') }}" rel="noopener" target="_blank" class="btn btn-outline">Event website →</a></p>
-            {% endif %}
-        </article>
-    </div>
-</section>
-{% endblock %}
+{# Custom event pages override the default. les-houches-2026 has its own
+   full-page design with its own header/footer (matches the legacy SPA's
+   /events/* branch that bypassed the global layout). #}
+{% if entry.slug == 'les-houches-2026' %}
+    {% include '@theme/event-les-houches.twig' %}
+{% else %}
+    {% include '@theme/_event-default.twig' %}
+{% endif %}

@@ -363,6 +363,22 @@ foreach ($fellows as $i => [$slug, $name, $node_slug, $node_label, $pi, $topic])
 echo "Inserted " . count($fellows) . " fellows.\n";
 
 /* -------------------------------------------------------------------------
+ * Events — only the routable URL is needed; the Les Houches detail page
+ * is rendered by templates/theme/default/event-les-houches.twig.
+ * ----------------------------------------------------------------------- */
+insert_entry($db, 'events', 'les-houches-2026', [
+    'title'        => 'Nonequilibrium Physics in Nanoconfinement',
+    'slug'         => 'les-houches-2026',
+    'starts_on'    => '2026-09-14',
+    'ends_on'      => '2026-09-25',
+    'location'     => 'Les Houches, French Alps',
+    'summary'      => 'Les Houches – WE Heraeus School. A two-week school covering the fundamental physics of nanoscale transport — experimental, theoretical and computational methods. Part of the CECAM Flagship Program.',
+    'cover_url'    => '/assets/images/les-houches-mountains.png',
+    'external_url' => 'https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473',
+    'meta_description' => 'Les Houches – WE Heraeus School on Nonequilibrium Physics in Nanoconfinement, September 14–25, 2026.',
+], ts('2026-09-14'));
+
+/* -------------------------------------------------------------------------
  * Conferences | Workshops
  * ----------------------------------------------------------------------- */
 $conferences = [

@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Les Houches 2026 · Nonequilibrium Physics in Nanoconfinement</title>
+    <meta name="description" content="Les Houches – WE Heraeus School on Nonequilibrium Physics in Nanoconfinement, September 14–25, 2026, French Alps.">
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0067FF;
+            --primary-dark: #005EE9;
+            --primary-light: #4A8FFF;
+            --dark: #0F172A;
+            --gray-900: #111827;
+            --gray-700: #374151;
+            --gray-600: #4B5563;
+            --gray-400: #9CA3AF;
+            --gray-300: #D1D5DB;
+            --gray-text: #364151;
+            --gray-100: #F3F4F6;
+            --gray-50: #F9FAFB;
+            --light-blue: #E7F6FF;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+        body {
+            font-family: 'Lato', system-ui, sans-serif;
+            color: var(--dark);
+            background: #fff;
+            line-height: 1.65;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', system-ui, sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--dark);
+        }
+        a { color: inherit; text-decoration: none; transition: color .2s ease; }
+        img { max-width: 100%; height: auto; display: block; }
+        ul { list-style: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: transparent; }
+
+        .icon { width: 1rem; height: 1rem; display: inline-block; vertical-align: middle; }
+        .icon-lg { width: 1.5rem; height: 1.5rem; }
+
+        /* ======= Header (fixed dark) ======= */
+        .lh-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+            background: linear-gradient(to right, var(--dark), var(--gray-900));
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+        }
+        .lh-header .inner {
+            max-width: 80rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 4rem;
+        }
+        .lh-brand { display: flex; align-items: center; gap: 1rem; }
+        .lh-brand .back { font-size: .75rem; color: var(--gray-400); }
+        .lh-brand .back:hover { color: #fff; }
+        .lh-brand .sep { color: var(--gray-600); }
+        .lh-brand .title { font-family: 'Poppins',sans-serif; font-weight: 700; font-size: .875rem; }
+        @media (min-width:768px) { .lh-brand .title { font-size: 1rem; } }
+
+        .lh-nav { display: none; align-items: center; gap: .25rem; }
+        @media (min-width:1024px) { .lh-nav { display: flex; } }
+        .lh-nav a {
+            padding: .5rem .75rem;
+            font-size: .875rem;
+            border-radius: .5rem;
+            color: var(--gray-300);
+            transition: background .2s ease, color .2s ease;
+        }
+        .lh-nav a:hover { color: #fff; background: rgba(255,255,255,.1); }
+        .lh-nav a.is-active { background: var(--primary); color: #fff; }
+
+        .lh-toggle, .lh-toggle-label { display: none; }
+        .lh-toggle-label { padding: .5rem; cursor: pointer; color: #fff; }
+        @media (max-width:1023px) {
+            .lh-toggle-label { display: inline-flex; }
+            .lh-mnav {
+                display: none;
+                position: absolute; top: 4rem; left: 0; right: 0;
+                background: var(--dark);
+                border-top: 1px solid var(--gray-700);
+                padding: .75rem 1rem 1rem;
+            }
+            .lh-mnav a {
+                display: block;
+                padding: .65rem .75rem;
+                font-size: .875rem;
+                color: var(--gray-300);
+                border-radius: .5rem;
+            }
+            .lh-mnav a:hover { background: rgba(255,255,255,.1); color: #fff; }
+            .lh-toggle:checked ~ .lh-mnav { display: block; }
+        }
+
+        /* ======= Hero ======= */
+        .lh-hero { padding-top: 4rem; }
+        .lh-hero-inner {
+            position: relative;
+            color: #fff;
+            padding: 6rem 0;
+            overflow: hidden;
+        }
+        @media (min-width:1024px) { .lh-hero-inner { padding: 8rem 0; } }
+        .lh-hero-bg {
+            position: absolute; inset: 0;
+        }
+        .lh-hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+        .lh-hero-bg::after {
+            content: "";
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(15, 23, 42, .8) 0%,
+                rgba(15, 23, 42, .7) 50%,
+                rgba(15, 23, 42, .9) 100%);
+        }
+        .lh-hero-content {
+            position: relative;
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+        .lh-pill {
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: .5rem 1rem;
+            background: rgba(255,255,255,.1);
+            border-radius: 9999px;
+            font-size: .875rem;
+            margin-bottom: 1.5rem;
+        }
+        .lh-pill .sep { color: var(--gray-400); }
+        .lh-hero-content h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        @media (min-width:768px) { .lh-hero-content h1 { font-size: 3rem; } }
+        @media (min-width:1024px) { .lh-hero-content h1 { font-size: 3.75rem; } }
+        .lh-hero-sub {
+            font-size: 1.25rem;
+            color: var(--primary-light);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        @media (min-width:768px) { .lh-hero-sub { font-size: 1.5rem; } }
+        .lh-hero-desc {
+            font-size: 1.0625rem;
+            color: var(--gray-300);
+            max-width: 48rem;
+            margin: 0 auto 2.5rem;
+            line-height: 1.75;
+        }
+        .lh-cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        .lh-btn {
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: .75rem;
+            transition: all .25s ease;
+            color: #fff;
+        }
+        .lh-btn-primary {
+            background: var(--primary);
+            box-shadow: 0 8px 16px rgba(0, 103, 255, .3);
+        }
+        .lh-btn-primary:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+            color: #fff;
+        }
+        .lh-btn-ghost {
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.2);
+        }
+        .lh-btn-ghost:hover { background: rgba(255,255,255,.2); color: #fff; }
+        .lh-btn-light {
+            background: #fff;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .lh-btn-light:hover { background: var(--gray-100); transform: scale(1.05); color: var(--primary); }
+
+        /* ======= Info cards (overlap hero) ======= */
+        .lh-info-cards {
+            max-width: 64rem;
+            margin: -3rem auto 0;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+        .lh-info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        @media (min-width:768px) { .lh-info-grid { grid-template-columns: repeat(3, 1fr); } }
+        .lh-info-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,.1);
+            border: 1px solid var(--gray-100);
+        }
+        .lh-info-card .ico {
+            width: 3rem; height: 3rem;
+            background: linear-gradient(to bottom right, rgba(0,103,255,.1), var(--light-blue));
+            color: var(--primary);
+            border-radius: .75rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .lh-info-card h3 { font-size: 1.0625rem; margin-bottom: .25rem; }
+        .lh-info-card p { color: var(--gray-text); font-size: .9375rem; }
+
+        /* ======= Section base ======= */
+        .lh-section { padding: 5rem 0; }
+        .lh-section .inner { max-width: 64rem; margin: 0 auto; padding: 0 1rem; }
+        .lh-section.muted { background: var(--gray-50); }
+        .lh-section.primary {
+            background: linear-gradient(to bottom right, var(--primary), var(--primary-dark));
+            color: #fff;
+        }
+        .lh-section.primary h2, .lh-section.primary p { color: #fff; }
+        .lh-section-title { display: flex; align-items: center; gap: 1rem; }
+        .lh-section-title .ico {
+            width: 3rem; height: 3rem;
+            background: linear-gradient(to bottom right, var(--primary), var(--primary-dark));
+            color: #fff;
+            border-radius: .75rem;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .lh-section-title h2 { font-size: 1.5rem; }
+        @media (min-width:768px) { .lh-section-title h2 { font-size: 1.875rem; } }
+
+        .lh-prose {
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 5rem 1rem;
+        }
+        .lh-prose p { color: var(--gray-text); font-size: 1.0625rem; margin-bottom: 1.5rem; line-height: 1.8; }
+        .lh-areas {
+            background: linear-gradient(to bottom right, var(--light-blue), #fff);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+        .lh-areas h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+        .lh-areas li { display: flex; gap: .75rem; align-items: flex-start; margin-bottom: .75rem; color: var(--gray-text); }
+        .lh-areas li::before {
+            content: ""; flex-shrink: 0; width: .5rem; height: .5rem;
+            background: var(--primary); border-radius: 9999px; margin-top: .55rem;
+        }
+        .lh-areas li strong { color: var(--dark); }
+
+        /* ======= Practical ======= */
+        .lh-cards-2 { display: grid; gap: 2rem; grid-template-columns: 1fr; margin-top: 3rem; }
+        @media (min-width:768px) { .lh-cards-2 { grid-template-columns: repeat(2, 1fr); } }
+        .lh-white-card { background: #fff; padding: 2rem; border-radius: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+        .lh-white-card h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+        .lh-date-list li {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: .75rem;
+            border-radius: .5rem;
+            background: var(--gray-50);
+            margin-bottom: .5rem;
+        }
+        .lh-date-list li.highlight { background: rgba(0,103,255,.1); }
+        .lh-date-list li .event-name { color: var(--gray-text); }
+        .lh-date-list li .date { font-weight: 600; color: var(--dark); }
+        .lh-date-list li.highlight .date { color: var(--primary); }
+        .lh-fee { font-size: 2rem; font-weight: 700; color: var(--dark); }
+        .lh-fee-sub { font-size: .875rem; margin-left: .5rem; color: var(--gray-text); }
+        .lh-divider { border-top: 1px solid var(--gray-100); padding-top: 1rem; margin-top: 1rem; }
+        .lh-bullets { margin-top: 2rem; }
+        .lh-bullets li { display: flex; gap: .75rem; align-items: flex-start; color: var(--gray-text); margin-bottom: .75rem; }
+        .lh-bullets li::before {
+            content: ""; flex-shrink: 0; width: .375rem; height: .375rem;
+            background: var(--primary); border-radius: 9999px; margin-top: .55rem;
+        }
+
+        /* ======= Lectures ======= */
+        .lh-speaker-grid {
+            display: grid; gap: 1rem;
+            grid-template-columns: 1fr;
+            margin-top: 1.5rem;
+        }
+        @media (min-width:640px) { .lh-speaker-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width:1024px) { .lh-speaker-grid { grid-template-columns: repeat(3, 1fr); } }
+        .lh-speaker {
+            background: linear-gradient(to bottom right, rgba(231,246,255,.5), #fff);
+            padding: 1rem;
+            border-radius: .75rem;
+        }
+        .lh-speaker .name { font-weight: 500; color: var(--dark); }
+        .lh-speaker .aff { font-size: .875rem; color: var(--gray-text); margin: 0; }
+
+        .lh-program {
+            background: linear-gradient(to bottom right, rgba(0,103,255,.05), rgba(231,246,255,.3));
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-top: 3rem;
+        }
+        .lh-program h3 { font-size: 1.25rem; margin-bottom: 1rem; }
+        .lh-program ul { display: grid; gap: .75rem; grid-template-columns: 1fr; color: var(--gray-text); }
+        @media (min-width:768px) { .lh-program ul { grid-template-columns: repeat(2, 1fr); } }
+        .lh-program li { display: flex; align-items: center; gap: .5rem; }
+        .lh-program li::before {
+            content: ""; flex-shrink: 0; width: .375rem; height: .375rem;
+            background: var(--primary); border-radius: 9999px;
+        }
+
+        /* ======= School info ======= */
+        .lh-school-grid {
+            display: grid; gap: 3rem; align-items: center;
+            grid-template-columns: 1fr;
+            margin-top: 3rem;
+        }
+        @media (min-width:768px) { .lh-school-grid { grid-template-columns: repeat(2, 1fr); } }
+        .lh-school-text p { color: var(--gray-text); margin-bottom: 1rem; }
+        .lh-school-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin-top: 1rem;
+        }
+        .lh-school-card .addr { font-size: .875rem; color: var(--gray-text); }
+        .lh-school-card .website {
+            display: inline-flex; align-items: center; gap: .5rem;
+            color: var(--primary);
+            margin-top: 1rem;
+            font-size: .875rem;
+            font-weight: 500;
+        }
+        .lh-school-card .website:hover { color: var(--primary-dark); }
+        .lh-school-aside {
+            border-radius: 1rem;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,.05);
+        }
+        .lh-school-aside .photo { width: 100%; height: 12rem; object-fit: cover; }
+        .lh-school-aside .meta {
+            background: linear-gradient(to bottom right, rgba(0,103,255,.1), var(--light-blue));
+            padding: 2rem;
+            text-align: center;
+        }
+        .lh-school-aside .meta img { height: 4rem; object-fit: contain; margin: 0 auto 1rem; }
+        .lh-school-aside .alt { font-size: 1.5rem; font-weight: 700; font-family: 'Poppins',sans-serif; color: var(--dark); }
+        .lh-school-aside .alt-sub { color: var(--gray-text); }
+        .lh-school-aside .alt-where { font-size: .875rem; color: var(--gray-text); margin-top: .5rem; }
+
+        /* ======= Sponsors ======= */
+        .lh-sponsors-row {
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+            gap: 3rem; margin-top: 2rem;
+        }
+        .lh-sponsor-tile {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: .75rem;
+        }
+        .lh-sponsor-tile img { height: 4rem; object-fit: contain; }
+        .lh-sponsor-note {
+            margin-top: 3rem; padding-top: 2rem;
+            border-top: 1px solid var(--gray-100);
+            text-align: center;
+            color: var(--gray-text);
+        }
+        .lh-sponsor-note a { color: var(--primary); font-weight: 500; }
+        .lh-sponsor-note a:hover { color: var(--primary-dark); }
+
+        /* ======= Footer ======= */
+        .lh-footer { background: var(--dark); color: #fff; padding: 2rem 0; text-align: center; }
+        .lh-footer p { color: var(--gray-400); font-size: .875rem; }
+        .lh-footer a { color: var(--primary); }
+        .lh-footer a:hover { color: var(--primary-light); }
+
+        /* ======= Scroll-to-top ======= */
+        .lh-scroll-top {
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 3rem; height: 3rem;
+            border-radius: 9999px;
+            background: var(--primary);
+            color: #fff;
+            display: none;
+            align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,.15);
+            z-index: 40;
+            transition: all .25s ease;
+        }
+        .lh-scroll-top:hover { background: var(--primary-dark); transform: scale(1.1); color: #fff; }
+        .lh-scroll-top.is-shown { display: inline-flex; }
+    </style>
+</head>
+<body>
+
+<header class="lh-header">
+    <div class="inner">
+        <div class="lh-brand">
+            <a href="/" class="back">← Fluxionic</a>
+            <span class="sep">|</span>
+            <span class="title">Les Houches 2026</span>
+        </div>
+        <input type="checkbox" id="lh-toggle" class="lh-toggle">
+        <label for="lh-toggle" class="lh-toggle-label" aria-label="Toggle navigation">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </label>
+        <nav class="lh-nav" aria-label="Sections">
+            <a href="#home">Home</a>
+            <a href="#practical">Practical Information</a>
+            <a href="#lectures">Lectures &amp; Seminars</a>
+            <a href="#leshouches">Les Houches School</a>
+            <a href="#registration">Registration</a>
+            <a href="#sponsors">Sponsors</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <nav class="lh-mnav" aria-label="Mobile sections">
+            <a href="#home">Home</a>
+            <a href="#practical">Practical Information</a>
+            <a href="#lectures">Lectures &amp; Seminars</a>
+            <a href="#leshouches">Les Houches School</a>
+            <a href="#registration">Registration</a>
+            <a href="#sponsors">Sponsors</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<section id="home" class="lh-hero">
+    <div class="lh-hero-inner">
+        <div class="lh-hero-bg">
+            <img src="/assets/images/les-houches-mountains.png" alt="">
+        </div>
+        <div class="lh-hero-content">
+            <div class="lh-pill">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span>September 14–25, 2026</span>
+                <span class="sep">|</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Les Houches, France</span>
+            </div>
+            <h1>Nonequilibrium Physics<br>in Nanoconfinement</h1>
+            <p class="lh-hero-sub">Les Houches – WE Heraeus School</p>
+            <p class="lh-hero-desc">
+                Controlling transport of fluids and charged particles in nanoscale confinement is a key challenge in many areas of science and engineering. In extreme confinement, the conventional macroscopic description of transport breaks down and fundamentally new approaches connecting atomistic description with experimental observations are required.
+            </p>
+            <div class="lh-cta-row">
+                <a href="#registration" class="lh-btn lh-btn-primary">Register Now</a>
+                <a href="#practical" class="lh-btn lh-btn-ghost">Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="lh-info-cards">
+        <div class="lh-info-grid">
+            <div class="lh-info-card">
+                <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                <h3>Dates</h3>
+                <p>September 14–25, 2026</p>
+            </div>
+            <div class="lh-info-card">
+                <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <h3>Registration Deadline</h3>
+                <p>April 30th, 2026</p>
+            </div>
+            <div class="lh-info-card">
+                <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <h3>Location</h3>
+                <p>Les Houches, French Alps</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="lh-prose">
+        <p>During the past century, significant progress has been made in expanding our atomistic understanding of systems in equilibrium. However, to understand life and much of the technology that sustains life, we need to be able to understand and control non-equilibrium processes. The past two decades have witnessed a paradigm shift away from studying equilibrium behaviour to the study of spatial and temporal organisation far from equilibrium.</p>
+        <p>This development is not just driven by scientific curiosity but by the realisation that a sustainable society is one that minimises waste in the form of heat and materials. To achieve these goals, we need to understand how living organisms combine robustness with selectivity and energy efficiency, and we have to learn how to transpose the underlying biological design principles to processes with inanimate, nano-scale building blocks.</p>
+        <p>Recent developments in the design of nano-pores have demonstrated that very large gains in the separation efficiency are possible by an appropriate nano-scale functionalization of the channels through which transport takes place. Transport through nano-pores is almost always coupled transport, coupling fluxes that would be independent in bulk materials.</p>
+
+        <div class="lh-areas">
+            <h3>Key Research Areas</h3>
+            <ul>
+                <li><span><strong>Fluid flow:</strong> effects of confinement on mass transport, fluid viscosity, surface friction, phoretic flows.</span></li>
+                <li><span><strong>Charge flow:</strong> dynamics of free/polarisation charges in confinement, effect of externally applied static and oscillating electric fields, linear and non-linear dielectric properties, ionic/polarisation currents.</span></li>
+                <li><span><strong>Reactivity:</strong> surface effects, chemical reactions, activation, confinement-specific bond formation/dissociation.</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="practical" class="lh-section muted">
+    <div class="inner">
+        <div class="lh-section-title">
+            <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+            <h2>Practical Information</h2>
+        </div>
+
+        <div class="lh-cards-2">
+            <div class="lh-white-card">
+                <h3>Key Dates</h3>
+                <ul class="lh-date-list">
+                    <li><span class="event-name">Registration opens</span><span class="date">January 4, 2026</span></li>
+                    <li class="highlight"><span class="event-name">Registration deadline</span><span class="date">April 30, 2026</span></li>
+                    <li><span class="event-name">Notification of acceptance</span><span class="date">May 15, 2026</span></li>
+                    <li><span class="event-name">School begins (arrival day)</span><span class="date">September 14, 2026</span></li>
+                    <li><span class="event-name">School ends (morning session)</span><span class="date">September 25, 2026</span></li>
+                </ul>
+            </div>
+            <div class="lh-white-card">
+                <h3>Fees &amp; Support</h3>
+                <p><span class="lh-fee">€474</span><span class="lh-fee-sub">participation fee</span></p>
+                <p style="font-size:.875rem;color:var(--gray-text);">Includes lodging and meals for the entire school period. This is a reduced participation fee that is possible due to a generous donation from the WE-Heraeus Foundation.</p>
+                <div class="lh-divider">
+                    <p style="font-size:.875rem;color:var(--gray-text);"><strong style="color:var(--dark);">Financial support available:</strong> we can waive the full participation fee for a number of applicants. If you want to apply for the waiver, please indicate and justify this in the application.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lh-white-card" style="margin-top:2rem;">
+            <h3>Important Information</h3>
+            <ul class="lh-bullets">
+                <li>Registration is through the CECAM website as part of the CECAM Flagship Program.</li>
+                <li>Each participant is expected to present a poster on their current research work.</li>
+                <li>The School opens at 15:00 on September 14th — please do not arrive earlier.</li>
+                <li>On the last day, bedrooms must be vacated by 9:00 AM.</li>
+                <li>It is not possible to extend your stay before or after the indicated dates.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="lectures" class="lh-section">
+    <div class="inner">
+        <div class="lh-section-title">
+            <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h2>Lectures &amp; Seminars</h2>
+        </div>
+
+        <p style="margin:2rem 0 3rem;color:var(--gray-text);font-size:1.0625rem;max-width:48rem;">
+            The school will host top international speakers who will cover the fundamental physics of nanoscale transport, experimental, theoretical and computational methods, and conduct in-depth discussions of the open challenges in the field.
+        </p>
+
+        <h3 style="font-size:1.25rem;margin-bottom:1.5rem;">Confirmed Speakers</h3>
+        <div class="lh-speaker-grid">
+            <div class="lh-speaker"><p class="name">Lydéric Bocquet</p><p class="aff">École Normale Supérieure-PSL</p></div>
+            <div class="lh-speaker"><p class="name">Daan Frenkel</p><p class="aff">University of Cambridge</p></div>
+            <div class="lh-speaker"><p class="name">Mischa Bonn</p><p class="aff">MPI for Polymer Research</p></div>
+            <div class="lh-speaker"><p class="name">Radha Boya</p><p class="aff">University of Manchester</p></div>
+            <div class="lh-speaker"><p class="name">Ying Jiang</p><p class="aff">Peking University, Beijing</p></div>
+            <div class="lh-speaker"><p class="name">Alexandre Tkachenko</p><p class="aff">Université du Luxembourg</p></div>
+            <div class="lh-speaker"><p class="name">Angelos Michaelides</p><p class="aff">University of Cambridge</p></div>
+            <div class="lh-speaker"><p class="name">Benjamin Rotenberg</p><p class="aff">Sorbonne University</p></div>
+            <div class="lh-speaker"><p class="name">Roland Netz</p><p class="aff">Freie Universität Berlin</p></div>
+            <div class="lh-speaker"><p class="name">Gabor Csanyi</p><p class="aff">University of Cambridge</p></div>
+            <div class="lh-speaker"><p class="name">David Limmer</p><p class="aff">UC Berkeley</p></div>
+            <div class="lh-speaker"><p class="name">Erika Eiser</p><p class="aff">NTNU</p></div>
+            <div class="lh-speaker"><p class="name">Celine Merlet</p><p class="aff">University of Toulouse</p></div>
+            <div class="lh-speaker"><p class="name">Claire Chassagne</p><p class="aff">TU Delft</p></div>
+            <div class="lh-speaker"><p class="name">Marialore Sulpizi</p><p class="aff">Ruhr Universität Bochum</p></div>
+            <div class="lh-speaker"><p class="name">Marie-Laure Bocquet</p><p class="aff">École Normale Supérieure-PSL</p></div>
+            <div class="lh-speaker"><p class="name">Susan Perkin</p><p class="aff">University of Oxford</p></div>
+            <div class="lh-speaker"><p class="name">Nikita Kavokine</p><p class="aff">EPFL</p></div>
+            <div class="lh-speaker"><p class="name">Rene van Roij</p><p class="aff">University of Utrecht</p></div>
+            <div class="lh-speaker"><p class="name">Patrick Warren</p><p class="aff">STFC</p></div>
+            <div class="lh-speaker"><p class="name">Chiara Gattinoni</p><p class="aff">King's College</p></div>
+        </div>
+
+        <div class="lh-program">
+            <h3>Program Structure</h3>
+            <p style="color:var(--gray-text);margin-bottom:1rem;">The school will be structured around the three physical processes pertinent to nanoscale transport: fluid flow, charge flow, and reactivity. We will organize core blocks of lectures covering:</p>
+            <ul>
+                <li>Fundamental theoretical concepts of nanofluidics</li>
+                <li>Multiscale computational approaches</li>
+                <li>Experimental techniques</li>
+                <li>Nanomaterials production and characterization</li>
+            </ul>
+            <p style="font-size:.875rem;color:var(--gray-text);margin-top:1.5rem;font-style:italic;">The detailed program will be announced soon.</p>
+        </div>
+    </div>
+</section>
+
+<section id="leshouches" class="lh-section muted">
+    <div class="inner">
+        <div class="lh-section-title">
+            <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></div>
+            <h2>Les Houches School of Physics</h2>
+        </div>
+
+        <div class="lh-school-grid">
+            <div class="lh-school-text">
+                <p>Les Houches is a village located in Chamonix valley, in the French Alps. Established in 1951, the Les Houches Physics School is situated at 1150 m above sea level in natural surroundings, with breathtaking views on the Mont-Blanc mountain range.</p>
+                <p>Les Houches Physics School belongs to the Université Grenoble Alpes (UGA). The 5 School Partners are UGA, the Institut National Polytechnique (Grenoble-INP), the Centre National de la Recherche Scientifique (CNRS), the Commissariat à l'Energie Atomique (CEA), and the École Normale Supérieure de Lyon (ENS Lyon).</p>
+                <div class="lh-school-card">
+                    <p style="font-weight:600;color:var(--dark);margin-bottom:.5rem;">Ecole de Physique des Houches</p>
+                    <p class="addr">149 Chemin de la Côte<br>F-74310 Les Houches, France</p>
+                    <a href="https://www.houches-school-physics.com/" target="_blank" rel="noopener" class="website">
+                        Visit website
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="lh-school-aside">
+                <img class="photo" src="/assets/images/les-houches-mountains.png" alt="Mont Blanc mountain range from Les Houches">
+                <div class="meta">
+                    <img src="/assets/images/sponsors/eph-logo.jpg" alt="École de Physique des Houches">
+                    <p class="alt">1150 m</p>
+                    <p class="alt-sub">above sea level</p>
+                    <p class="alt-where">French Alps · Chamonix Valley</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="registration" class="lh-section primary">
+    <div class="inner" style="text-align:center;">
+        <h2 style="font-size:1.875rem;margin-bottom:1.5rem;">Registration</h2>
+        <p style="color:rgba(255,255,255,.9);font-size:1.0625rem;max-width:42rem;margin:0 auto 2rem;">
+            Registration is through the CECAM website. You will need to create a CECAM account if you don't have one. As part of your application, please provide a motivation letter and a reference letter. The motivation letter is to be uploaded at the time of application on the CECAM website, while the reference letter needs to be sent separately to the address: <span style="white-space:nowrap;">jd489@cam.ac.uk</span>.
+        </p>
+        <a href="https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473" target="_blank" rel="noopener" class="lh-btn lh-btn-light">
+            Register on CECAM
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <p style="color:rgba(255,255,255,.7);font-size:.875rem;margin-top:1.5rem;">Registration deadline: April 30th, 2026</p>
+    </div>
+</section>
+
+<section id="sponsors" class="lh-section">
+    <div class="inner">
+        <div class="lh-section-title">
+            <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></div>
+            <h2>Sponsors</h2>
+        </div>
+
+        <div style="text-align:center;margin-top:3rem;">
+            <p style="color:var(--gray-text);margin-bottom:2rem;">The event is generously sponsored by the Wilhelm and Else Heraeus Foundation.</p>
+            <div class="lh-sponsors-row">
+                <div class="lh-sponsor-tile"><img src="/assets/images/sponsors/heraeus.png" alt="Wilhelm und Else Heraeus-Stiftung"></div>
+                <div class="lh-sponsor-tile"><img src="/assets/images/sponsors/eph-logo.jpg" alt="École de Physique des Houches"></div>
+                <div class="lh-sponsor-tile"><img src="/assets/images/sponsors/cecam-fr-ra.png" alt="CECAM-FR-RA"></div>
+            </div>
+        </div>
+
+        <div class="lh-sponsor-note">
+            <p>The school is a part of PhD training program of the research-training network <a href="/">DN-FLUXIONIC</a>.</p>
+            <p>The school is a part of the <a href="https://www.cecam.org" target="_blank" rel="noopener">CECAM Flagship Program</a> through the <a href="https://fr-ra.cecam.org/" target="_blank" rel="noopener">CECAM-FR-RA node</a>.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="lh-section muted">
+    <div class="inner" style="text-align:center;max-width:48rem;">
+        <div class="lh-section-title" style="justify-content:center;">
+            <div class="ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <h2>Contact</h2>
+        </div>
+        <p style="margin:2rem 0;color:var(--gray-text);">For any further inquiries, please contact us through the CECAM website.</p>
+        <a href="https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473" target="_blank" rel="noopener" class="lh-btn lh-btn-primary">
+            Contact via CECAM
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+    </div>
+</section>
+
+<footer class="lh-footer">
+    <p>&copy; {{ "now"|date('Y') }} Les Houches – WE Heraeus School · <a href="/">FLUXIONIC</a></p>
+</footer>
+
+<button id="lh-scroll-top" class="lh-scroll-top" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+(function () {
+    var navLinks = document.querySelectorAll('.lh-nav a, .lh-mnav a');
+    var sections = Array.from(document.querySelectorAll('section[id]'));
+    var scrollTop = document.getElementById('lh-scroll-top');
+    var toggle = document.getElementById('lh-toggle');
+
+    function setActive() {
+        var pos = window.scrollY + 100;
+        var current = sections[0] && sections[0].id;
+        for (var i = 0; i < sections.length; i++) {
+            if (sections[i].offsetTop <= pos) current = sections[i].id;
+        }
+        navLinks.forEach(function (link) {
+            var href = link.getAttribute('href');
+            if (href === '#' + current) link.classList.add('is-active');
+            else link.classList.remove('is-active');
+        });
+        if (scrollTop) {
+            if (window.scrollY > 300) scrollTop.classList.add('is-shown');
+            else scrollTop.classList.remove('is-shown');
+        }
+    }
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+
+    if (scrollTop) scrollTop.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.querySelectorAll('.lh-mnav a').forEach(function (a) {
+        a.addEventListener('click', function () { if (toggle) toggle.checked = false; });
+    });
+})();
+</script>
+
+</body>
+</html>

@@ -3,8 +3,44 @@
 {% block title %}FLUXIONIC · Marie Skłodowska-Curie Doctoral Network{% endblock %}
 
 {% block content %}
-<section class="hero hero-tall">
-    <div class="container">
+<section class="hero hero-tall" style="position:relative;overflow:hidden;">
+    {# Animated SVG background — channels with particles flowing through, plus
+       free-floating Brownian-style particles. Pure SMIL, no JS required. #}
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;" aria-hidden="true">
+        <svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <path id="ch1" d="M-100,150 C100,130 300,170 500,150 C700,130 900,170 1100,150 C1300,130 1400,150 1500,150"/>
+                <path id="ch2" d="M-100,280 C150,300 350,260 550,280 C750,300 950,260 1150,280 C1350,300 1450,280 1500,280"/>
+                <path id="ch3" d="M-100,400 C200,380 400,420 600,400 C800,380 1000,420 1200,400 C1400,380 1500,400 1500,400"/>
+                <path id="ch4" d="M-100,500 C100,520 300,480 500,500 C700,520 900,480 1100,500 C1300,520 1500,500 1500,500"/>
+            </defs>
+            <use href="#ch1" fill="none" stroke="#0067FF" stroke-width="1" opacity="0.06"/>
+            <use href="#ch2" fill="none" stroke="#0067FF" stroke-width="1" opacity="0.06"/>
+            <use href="#ch3" fill="none" stroke="#0067FF" stroke-width="1" opacity="0.06"/>
+            <use href="#ch4" fill="none" stroke="#0067FF" stroke-width="1" opacity="0.06"/>
+
+            <circle r="4"   fill="#0067FF" opacity="0.25"><animateMotion dur="7s"  repeatCount="indefinite" begin="0s"><mpath href="#ch1"/></animateMotion></circle>
+            <circle r="2.5" fill="#0067FF" opacity="0.2" ><animateMotion dur="9s"  repeatCount="indefinite" begin="3s"><mpath href="#ch1"/></animateMotion></circle>
+            <circle r="3"   fill="#0067FF" opacity="0.15"><animateMotion dur="11s" repeatCount="indefinite" begin="6s"><mpath href="#ch1"/></animateMotion></circle>
+            <circle r="3.5" fill="#0067FF" opacity="0.25"><animateMotion dur="8s"  repeatCount="indefinite" begin="1s"><mpath href="#ch2"/></animateMotion></circle>
+            <circle r="2"   fill="#0067FF" opacity="0.2" ><animateMotion dur="10s" repeatCount="indefinite" begin="5s"><mpath href="#ch2"/></animateMotion></circle>
+            <circle r="3"   fill="#0067FF" opacity="0.15"><animateMotion dur="12s" repeatCount="indefinite" begin="8s"><mpath href="#ch2"/></animateMotion></circle>
+            <circle r="3"   fill="#0067FF" opacity="0.2" ><animateMotion dur="9s"  repeatCount="indefinite" begin="2s"><mpath href="#ch3"/></animateMotion></circle>
+            <circle r="2.5" fill="#0067FF" opacity="0.25"><animateMotion dur="7s"  repeatCount="indefinite" begin="4s"><mpath href="#ch3"/></animateMotion></circle>
+            <circle r="4"   fill="#0067FF" opacity="0.15"><animateMotion dur="11s" repeatCount="indefinite" begin="7s"><mpath href="#ch3"/></animateMotion></circle>
+            <circle r="2"   fill="#0067FF" opacity="0.2" ><animateMotion dur="8s"  repeatCount="indefinite" begin="0s"><mpath href="#ch4"/></animateMotion></circle>
+            <circle r="3"   fill="#0067FF" opacity="0.15"><animateMotion dur="10s" repeatCount="indefinite" begin="3s"><mpath href="#ch4"/></animateMotion></circle>
+            <circle r="2.5" fill="#0067FF" opacity="0.2" ><animateMotion dur="13s" repeatCount="indefinite" begin="6s"><mpath href="#ch4"/></animateMotion></circle>
+
+            <circle r="2"   fill="#0067FF" opacity="0.12"><animate attributeName="cx" values="100;140;80;100"  dur="14s" repeatCount="indefinite"/><animate attributeName="cy" values="100;70;115;100" dur="10s" repeatCount="indefinite"/></circle>
+            <circle r="1.5" fill="#0067FF" opacity="0.1" ><animate attributeName="cx" values="300;330;285;300" dur="12s" repeatCount="indefinite"/><animate attributeName="cy" values="350;310;370;350" dur="16s" repeatCount="indefinite"/></circle>
+            <circle r="2.5" fill="#0067FF" opacity="0.1" ><animate attributeName="cx" values="700;750;675;700" dur="16s" repeatCount="indefinite"/><animate attributeName="cy" values="200;165;217;200" dur="12s" repeatCount="indefinite"/></circle>
+            <circle r="1.5" fill="#0067FF" opacity="0.12"><animate attributeName="cx" values="900;935;882;900" dur="10s" repeatCount="indefinite"/><animate attributeName="cy" values="450;405;472;450" dur="14s" repeatCount="indefinite"/></circle>
+            <circle r="2"   fill="#0067FF" opacity="0.1" ><animate attributeName="cx" values="1100;1145;1077;1100" dur="13s" repeatCount="indefinite"/><animate attributeName="cy" values="300;270;315;300" dur="11s" repeatCount="indefinite"/></circle>
+            <circle r="1.5" fill="#0067FF" opacity="0.08"><animate attributeName="cx" values="500;535;482;500" dur="15s" repeatCount="indefinite"/><animate attributeName="cy" values="500;465;517;500" dur="13s" repeatCount="indefinite"/></circle>
+        </svg>
+    </div>
+    <div class="container" style="position:relative;">
         <div class="hero-inner">
             <h1><span class="accent">Flux</span>ionic</h1>
             <p class="lede">
