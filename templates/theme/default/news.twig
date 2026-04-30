@@ -4,40 +4,52 @@
 {% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
 
 {% block content %}
-<article class="wrap">
-    <p class="meta"><a href="/news">← All news</a></p>
-
-    {% if entry.field('kind') == 'publication' %}
-        <h1>{{ entry.field('title') }}</h1>
-        <p class="meta">
-            {% if entry.field('journal') %}{{ entry.field('journal') }}{% endif %}
-            {% if entry.field('year') %} ({{ entry.field('year') }}){% endif %}
-        </p>
-        {% if entry.field('authors') %}
-            {% set authors_html = entry.field('authors')|e %}
-            {% if entry.field('bold_names') %}
-                {% for name in entry.field('bold_names')|split(';') %}
-                    {% set t = name|trim|e %}
-                    {% if t %}
-                        {% set authors_html = authors_html|replace({(t): '<strong>' ~ t ~ '</strong>'}) %}
-                    {% endif %}
-                {% endfor %}
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <a class="back-link" href="/news">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                All news
+            </a>
+            <h1>{{ entry.field('title') }}</h1>
+            {% if entry.field('kind') != 'publication' %}
+                <p class="lede" style="font-size:.9375rem;margin-top:.75rem;">{{ (entry.publishAt ?? entry.createdAt)|date('F j, Y') }}</p>
             {% endif %}
-            <p><em>{{ authors_html|raw }}</em></p>
-        {% endif %}
-        {% if entry.field('publication_url') %}
-            <p><a href="{{ entry.field('publication_url') }}" rel="noopener" target="_blank">Read the publication →</a></p>
-        {% endif %}
-    {% else %}
-        <h1>{{ entry.field('title') }}</h1>
-        <p class="meta">{{ (entry.publishAt ?? entry.createdAt)|date('F j, Y') }}</p>
-        {% if entry.field('cover_url') %}
-            <img src="{{ entry.field('cover_url') }}" alt="" style="width:100%;border-radius:8px;margin-bottom:1.5rem;">
-        {% endif %}
-        {% if entry.field('summary') %}<p class="lede">{{ entry.field('summary') }}</p>{% endif %}
-        {% if entry.field('body') %}
-            <div class="article-body">{{ entry.field('body')|markdown }}</div>
-        {% endif %}
-    {% endif %}
-</article>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <article class="article">
+            {% if entry.field('kind') == 'publication' %}
+                <p class="news-date" style="font-size:1rem;">
+                    {% if entry.field('journal') %}{{ entry.field('journal') }}{% endif %}
+                    {% if entry.field('year') %} ({{ entry.field('year') }}){% endif %}
+                </p>
+                {% if entry.field('authors') %}
+                    {% set authors_html = entry.field('authors')|e %}
+                    {% if entry.field('bold_names') %}
+                        {% for name in entry.field('bold_names')|split(';') %}
+                            {% set t = name|trim|e %}
+                            {% if t %}
+                                {% set authors_html = authors_html|replace({(t): '<strong>' ~ t ~ '</strong>'}) %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <p style="font-style:italic;color:var(--gray-text);"><strong style="font-style:italic;">Authors:</strong> {{ authors_html|raw }}</p>
+                {% endif %}
+                {% if entry.field('publication_url') %}
+                    <p><a href="{{ entry.field('publication_url') }}" rel="noopener" target="_blank" class="btn btn-primary">Read the publication</a></p>
+                {% endif %}
+            {% else %}
+                {% if entry.field('cover_url') %}
+                    <img src="{{ entry.field('cover_url') }}" alt="" style="width:100%;border-radius:.75rem;margin-bottom:1.5rem;">
+                {% endif %}
+                {% if entry.field('summary') %}<p style="font-size:1.125rem;color:var(--dark);font-weight:500;">{{ entry.field('summary') }}</p>{% endif %}
+                {% if entry.field('body') %}{{ entry.field('body')|markdown }}{% endif %}
+            {% endif %}
+        </article>
+    </div>
+</section>
 {% endblock %}

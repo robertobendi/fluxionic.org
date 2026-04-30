@@ -3,28 +3,36 @@
 {% block title %}Fellows · {{ site.name }}{% endblock %}
 
 {% block content %}
-<div class="wrap-wide">
-    <h1>Fellows</h1>
-    <p class="lede">The PhD researchers training inside the FLUXIONIC doctoral network.</p>
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <h1>Fellows</h1>
+            <p class="lede">The PhD researchers training inside the FLUXIONIC doctoral network.</p>
+        </div>
+    </div>
+</section>
 
-    {% if entries|length == 0 %}
-        <div class="empty-state">
-            <p>No fellows published yet.</p>
-        </div>
-    {% else %}
-        <div class="card-grid">
-            {% for fellow in entries %}
-                <a class="card" href="/fellows/{{ fellow.slug }}">
-                    {% if fellow.field('photo_url') %}
-                        <img src="{{ fellow.field('photo_url') }}" alt="{{ fellow.field('title') }}"
-                             style="width:96px;height:96px;border-radius:50%;object-fit:cover;margin-bottom:.75rem;">
-                    {% endif %}
-                    <h3>{{ fellow.field('title') }}</h3>
-                    {% if fellow.field('node_label') %}<p>{{ fellow.field('node_label') }}</p>{% endif %}
-                    {% if fellow.field('topic') %}<p class="card-meta">{{ fellow.field('topic') }}</p>{% endif %}
-                </a>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
+<section class="section" style="background:linear-gradient(to bottom, var(--light-blue-30), #fff);">
+    <div class="container">
+        {% if entries|length == 0 %}
+            <div class="empty-state"><p>No fellows published yet.</p></div>
+        {% else %}
+            <div class="card-grid">
+                {% for fellow in entries %}
+                    <a class="institution-card" href="/fellows/{{ fellow.slug }}" style="text-align:center;">
+                        {% if fellow.field('photo_url') %}
+                            <img class="avatar avatar-lg" src="{{ fellow.field('photo_url') }}" alt="{{ fellow.field('title') }}" style="margin:0 auto 1rem;">
+                        {% else %}
+                            <span class="avatar avatar-lg placeholder" style="margin:0 auto 1rem;font-size:2rem;">{{ fellow.field('title')|slice(0, 1) }}</span>
+                        {% endif %}
+                        <h3>{{ fellow.field('title') }}</h3>
+                        {% if fellow.field('node_label') %}<p class="associates" style="margin-top:.5rem;">{{ fellow.field('node_label') }}</p>{% endif %}
+                        {% if fellow.field('pi_name') %}<p style="margin:0 0 .5rem;font-size:.875rem;color:var(--gray-text);"><span style="color:var(--primary);font-weight:600;">PI:</span> {{ fellow.field('pi_name') }}</p>{% endif %}
+                        {% if fellow.field('topic') %}<p style="font-size:.875rem;color:var(--gray-text);">{{ fellow.field('topic') }}</p>{% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

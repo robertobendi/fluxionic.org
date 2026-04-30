@@ -68,11 +68,15 @@ $db->run(
  * Pages
  * ----------------------------------------------------------------------- */
 insert_entry($db, 'pages', 'project', [
-    'title' => 'The project',
+    'title' => 'Project',
     'slug'  => 'project',
-    'body'  => "## Fluctuation-driven flows for next-generation ionic devices\n\n"
-        . "FLUXIONIC is a Marie Skłodowska-Curie Doctoral Network funded by the European Union under Horizon Europe. The network trains the next generation of researchers at the interface of nanofluidics, ionic transport, and machine-learning-driven simulation.\n\n"
-        . "FLUXIONIC brings together leading European institutions in theoretical, computational and experimental nanofluidics. Across our nodes we develop new methods for understanding charge and mass transport in confined geometries — work with applications spanning osmotic energy harvesting, electrochemical energy storage, water desalination, and biological ion channels.\n\n"
+    'body'  => "## Summary\n\n"
+        . "Controlling transport of liquid matter through channels with dimensions from Ångströms to nanometres is a key challenge in many areas of science and engineering. However, progress in this field is hampered by our lack of understanding, as the conventional macroscopic description of transport phenomena breaks down.\n\n"
+        . "The transition to studying nanoscale systems is not simply a matter of scaling down the approaches and methods that work for microscopic counterparts: at the nanoscale, new physics emerges due to the enhanced fluctuations, prevalence of surfaces and granularity of the matter at this scale.\n\n"
+        . "Therefore, the atomistic description becomes crucial, and novel simulation and experimental tools need to be developed coupling quantum-level and force-field molecular simulations to mesoscale modelling based on continuum hydrodynamics, and to experiments that can probe such nanoscale effects.\n\n"
+        . "The emerging field promises huge technological and socio-economic impact. However, it is essential to train a new generation of early-stage researchers in the diverse skills that are needed to develop and apply precisely controlled nanofluidic mass transport.\n\n"
+        . "This, in a few words, is the aim of the FLUXIONIC programme: bridging Physics, Chemistry, Materials Science, and emerging nanoscale technologies.\n\n"
+        . "Recent exciting developments in experimental and theoretical methods to study transport of fluids and charged particles at the nanoscale mean that we are now at a stage where exploration of key processes is viable and fundamental and applied breakthroughs can be expected from our research programme, which is probing different aspects of non-equilibrium physics in nanoconfinement.\n\n"
         . "## Work packages\n\n"
         . "![Work packages](/assets/images/work-packages.png)\n",
     'meta_description' => 'FLUXIONIC is a Marie Skłodowska-Curie Doctoral Network on nanofluidics, ionic transport, and machine-learning-driven simulation.',

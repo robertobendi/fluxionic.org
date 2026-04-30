@@ -3,36 +3,45 @@
 {% block title %}FLUXIONIC · Marie Skłodowska-Curie Doctoral Network{% endblock %}
 
 {% block content %}
-<div class="wrap-wide">
-    <section style="text-align:center;padding:2rem 0 3rem;">
-        <h1 style="font-size:clamp(2.25rem, 6vw, 4rem);">Fluctuation-driven flows for next-generation ionic devices</h1>
-        <p class="lede" style="max-width:640px;margin:1rem auto 0;">FLUXIONIC is a Marie Skłodowska-Curie Doctoral Network training the next generation of researchers at the interface of nanofluidics, ionic transport, and machine-learning-driven simulation.</p>
-    </section>
+<section class="hero hero-tall">
+    <div class="container">
+        <div class="hero-inner">
+            <h1><span class="accent">Flux</span>ionic</h1>
+            <p class="lede">
+                Controlled transport of liquid matter through channels with dimensions from
+                Ångströms to nanometres promises huge technological and socio-economical impact.
+                At these scales, however, unconventional physics emerges due to enhanced fluctuations,
+                prevalence of surfaces and granularity of matter. Novel experimental and computational
+                approaches are then needed. FLUXIONIC will ensure the concerted development of these
+                approaches and their application to exciting systems. The project will also train
+                future scientific leaders in the rapidly growing field of nanofluidics.
+            </p>
+            <a href="/project" class="btn btn-primary">
+                Learn more
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
 
-    <section class="card-grid">
-        <a class="card" href="/project">
-            <h3>The project</h3>
-            <p>Goals, work packages, and the science behind FLUXIONIC.</p>
-        </a>
-        <a class="card" href="/nodes">
-            <h3>Nodes and Researchers</h3>
-            <p>The institutions, principal investigators, and PhD researchers driving the network.</p>
-        </a>
-        <a class="card" href="/events">
-            <h3>Events</h3>
-            <p>Doctoral schools, workshops, network meetings.</p>
-        </a>
-        <a class="card" href="/news">
-            <h3>News &amp; publications</h3>
-            <p>Latest updates from the network, plus our peer-reviewed output.</p>
-        </a>
-    </section>
-
-    <section style="margin-top:4rem;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:.875rem;text-align:center;">
-        <img src="/assets/eu-flag.svg" alt="" style="height:48px;width:auto;border-radius:0;">
-        <p style="max-width:520px;margin:0;text-align:left;">
-            FLUXIONIC has received funding from the European Union's Horizon Europe research and innovation programme under the Marie Skłodowska-Curie Doctoral Network grant agreement.
-        </p>
-    </section>
-</div>
+<section class="section" style="background:var(--light-blue)">
+    <div class="container">
+        <div class="section-title">
+            <h2>Member institutions</h2>
+        </div>
+        <div class="partners">
+            <a class="partner-logo" href="/nodes/barcelona"  title="University of Barcelona"><img src="/assets/logos/ub.png" alt="University of Barcelona"></a>
+            <a class="partner-logo" href="/nodes/cnrs-paris" title="CNRS Paris"><img src="/assets/logos/cnrs.png" alt="CNRS"></a>
+            <a class="partner-logo" href="/nodes/bochum"     title="Ruhr Universität Bochum"><img src="/assets/logos/rub.png" alt="Ruhr Universität Bochum"></a>
+            <a class="partner-logo" href="/nodes/berlin"     title="Freie Universität Berlin"><img src="/assets/logos/fub.jpg" alt="Freie Universität Berlin"></a>
+            <a class="partner-logo" href="/nodes/mpg-mainz"  title="Max Planck"><img src="/assets/logos/mpi.png" alt="Max Planck"></a>
+            <a class="partner-logo" href="/nodes/ntnu"       title="NTNU"><img src="/assets/logos/ntnu.png" alt="NTNU"></a>
+            <a class="partner-logo" href="/nodes/tu-delft"   title="TU Delft"><img src="/assets/logos/tudelft.png" alt="TU Delft"></a>
+            <a class="partner-logo" href="/nodes/cambridge"  title="University of Cambridge"><img src="/assets/logos/cambridge.jpg" alt="University of Cambridge"></a>
+            <a class="partner-logo" href="/nodes/manchester" title="University of Manchester"><img src="/assets/logos/manchester.gif" alt="University of Manchester"></a>
+            <a class="partner-logo" href="/nodes/oxford"     title="University of Oxford"><img src="/assets/logos/oxford.jpg" alt="University of Oxford"></a>
+            <a class="partner-logo" href="/nodes/epfl"       title="EPFL"><img src="/assets/logos/epfl.png" alt="EPFL"></a>
+        </div>
+    </div>
+</section>
 {% endblock %}

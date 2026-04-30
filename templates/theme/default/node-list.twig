@@ -3,49 +3,79 @@
 {% block title %}Nodes and Researchers · {{ site.name }}{% endblock %}
 
 {% block content %}
-<div class="wrap-wide">
-    <h1>Nodes and Researchers</h1>
-    <p class="lede">FLUXIONIC brings together {{ entries|length }} institutional nodes across Europe. Each node hosts one or more Principal Investigators and PhD researchers.</p>
-
-    {% if entries|length == 0 %}
-        <div class="empty-state">
-            <p>No nodes published yet.</p>
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <h1>Nodes and Researchers</h1>
+            <p class="lede">{{ entries|length }} institutional nodes across Europe — Principal Investigators and the PhD researchers they supervise.</p>
         </div>
-    {% else %}
-        <div class="card-grid">
-            {% for node in entries %}
-                <a class="card" href="/nodes/{{ node.slug }}">
-                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;margin-bottom:.5rem;">
-                        <div>
-                            <h3 style="margin:0;">{{ node.field('title') }}</h3>
-                            {% if node.field('location') %}
-                                <p class="card-meta" style="margin:.25rem 0 0;">{{ node.field('location') }}{% if node.field('country') %}, {{ node.field('country') }}{% endif %}</p>
+    </div>
+</section>
+
+<section class="section" style="background:linear-gradient(to bottom, var(--light-blue-30), #fff);">
+    <div class="container">
+        {% if entries|length == 0 %}
+            <div class="empty-state"><p>No nodes published yet.</p></div>
+        {% else %}
+            <div class="card-grid">
+                {% for node in entries %}
+                    <a class="institution-card" href="/nodes/{{ node.slug }}">
+                        <div class="card-head">
+                            <div>
+                                <h3>{{ node.field('title') }}</h3>
+                                <span class="location">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    {{ node.field('location') }}{% if node.field('country') %}, {{ node.field('country') }}{% endif %}
+                                </span>
+                            </div>
+                            {% if node.field('abbrev') %}
+                                <span class="pill">{{ node.field('abbrev') }}</span>
                             {% endif %}
                         </div>
-                        {% if node.field('abbrev') %}
-                            <span style="background:var(--accent);color:#fff;font-size:.75rem;font-weight:600;padding:.25rem .6rem;border-radius:999px;white-space:nowrap;">{{ node.field('abbrev') }}</span>
+
+                        {% if node.field('associates') %}
+                            <p class="associates"><strong>Associated:</strong> {{ node.field('associates') }}</p>
                         {% endif %}
-                    </div>
-                    <div class="card-people">
-                        {% for i in 1..4 %}
-                            {% if node.field('pi_' ~ i ~ '_photo_url') %}
-                                <img src="{{ node.field('pi_' ~ i ~ '_photo_url') }}" alt="" title="{{ node.field('pi_' ~ i ~ '_name') }}">
-                            {% endif %}
-                        {% endfor %}
-                        {% for i in 1..4 %}
-                            {% if node.field('student_' ~ i ~ '_photo_url') %}
-                                <img src="{{ node.field('student_' ~ i ~ '_photo_url') }}" alt="" title="{{ node.field('student_' ~ i ~ '_name') }}">
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    {% set pi_names = [] %}
-                    {% for i in 1..4 %}{% if node.field('pi_' ~ i ~ '_name') %}{% set pi_names = pi_names|merge([node.field('pi_' ~ i ~ '_name')]) %}{% endif %}{% endfor %}
-                    {% if pi_names|length > 0 %}
-                        <p style="margin-top:.75rem;font-size:.875rem;color:var(--ink-soft);">{{ pi_names|join(' · ') }}</p>
-                    {% endif %}
-                </a>
-            {% endfor %}
-        </div>
-    {% endif %}
-</div>
+
+                        <div class="pi-list-divider">
+                            <h4>Principal Investigators</h4>
+                            {% for i in 1..4 %}
+                                {% if node.field('pi_' ~ i ~ '_name') %}
+                                    <div class="pi-row">
+                                        {% if node.field('pi_' ~ i ~ '_photo_url') %}
+                                            <img class="avatar avatar-sm" src="{{ node.field('pi_' ~ i ~ '_photo_url') }}" alt="{{ node.field('pi_' ~ i ~ '_name') }}">
+                                        {% else %}
+                                            <span class="avatar avatar-sm placeholder">{{ node.field('pi_' ~ i ~ '_name')|slice(0, 1) }}</span>
+                                        {% endif %}
+                                        <span style="font-size:.875rem;color:var(--dark);">{{ node.field('pi_' ~ i ~ '_name') }}</span>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        {% set has_students = false %}
+                        {% for i in 1..4 %}{% if node.field('student_' ~ i ~ '_name') %}{% set has_students = true %}{% endif %}{% endfor %}
+                        {% if has_students %}
+                            <div class="pi-list-divider" style="margin-top:.75rem;">
+                                <h4>PhD Researchers</h4>
+                                {% for i in 1..4 %}
+                                    {% if node.field('student_' ~ i ~ '_name') %}
+                                        <div class="pi-row">
+                                            {% if node.field('student_' ~ i ~ '_photo_url') %}
+                                                <img class="avatar avatar-sm" src="{{ node.field('student_' ~ i ~ '_photo_url') }}" alt="{{ node.field('student_' ~ i ~ '_name') }}">
+                                            {% else %}
+                                                <span class="avatar avatar-sm placeholder">{{ node.field('student_' ~ i ~ '_name')|slice(0, 1) }}</span>
+                                            {% endif %}
+                                            <span style="font-size:.875rem;color:var(--dark);">{{ node.field('student_' ~ i ~ '_name') }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

@@ -4,10 +4,19 @@
 {% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
 
 {% block content %}
-<article class="wrap">
-    <h1>{{ entry.field('title') }}</h1>
-    <div class="article-body">
-        {{ entry.field('body')|markdown }}
+<section class="hero">
+    <div class="container">
+        <div class="hero-narrow">
+            <h1>{{ entry.field('title') }}</h1>
+        </div>
     </div>
-</article>
+</section>
+
+<section class="section">
+    <div class="container">
+        <article class="article">
+            {{ entry.field('body')|markdown }}
+        </article>
+    </div>
+</section>
 {% endblock %}

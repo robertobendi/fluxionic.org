@@ -3,36 +3,42 @@
 {% block title %}Conferences | Workshops · {{ site.name }}{% endblock %}
 
 {% block content %}
-<div class="wrap-wide">
-    <h1>Conferences | Workshops</h1>
-    <p class="lede">Conferences and workshops attended by FLUXIONIC fellows and PIs — talks, posters, awards.</p>
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <h1>Conferences | Workshops</h1>
+            <p class="lede">Conferences and workshops attended by FLUXIONIC fellows and PIs — talks, posters, awards.</p>
+        </div>
+    </div>
+</section>
 
-    {% if entries|length == 0 %}
-        <div class="empty-state"><p>No entries yet.</p></div>
-    {% else %}
-        <table style="width:100%;border-collapse:collapse;margin-top:1.5rem;">
-            <thead>
-                <tr style="text-align:left;border-bottom:2px solid var(--hairline);">
-                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Topic</th>
-                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Dates</th>
-                    <th style="padding:.75rem .5rem;font-weight:600;color:var(--ink-soft);">Location</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in entries %}
-                    <tr style="border-bottom:1px solid var(--hairline);">
-                        <td style="padding:.85rem .5rem;">
-                            <a href="/conferences/{{ c.slug }}" style="font-weight:500;text-decoration:none;color:var(--ink);">{{ c.field('title') }}</a>
-                        </td>
-                        <td style="padding:.85rem .5rem;color:var(--ink-soft);white-space:nowrap;">
-                            {% if c.field('starts_on') %}{{ c.field('starts_on')|date('M j, Y') }}{% endif %}
-                            {% if c.field('ends_on') and c.field('ends_on') != c.field('starts_on') %} – {{ c.field('ends_on')|date('M j, Y') }}{% endif %}
-                        </td>
-                        <td style="padding:.85rem .5rem;color:var(--ink-soft);">{{ c.field('location') }}</td>
+<section class="section" style="background:linear-gradient(to bottom, var(--light-blue-30), #fff);">
+    <div class="container">
+        {% if entries|length == 0 %}
+            <div class="empty-state"><p>No entries yet.</p></div>
+        {% else %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Dates</th>
+                        <th>Location</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
-</div>
+                </thead>
+                <tbody>
+                    {% for c in entries %}
+                        <tr>
+                            <td><a href="/conferences/{{ c.slug }}">{{ c.field('title') }}</a></td>
+                            <td class="secondary" style="white-space:nowrap;">
+                                {% if c.field('starts_on') %}{{ c.field('starts_on')|date('M j, Y') }}{% endif %}
+                                {% if c.field('ends_on') and c.field('ends_on') != c.field('starts_on') %} – {{ c.field('ends_on')|date('M j, Y') }}{% endif %}
+                            </td>
+                            <td class="secondary">{{ c.field('location') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

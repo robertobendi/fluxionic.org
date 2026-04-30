@@ -2,8 +2,6 @@
 
 {% block title %}News · {{ site.name }}{% endblock %}
 
-{# Split combined news+publications collection by kind. The list comes back
-   already ordered by publish_at DESC from the controller. #}
 {% set news_items = [] %}
 {% set publications = [] %}
 {% for e in entries %}
@@ -15,49 +13,70 @@
 {% endfor %}
 
 {% block content %}
-<div class="wrap-wide">
-    <h1>News</h1>
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <h1>News</h1>
+        </div>
+    </div>
+</section>
 
-    {% if news_items|length == 0 and publications|length == 0 %}
-        <div class="empty-state"><p>No news yet — check back soon.</p></div>
-    {% endif %}
-
-    {% if news_items|length > 0 %}
-        <section>
-            {% for n in news_items %}
-                <a class="news-card" href="/news/{{ n.slug }}">
-                    <div class="date">{{ (n.publishAt ?? n.createdAt)|date('F j, Y') }}</div>
-                    <h3>{{ n.field('title') }}</h3>
-                    {% if n.field('summary') %}<p>{{ n.field('summary') }}</p>{% endif %}
-                </a>
-            {% endfor %}
-        </section>
-    {% endif %}
-
-    {% if publications|length > 0 %}
-        <section style="margin-top:3rem;">
-            <h2>Publications</h2>
-            <ol class="pub-list">
-                {% for p in publications %}
-                    {# Escape first, then wrap matched bold-names in <strong>; we
-                       output |raw so the strong tags survive. #}
-                    {% set authors_html = p.field('authors')|e %}
-                    {% if p.field('bold_names') %}
-                        {% for name in p.field('bold_names')|split(';') %}
-                            {% set t = name|trim|e %}
-                            {% if t %}
-                                {% set authors_html = authors_html|replace({(t): '<strong>' ~ t ~ '</strong>'}) %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    <li>
-                        <em>{% if p.field('publication_url') %}<a href="{{ p.field('publication_url') }}" rel="noopener" target="_blank">{{ p.field('title') }}</a>{% else %}{{ p.field('title') }}{% endif %}</em>;
-                        <em>{{ authors_html|raw }}</em>;
-                        <em>{{ p.field('journal') }}{% if p.field('year') %} ({{ p.field('year') }}){% endif %}</em>
-                    </li>
+{% if news_items|length > 0 %}
+    <section class="section">
+        <div class="container">
+            <div class="card-grid">
+                {% for n in news_items %}
+                    <a class="news-card" href="/news/{{ n.slug }}">
+                        {% if n.field('cover_url') %}
+                            <img class="news-img" src="{{ n.field('cover_url') }}" alt="">
+                        {% else %}
+                            <div class="news-img" style="display:flex;align-items:center;justify-content:center;color:rgba(0,103,255,.4);font-family:'Poppins',sans-serif;">News</div>
+                        {% endif %}
+                        <div class="news-body">
+                            <p class="news-date">{{ (n.publishAt ?? n.createdAt)|date('j M Y') }}</p>
+                            <h3>{{ n.field('title') }}</h3>
+                            {% if n.field('summary') %}<p>{{ n.field('summary') }}</p>{% endif %}
+                        </div>
+                    </a>
                 {% endfor %}
-            </ol>
-        </section>
-    {% endif %}
-</div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+{% if publications|length > 0 %}
+    <section class="section" style="background:linear-gradient(to bottom, var(--light-blue-30), #fff);">
+        <div class="container">
+            <div class="article">
+                <h2 style="text-align:center;margin-bottom:2rem;">Publications</h2>
+                <ol class="pub-list">
+                    {% for p in publications %}
+                        {% set authors_html = p.field('authors')|e %}
+                        {% if p.field('bold_names') %}
+                            {% for name in p.field('bold_names')|split(';') %}
+                                {% set t = name|trim|e %}
+                                {% if t %}
+                                    {% set authors_html = authors_html|replace({(t): '<strong>' ~ t ~ '</strong>'}) %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <li>
+                            {% if p.field('publication_url') %}<a href="{{ p.field('publication_url') }}" rel="noopener" target="_blank">{{ p.field('title') }}</a>{% else %}{{ p.field('title') }}{% endif %};
+                            {{ authors_html|raw }};
+                            {{ p.field('journal') }}{% if p.field('year') %} ({{ p.field('year') }}){% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+{% if news_items|length == 0 and publications|length == 0 %}
+    <section class="section">
+        <div class="container">
+            <div class="empty-state"><p>No news yet — check back soon.</p></div>
+        </div>
+    </section>
+{% endif %}
 {% endblock %}

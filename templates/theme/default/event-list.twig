@@ -3,29 +3,42 @@
 {% block title %}Events · {{ site.name }}{% endblock %}
 
 {% block content %}
-<div class="wrap-wide">
-    <h1>Events</h1>
-    <p class="lede">FLUXIONIC summer schools, doctoral schools, network meetings.</p>
-
-    {% if entries|length == 0 %}
-        <div class="empty-state"><p>No events scheduled yet.</p></div>
-    {% else %}
-        <div class="card-grid">
-            {% for ev in entries %}
-                <a class="card" href="/events/{{ ev.slug }}">
-                    {% if ev.field('cover_url') %}
-                        <img src="{{ ev.field('cover_url') }}" alt="" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:.75rem;">
-                    {% endif %}
-                    <h3>{{ ev.field('title') }}</h3>
-                    <div class="card-meta">
-                        {% if ev.field('starts_on') %}{{ ev.field('starts_on')|date('F j, Y') }}{% endif %}
-                        {% if ev.field('ends_on') and ev.field('ends_on') != ev.field('starts_on') %} – {{ ev.field('ends_on')|date('F j, Y') }}{% endif %}
-                        {% if ev.field('location') %} · {{ ev.field('location') }}{% endif %}
-                    </div>
-                    {% if ev.field('summary') %}<p>{{ ev.field('summary') }}</p>{% endif %}
-                </a>
-            {% endfor %}
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <h1>Events</h1>
+            <p class="lede">Schools, workshops and conferences organised by the FLUXIONIC network.</p>
         </div>
-    {% endif %}
-</div>
+    </div>
+</section>
+
+<section class="section" style="background:linear-gradient(to bottom, var(--light-blue-30), #fff);">
+    <div class="container">
+        {% if entries|length == 0 %}
+            <div class="empty-state"><p>No events scheduled yet.</p></div>
+        {% else %}
+            <div class="card-grid">
+                {% for ev in entries %}
+                    <a class="news-card" href="/events/{{ ev.slug }}">
+                        {% if ev.field('cover_url') %}
+                            <img class="news-img" src="{{ ev.field('cover_url') }}" alt="">
+                        {% else %}
+                            <div class="news-img" style="display:flex;align-items:center;justify-content:center;color:rgba(0,103,255,.4);font-family:'Poppins',sans-serif;">Event</div>
+                        {% endif %}
+                        <div class="news-body">
+                            {% if ev.field('starts_on') %}
+                                <p class="news-date">
+                                    {{ ev.field('starts_on')|date('j M Y') }}{% if ev.field('ends_on') and ev.field('ends_on') != ev.field('starts_on') %} – {{ ev.field('ends_on')|date('j M Y') }}{% endif %}
+                                    {% if ev.field('location') %} · {{ ev.field('location') }}{% endif %}
+                                </p>
+                            {% endif %}
+                            <h3>{{ ev.field('title') }}</h3>
+                            {% if ev.field('summary') %}<p>{{ ev.field('summary') }}</p>{% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

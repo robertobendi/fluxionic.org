@@ -4,37 +4,47 @@
 {% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
 
 {% block content %}
-<article class="wrap">
-    <p class="meta"><a href="/fellows">← All fellows</a></p>
-
-    <header style="display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap;margin-bottom:1.5rem;">
-        {% if entry.field('photo_url') %}
-            <img src="{{ entry.field('photo_url') }}" alt="{{ entry.field('title') }}"
-                 style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:1px solid var(--hairline);">
-        {% endif %}
-        <div>
-            <h1 style="margin:0;">{{ entry.field('title') }}</h1>
-            {% if entry.field('node_label') %}
-                <p class="meta" style="margin:.25rem 0 0;">
-                    {% if entry.field('node_slug') %}
-                        <a href="/nodes/{{ entry.field('node_slug') }}">{{ entry.field('node_label') }}</a>
-                    {% else %}{{ entry.field('node_label') }}{% endif %}
-                </p>
-            {% endif %}
-            {% if entry.field('pi_name') %}
-                <p class="meta" style="margin:.25rem 0 0;">Supervised by {{ entry.field('pi_name') }}</p>
-            {% endif %}
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <a class="back-link" href="/fellows">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                All fellows
+            </a>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+                {% if entry.field('photo_url') %}
+                    <img class="avatar avatar-lg" src="{{ entry.field('photo_url') }}" alt="{{ entry.field('title') }}" style="width:8rem;height:8rem;">
+                {% else %}
+                    <span class="avatar avatar-lg placeholder" style="width:8rem;height:8rem;font-size:2.5rem;">{{ entry.field('title')|slice(0, 1) }}</span>
+                {% endif %}
+                <h1 style="margin:0;">{{ entry.field('title') }}</h1>
+                {% if entry.field('node_label') %}
+                    <p class="lede" style="margin:0;font-size:1rem;">
+                        {% if entry.field('node_slug') %}
+                            <a href="/nodes/{{ entry.field('node_slug') }}" style="color:var(--primary);font-weight:600;">{{ entry.field('node_label') }}</a>
+                        {% else %}{{ entry.field('node_label') }}{% endif %}
+                    </p>
+                {% endif %}
+                {% if entry.field('pi_name') %}
+                    <p style="margin:0;color:var(--gray-text);font-size:.9375rem;">Supervised by {{ entry.field('pi_name') }}</p>
+                {% endif %}
+            </div>
         </div>
-    </header>
+    </div>
+</section>
 
-    {% if entry.field('topic') %}
-        <h2>Research topic</h2>
-        <p>{{ entry.field('topic') }}</p>
-    {% endif %}
-
-    {% if entry.field('bio') %}
-        <h2>About</h2>
-        <div class="article-body">{{ entry.field('bio')|markdown }}</div>
-    {% endif %}
-</article>
+<section class="section">
+    <div class="container">
+        <article class="article">
+            {% if entry.field('topic') %}
+                <h2>Research topic</h2>
+                <p>{{ entry.field('topic') }}</p>
+            {% endif %}
+            {% if entry.field('bio') %}
+                <h2>About</h2>
+                {{ entry.field('bio')|markdown }}
+            {% endif %}
+        </article>
+    </div>
+</section>
 {% endblock %}

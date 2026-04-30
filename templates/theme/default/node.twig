@@ -4,76 +4,85 @@
 {% block title %}{{ entry.field('title') }} · {{ site.name }}{% endblock %}
 
 {% block content %}
-<article class="wrap-wide">
-    <p class="meta"><a href="/nodes">← All nodes</a></p>
-
-    <header style="display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;margin-bottom:1.5rem;">
-        {% if entry.field('logo_url') %}
-            <img src="{{ entry.field('logo_url') }}" alt="" style="height:64px;width:auto;border-radius:0;">
-        {% endif %}
-        <div>
-            <h1 style="margin:0;">
-                {{ entry.field('title') }}
-                {% if entry.field('abbrev') %}
-                    <span style="background:var(--accent);color:#fff;font-size:1rem;font-weight:600;padding:.25rem .65rem;border-radius:999px;vertical-align:middle;margin-left:.5rem;">{{ entry.field('abbrev') }}</span>
+<section class="hero hero-soft">
+    <div class="container">
+        <div class="hero-narrow">
+            <a class="back-link" href="/nodes">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                All nodes
+            </a>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+                {% if entry.field('logo_url') %}
+                    <img src="{{ entry.field('logo_url') }}" alt="" style="height:64px;width:auto;background:#fff;padding:.5rem 1rem;border-radius:.5rem;box-shadow:var(--shadow-sm);">
                 {% endif %}
-            </h1>
-            {% if entry.field('location') %}
-                <p class="meta" style="margin:.25rem 0 0;">{{ entry.field('location') }}{% if entry.field('country') %}, {{ entry.field('country') }}{% endif %}</p>
+                <h1 style="margin:0;">{{ entry.field('title') }}</h1>
+                {% if entry.field('abbrev') %}<span class="pill">{{ entry.field('abbrev') }}</span>{% endif %}
+                {% if entry.field('location') %}
+                    <p class="lede" style="margin:0;font-size:1rem;">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {{ entry.field('location') }}{% if entry.field('country') %}, {{ entry.field('country') }}{% endif %}
+                    </p>
+                {% endif %}
+                {% if entry.field('associates') %}
+                    <p class="lede" style="margin:0;font-size:.9375rem;">Associated: {{ entry.field('associates') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="article">
+            {% set has_pi = false %}
+            {% for i in 1..4 %}{% if entry.field('pi_' ~ i ~ '_name') %}{% set has_pi = true %}{% endif %}{% endfor %}
+
+            {% if has_pi %}
+                <h2>Principal Investigator{{ entry.field('pi_2_name') ? 's' : '' }}</h2>
+                {% for i in 1..4 %}
+                    {% if entry.field('pi_' ~ i ~ '_name') %}
+                        <div class="person-block">
+                            {% if entry.field('pi_' ~ i ~ '_photo_url') %}
+                                <img class="avatar avatar-lg" src="{{ entry.field('pi_' ~ i ~ '_photo_url') }}" alt="{{ entry.field('pi_' ~ i ~ '_name') }}">
+                            {% else %}
+                                <span class="avatar avatar-lg placeholder">{{ entry.field('pi_' ~ i ~ '_name')|slice(0, 1) }}</span>
+                            {% endif %}
+                            <div>
+                                <div class="role">Principal Investigator</div>
+                                <h3>{{ entry.field('pi_' ~ i ~ '_name') }}</h3>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
-            {% if entry.field('associates') %}
-                <p class="meta" style="margin:.25rem 0 0;">Associated: {{ entry.field('associates') }}</p>
+
+            {% set has_students = false %}
+            {% for i in 1..4 %}{% if entry.field('student_' ~ i ~ '_name') %}{% set has_students = true %}{% endif %}{% endfor %}
+
+            {% if has_students %}
+                <h2>PhD Researcher{{ entry.field('student_2_name') ? 's' : '' }}</h2>
+                {% for i in 1..4 %}
+                    {% if entry.field('student_' ~ i ~ '_name') %}
+                        <div class="person-block">
+                            {% if entry.field('student_' ~ i ~ '_photo_url') %}
+                                <img class="avatar avatar-lg" src="{{ entry.field('student_' ~ i ~ '_photo_url') }}" alt="{{ entry.field('student_' ~ i ~ '_name') }}">
+                            {% else %}
+                                <span class="avatar avatar-lg placeholder">{{ entry.field('student_' ~ i ~ '_name')|slice(0, 1) }}</span>
+                            {% endif %}
+                            <div>
+                                {% if entry.field('student_' ~ i ~ '_supervisor') %}
+                                    <div class="role">Supervised by {{ entry.field('student_' ~ i ~ '_supervisor') }}</div>
+                                {% endif %}
+                                <h3>{{ entry.field('student_' ~ i ~ '_name') }}</h3>
+                                {% if entry.field('student_' ~ i ~ '_topic') %}
+                                    <p class="topic">{{ entry.field('student_' ~ i ~ '_topic') }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         </div>
-    </header>
-
-    {% set has_pi = false %}
-    {% for i in 1..4 %}{% if entry.field('pi_' ~ i ~ '_name') %}{% set has_pi = true %}{% endif %}{% endfor %}
-
-    {% if has_pi %}
-        <h2>Principal Investigator{{ entry.field('pi_2_name') ? 's' : '' }}</h2>
-        {% for i in 1..4 %}
-            {% if entry.field('pi_' ~ i ~ '_name') %}
-                <div class="person-row">
-                    {% if entry.field('pi_' ~ i ~ '_photo_url') %}
-                        <img src="{{ entry.field('pi_' ~ i ~ '_photo_url') }}" alt="{{ entry.field('pi_' ~ i ~ '_name') }}">
-                    {% else %}
-                        <div></div>
-                    {% endif %}
-                    <div>
-                        <div class="role">PI</div>
-                        <h3>{{ entry.field('pi_' ~ i ~ '_name') }}</h3>
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    {% set has_students = false %}
-    {% for i in 1..4 %}{% if entry.field('student_' ~ i ~ '_name') %}{% set has_students = true %}{% endif %}{% endfor %}
-
-    {% if has_students %}
-        <h2>PhD Researcher{{ entry.field('student_2_name') ? 's' : '' }}</h2>
-        {% for i in 1..4 %}
-            {% if entry.field('student_' ~ i ~ '_name') %}
-                <div class="person-row">
-                    {% if entry.field('student_' ~ i ~ '_photo_url') %}
-                        <img src="{{ entry.field('student_' ~ i ~ '_photo_url') }}" alt="{{ entry.field('student_' ~ i ~ '_name') }}">
-                    {% else %}
-                        <div></div>
-                    {% endif %}
-                    <div>
-                        {% if entry.field('student_' ~ i ~ '_supervisor') %}
-                            <div class="role">Supervised by {{ entry.field('student_' ~ i ~ '_supervisor') }}</div>
-                        {% endif %}
-                        <h3>{{ entry.field('student_' ~ i ~ '_name') }}</h3>
-                        {% if entry.field('student_' ~ i ~ '_topic') %}
-                            <p class="topic">{{ entry.field('student_' ~ i ~ '_topic') }}</p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-</article>
+    </div>
+</section>
 {% endblock %}
