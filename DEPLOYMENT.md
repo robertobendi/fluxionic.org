@@ -1,41 +1,92 @@
 # Deployment
 
-fluxionic.org runs on pebblestack — a single-folder PHP+SQLite app. Deploy by uploading the repo to a PHP 8.2+ host's webroot.
+fluxionic.org runs on pebblestack (PHP 8.2 + SQLite + Twig) on the EPFL host
+`128.178.218.218`. Apache 2 with `mod_php8.2` serves the site directly — no
+Docker, no reverse proxy. The old slatestack Fastify+Postgres Docker stack
+was retired on 2026-05-01.
 
-## Target deploy (pebblestack)
+## Production layout
 
-1. Upload the entire repo (including `vendor/`) to `public_html/` on any PHP 8.2+ shared host (Hostinger, Namecheap, Bluehost, …).
-2. Visit `https://fluxionic.org/install.php` once. Pick site name + admin email + admin password.
-3. Done. Public site at `/`, admin at `/admin`.
+| Item | Value |
+|---|---|
+| Host | `128.178.218.218` (`vpaavpvm0045.epfl.ch`) |
+| OS | Ubuntu 22.04 |
+| Web server | Apache 2 with `mod_php8.2` (`libapache2-mod-php8.2`) |
+| Document root | `/var/www/fluxionic-pebblestack` |
+| Vhost | `/etc/apache2/sites-available/fluxionic-pebblestack.conf` |
+| TLS | Let's Encrypt SAN cert at `/etc/letsencrypt/live/alpha.lhumos.org/` (covers `fluxionic.org` + `www.fluxionic.org` alongside other domains) |
+| DNS | Apex via Gandi (217.70.184.55) → 301 to `www`; `www.fluxionic.org` → `128.178.218.218` |
+| Logs | `${APACHE_LOG_DIR}/fluxionic2.log` |
 
-The first request after deploy auto-applies any pending SQL migrations from `data/migrations/`. The SQLite DB lives at `data/pebblestack.sqlite` (gitignored — back up by copying that file).
+## Deploying an update
 
-## What does NOT need to be on the server
+```sh
+ssh root@128.178.218.218
+cd /var/www/fluxionic-pebblestack
+git pull origin migrate-to-pebblestack   # or main, once merged
+chown -R www-data:www-data data uploads
+# Migrations auto-apply on the next request. Apache reload is only needed
+# if you've changed Apache config or the .htaccess.
+```
 
-- `.git/` — drop the repo, not the history
-- `backups/` — local-only
-- `.claude/`, `.planning/` — dev tooling
-- `DESIGN_GUIDE.md`, `AGENTS.md`, `README.md`, `DEPLOYMENT.md`, `LICENSE` — `.htaccess` denies `.md` over HTTP, but you can omit them on upload to keep `public_html/` lean
-- `composer.lock`, `composer.json` — not strictly required at runtime if `vendor/` is present, but harmless
+That's it. No build step, no service restart.
 
-## Production server (legacy slatestack)
+## Other services on the same host
 
-The slatestack-era production server at `128.178.218.218` (Docker Compose with Fastify + Postgres) is **not affected by this branch**. Cutover to pebblestack on a new (or repurposed) host is a separate operation:
+The fluxionic vhost shares the host with several unrelated services. **Do not
+touch any of these** unless you know what you're doing:
 
-1. Provision PHP 8.2+ shared hosting (or install PHP/Apache on the existing server)
-2. Stop the slatestack Docker stack
-3. Export any content from the Postgres DB you want to keep (manual — slatestack and pebblestack schemas are unrelated)
-4. Upload pebblestack repo, run `/install.php`
-5. Recreate content via the admin (or write a one-off import script targeting `data/pebblestack.sqlite`)
-6. Repoint DNS / proxy if the host changed
+- Apache vhosts: `alpha.lhumos.org`, `asesma.org`, `backend2.lhumos.org`, `lhumos.org`, `monklist.cecam.org`, `vpaavpvm0045.epfl.ch`
+- Docker stacks: `asesma-*`, `docker-*` (Clowder bundle: clowder, mongo, elasticsearch, rabbitmq, minio, selenium, portainer, extractors), `listmonk_*`, `mongodb`
+- Compose stack roots: `/opt/asesma/`
+
+## Initial install (already done)
+
+Run only once. After running, `/install` redirects to `/admin/login`.
+
+```sh
+# Visit https://www.fluxionic.org/install in a browser, fill in:
+#   email, password, your name, site name = "FLUXIONIC"
+# It runs migrations, creates the admin user, sets the site_name setting.
+```
+
+## Seeding content from the spreadsheet
+
+```sh
+ssh root@128.178.218.218
+cd /var/www/fluxionic-pebblestack
+php scripts/seed-fluxionic.php          # idempotent — wipes & reseeds
+chown -R www-data:www-data data
+```
+
+Drop fellow photos at `/var/www/fluxionic-pebblestack/assets/fellows/<slug>.jpg`
+and re-run the seed (it only emits `photo_url` for files that exist on disk).
 
 ## Backup
-
-A pebblestack backup is two things:
 
 ```sh
 cp data/pebblestack.sqlite        backups/db-$(date +%F).sqlite
 tar czf backups/uploads-$(date +%F).tgz uploads/
 ```
 
-That's the entire site state. No DB dump tool, no Postgres pg_dump.
+That's the entire site state.
+
+## Rollback to slatestack (window: until `/opt/fluxionic-app/` is removed)
+
+If something goes wrong with pebblestack and the slatestack containers haven't
+been deleted yet, this brings the old site back in seconds:
+
+```sh
+ssh root@128.178.218.218
+a2dissite fluxionic-pebblestack
+a2ensite fluxionic2          # the old reverse-proxy vhost is still on disk
+systemctl reload apache2
+cd /opt/fluxionic-app && docker compose up -d   # restart the old containers
+```
+
+The old Postgres dump is at `/root/backups/fluxionic-cutover-2026-05-01/slatestack-postgres.dump`.
+The Docker volumes `fluxionic-app_postgres_data` and `fluxionic-app_uploads_data`
+were preserved during cutover (we used `docker compose stop`, not `down -v`).
+
+After ~1–2 weeks of stable pebblestack operation, the rollback path can be
+purged with `docker compose down` (no `-v`) and `rm -rf /opt/fluxionic-app/`.
