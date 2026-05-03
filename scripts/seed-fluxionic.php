@@ -32,8 +32,48 @@ function fellow_photo(string $rootDir, string $slug): string
         : '';
 }
 
+/**
+ * Build markdown image tags for every file in /uploads/galleries/{slug}/.
+ * Drop photos into that folder (alphabetical filenames control display order:
+ * 01.jpg, 02.jpg, ...) and re-run the seed — they render inline as <img>.
+ * Returns "" when the folder is missing or empty.
+ */
+function gallery_markdown(string $rootDir, string $slug): string
+{
+    $dir = "{$rootDir}/uploads/galleries/{$slug}";
+    if (!is_dir($dir)) {
+        return '';
+    }
+    $files = glob("{$dir}/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}", GLOB_BRACE) ?: [];
+    sort($files, SORT_NATURAL | SORT_FLAG_CASE);
+    $out = [];
+    foreach ($files as $abs) {
+        $name = basename($abs);
+        $alt = pathinfo($name, PATHINFO_FILENAME);
+        $out[] = "![{$alt}](/uploads/galleries/{$slug}/{$name})";
+    }
+    return implode("\n\n", $out);
+}
+
+/**
+ * Refuse to seed any entry whose data references the team's internal Google
+ * Drive. Folders under drive.google.com are how FLUXIONIC organises social-
+ * media content and must never be linked from the public site — embed images
+ * via gallery_markdown() instead.
+ */
+function assert_no_private_links(string $collection, string $slug, array $data): void
+{
+    array_walk_recursive($data, function ($v) use ($collection, $slug) {
+        if (is_string($v) && stripos($v, 'drive.google.com') !== false) {
+            fwrite(STDERR, "ABORT: {$collection}/{$slug} references drive.google.com — embed images via gallery_markdown() instead.\n");
+            exit(1);
+        }
+    });
+}
+
 function insert_entry(Database $db, string $collection, string $slug, array $data, int $publishAt): void
 {
+    assert_no_private_links($collection, $slug, $data);
     $now = time();
     $db->run(
         'INSERT INTO entries (collection, slug, status, data, publish_at, created_at, updated_at)
@@ -193,6 +233,7 @@ $nodes = [
             'abbrev' => 'SWEETCH',
             'location' => 'Paris', 'country' => 'France',
             'associates' => 'University of Montpellier (Institut Européen des Membranes)',
+            'logo_url' => '/assets/logos/sweetch.png',
             'pi_1_name' => 'Pascal Le Mélinaire', 'pi_1_photo_url' => '/assets/pis/lemelinaire.jpg',
 
             'student_1_name' => 'Hamza El Assri',
@@ -401,19 +442,14 @@ $conferences = [
     ['thematic-day-nanomaterials-2024',      'Thematic Day: Nanomaterials',                                                                  '2024-11-29', '2024-11-29', 'Sorbonne Université, Paris',                               '',                                                                                  '',                                                                  'Megh Dutta',                                                ''],
 ];
 
-$photo_links = [
-    'stuttgart-espresso-2025' => 'https://drive.google.com/drive/folders/1yp2jZlE3bywUOWrWLRG1t44SlnLQ0iOM?usp=drive_link',
-];
-
 foreach ($conferences as [$slug, $title, $start, $end, $loc, $talk, $poster, $attendees, $awards]) {
-    $photos = $photo_links[$slug] ?? '';
     insert_entry($db, 'conferences', $slug, [
         'title' => $title, 'slug' => $slug,
         'starts_on' => $start, 'ends_on' => $end,
         'location' => $loc,
         'talk_given' => $talk, 'poster' => $poster,
         'attendees' => $attendees, 'awards' => $awards,
-        'photos' => $photos !== '' ? "[Conference photo album]({$photos})" : '',
+        'photos' => gallery_markdown($root, $slug),
     ], ts($start));
 }
 echo "Inserted " . count($conferences) . " conferences.\n";
@@ -422,19 +458,19 @@ echo "Inserted " . count($conferences) . " conferences.\n";
  * Volunteering | Outreach
  * ----------------------------------------------------------------------- */
 $outreach = [
-    ['talk-mohali-2025',       'Talk: Charging Dynamics of Electric Double-Layer Nanocapacitors in Mean Field', 'Megh Dutta', 'Mohali',     '2025-12-05', 'Scientific presentation and engaging with the students to describe future career opportunities in science and research.', 'https://drive.google.com/drive/folders/1GZIc50g8jR4_7j_Vvmgs_2-Wt4co_JS3?usp=drive_link'],
-    ['ntnu-researchers-night-2025', 'Researcher\'s Night NTNU Trondheim',                                       'Yann Dumay', 'Trondheim',  '2025-09-26', "The Research's Night at NTNU is a huge event were 1100 high school students from the area around Trondheim are visiting the University. The fellow prepared a stand to show live experiments that illustrate the work done in the Eiser group, as well as some videos and a poster.", ''],
-    ['ipho-paris-2025',        'International Physics Olympiad 2025',                                           'Megh Dutta', 'Paris',      '2025-07-17', 'Team guide: mentoring and helping students with their schedule planning during the competition.',                            'https://drive.google.com/drive/folders/1CXrvSP56lDCfkgA12QLWw_qc4zEo4-Ss?usp=drive_link'],
-    ['ntnu-school-visit-2025', 'School visit NTNU\'s Lab',                                                       'Yann Dumay', 'Trondheim',  '2025-03-28', 'Giving a presentation to students on polymers and their applications in research and the nature. This included live hands-on experiments, quizzes and interactions with the school students.',                                            ''],
+    ['talk-mohali-2025',       'Talk: Charging Dynamics of Electric Double-Layer Nanocapacitors in Mean Field', 'Megh Dutta', 'Mohali',     '2025-12-05', 'Scientific presentation and engaging with the students to describe future career opportunities in science and research.'],
+    ['ntnu-researchers-night-2025', 'Researcher\'s Night NTNU Trondheim',                                       'Yann Dumay', 'Trondheim',  '2025-09-26', "The Research's Night at NTNU is a huge event were 1100 high school students from the area around Trondheim are visiting the University. The fellow prepared a stand to show live experiments that illustrate the work done in the Eiser group, as well as some videos and a poster."],
+    ['ipho-paris-2025',        'International Physics Olympiad 2025',                                           'Megh Dutta', 'Paris',      '2025-07-17', 'Team guide: mentoring and helping students with their schedule planning during the competition.'],
+    ['ntnu-school-visit-2025', 'School visit NTNU\'s Lab',                                                       'Yann Dumay', 'Trondheim',  '2025-03-28', 'Giving a presentation to students on polymers and their applications in research and the nature. This included live hands-on experiments, quizzes and interactions with the school students.'],
 ];
 
-foreach ($outreach as [$slug, $title, $fellow, $loc, $date, $role, $photos]) {
+foreach ($outreach as [$slug, $title, $fellow, $loc, $date, $role]) {
     insert_entry($db, 'outreach', $slug, [
         'title' => $title, 'slug' => $slug,
         'date_on' => $date, 'location' => $loc, 'fellow_name' => $fellow,
         'role' => $role,
         'summary' => mb_substr($role, 0, 160) . (mb_strlen($role) > 160 ? '…' : ''),
-        'photos' => $photos !== '' ? "[Photo album]({$photos})" : '',
+        'photos' => gallery_markdown($root, $slug),
     ], ts($date));
 }
 echo "Inserted " . count($outreach) . " outreach entries.\n";
