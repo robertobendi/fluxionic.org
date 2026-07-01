@@ -33,24 +33,29 @@ function fellow_photo(string $rootDir, string $slug): string
 }
 
 /**
- * Build markdown image tags for every file in /uploads/galleries/{slug}/.
- * Drop photos into that folder (alphabetical filenames control display order:
- * 01.jpg, 02.jpg, ...) and re-run the seed — they render inline as <img>.
- * Returns "" when the folder is missing or empty.
+ * Build markdown image tags for a gallery, scanning two locations:
+ *   - assets/galleries/{slug}/   — version-controlled, ships with the repo
+ *                                  (curated content seeded on every deploy).
+ *   - uploads/galleries/{slug}/  — runtime drop-in: add photos on the server
+ *                                  and re-run the seed without a redeploy.
+ * Alphabetical filenames control display order (01.jpg, 02.jpg, ...). Images
+ * from both folders are merged (assets first). Returns "" when none exist.
  */
 function gallery_markdown(string $rootDir, string $slug): string
 {
-    $dir = "{$rootDir}/uploads/galleries/{$slug}";
-    if (!is_dir($dir)) {
-        return '';
-    }
-    $files = glob("{$dir}/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}", GLOB_BRACE) ?: [];
-    sort($files, SORT_NATURAL | SORT_FLAG_CASE);
     $out = [];
-    foreach ($files as $abs) {
-        $name = basename($abs);
-        $alt = pathinfo($name, PATHINFO_FILENAME);
-        $out[] = "![{$alt}](/uploads/galleries/{$slug}/{$name})";
+    foreach (['assets', 'uploads'] as $base) {
+        $dir = "{$rootDir}/{$base}/galleries/{$slug}";
+        if (!is_dir($dir)) {
+            continue;
+        }
+        $files = glob("{$dir}/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}", GLOB_BRACE) ?: [];
+        sort($files, SORT_NATURAL | SORT_FLAG_CASE);
+        foreach ($files as $abs) {
+            $name = basename($abs);
+            $alt = pathinfo($name, PATHINFO_FILENAME);
+            $out[] = "![{$alt}](/{$base}/galleries/{$slug}/{$name})";
+        }
     }
     return implode("\n\n", $out);
 }
@@ -404,28 +409,111 @@ foreach ($fellows as $i => [$slug, $name, $node_slug, $node_label, $pi, $topic])
 echo "Inserted " . count($fellows) . " fellows.\n";
 
 /* -------------------------------------------------------------------------
- * Events — only the routable URL is needed; the Les Houches detail page
- * is rendered by templates/theme/default/event-les-houches.twig.
+ * Events — network schools, training weeks and workshops.
+ *
+ * Listed oldest → newest; publish_at is a monotonic sequence anchored in the
+ * past so that (a) future-dated events (2026/2027) are still reachable now and
+ * (b) the index (order_by publish_at DESC) shows the newest event first.
+ *
+ * les-houches-2026 keeps its bespoke full-page template (routed by slug in
+ * event.twig); its `body`/gallery are ignored there. Every other event uses
+ * _event-default.twig, whose `body` we build from the description plus any
+ * gallery images dropped into uploads/galleries/{slug}/.
  * ----------------------------------------------------------------------- */
-// publish_at must be in the past so the entry is accessible now;
-// the actual event date is in the `starts_on` field used for display.
-insert_entry($db, 'events', 'les-houches-2026', [
-    'title'        => 'Nonequilibrium Physics in Nanoconfinement',
-    'slug'         => 'les-houches-2026',
-    'starts_on'    => '2026-09-14',
-    'ends_on'      => '2026-09-25',
-    'location'     => 'Les Houches, French Alps',
-    'summary'      => 'Les Houches – WE Heraeus School. A two-week school covering the fundamental physics of nanoscale transport — experimental, theoretical and computational methods. Part of the CECAM Flagship Program.',
-    'cover_url'    => '/assets/images/les-houches-mountains.png',
-    'external_url' => 'https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473',
-    'meta_description' => 'Les Houches – WE Heraeus School on Nonequilibrium Physics in Nanoconfinement, September 14–25, 2026.',
-], ts('2025-01-01'));
-echo "Inserted 1 event (les-houches-2026).\n";
+$events = [
+    [
+        'slug'      => 'mainz-orientation-2024',
+        'title'     => 'FLUXIONIC Initial Orientation Workshop and First Training Week',
+        'starts_on' => '2024-12-09', 'ends_on' => '2024-12-13',
+        'location'  => 'Max Planck Institute for Polymer Research, Mainz',
+        'summary'   => 'The Mainz Training Week and General Assembly marked the first FLUXIONIC event bringing together PIs and DCs. It launched advanced training, Career Development Plans, the long-term Proposal training module, and planning for the network’s future activities.',
+        'description' => 'The training week / General Assembly in Mainz was the first FLUXIONIC event where the PIs and DCs were present. We carried out the first advanced training modules and initiated the Career Development Plans through individual interviews of the students by the Steering Committee members. We also launched the Proposal training module that will last throughout the network. We planned the programs for the coming years.',
+    ],
+    [
+        'slug'      => 'delft-midterm-2025',
+        'title'     => 'FLUXIONIC Midterm Review Meeting and Training Week',
+        'starts_on' => '2025-03-31', 'ends_on' => '2025-04-04',
+        'location'  => 'TU Delft',
+        'summary'   => 'The Delft Annual Meeting and Training Week combined training, project monitoring, and strategic planning. It supported doctoral fellows through scientific and career-focused sessions, reviewed individual and network progress, and strengthened future collaboration across FLUXIONIC.',
+        'description' => 'The FLUXIONIC Annual Meeting and Training Week in Delft brought together training activities, project monitoring, and network-level planning. The training programme included sessions on machine learning, advanced materials, scientific writing, proposal presentations, secondment planning, and a formal Midterm Review Meeting with the REA Project Officer. It was structured to assess the progress of the doctoral fellows and the overall network, while also supporting future collaboration and career development.',
+    ],
+    [
+        'slug'      => 'barcelona-students-midterm-2025',
+        'title'     => 'FLUXIONIC Students’ Midterm Meeting',
+        'starts_on' => '2025-10-01', 'ends_on' => '2025-10-03',
+        'location'  => 'University of Barcelona',
+        'summary'   => 'The FLUXIONIC Students’ Midterm Meeting reviewed the progress of the individual research projects within the network, while fostering collaboration and offering participants practical tools for their work.',
+        'description' => 'The FLUXIONIC Students’ Midterm Meeting was designed to review the progress of the individual research projects within the network, while also fostering collaboration and offering participants practical tools for their work.',
+    ],
+    [
+        'slug'      => 'paris-tech-days-2026',
+        'title'     => 'FLUXIONIC Paris Tech Days',
+        'starts_on' => '2026-03-04', 'ends_on' => '2026-03-06',
+        'location'  => 'ENS Paris · Hummink · Ilion Water Tech · Aqemia',
+        'summary'   => 'The FLUXIONIC Paris Tech Days connected academic research with innovation, entrepreneurship, and societal challenges. Through discussions, training sessions, and visits to Hummink, Ilion Water Tech, and Aqemia, participants explored research transfer, start-up development, and careers beyond academia.',
+        'description' => 'The FLUXIONIC Paris Tech Days were designed to expose participants to the links between academic research, innovation, entrepreneurship, and societal challenges. The programme combined scientific discussions on the environmental transition with sessions on intellectual property, spin-off companies, ethics, and scientific conduct. Visits to Hummink, Ilion Water Tech, and Aqemia offered students practical insight into research transfer, start-up development, and career paths beyond academia.',
+    ],
+    [
+        'slug'      => 'trondheim-meeting-2026',
+        'title'     => 'FLUXIONIC Trondheim Meeting and Training Week',
+        'starts_on' => '2026-05-04', 'ends_on' => '2026-05-08',
+        'location'  => 'NTNU Trondheim',
+        'summary'   => 'The FLUXIONIC Annual Meeting and Training Week in Trondheim combined advanced scientific training with a comprehensive review of network activities. It included career-development sessions, student presentations, Career Development Plan discussions, future event planning, and exchanges among fellows, supervisors, and partners.',
+        'description' => 'The FLUXIONIC Annual Meeting and Training Week in Trondheim was designed to combine advanced scientific training with a broad review of the network’s activities. The programme offered students training on hydrodynamic and electrostatic interactions, career-development sessions, and individual discussions on their Career Development Plans. It also provided space for student research presentations, planning of future FLUXIONIC events, and informal exchanges among fellows, supervisors, and partners.',
+    ],
+    [
+        'slug'         => 'les-houches-2026',
+        'title'        => 'Nonequilibrium Physics in Nanoconfinement',
+        'starts_on'    => '2026-09-14', 'ends_on' => '2026-09-25',
+        'location'     => 'Les Houches, French Alps',
+        'summary'      => 'Les Houches – WE Heraeus School. A two-week school covering the fundamental physics of nanoscale transport — experimental, theoretical and computational methods. Part of the CECAM Flagship Program.',
+        'cover_url'    => '/assets/images/les-houches-mountains.png',
+        'external_url' => 'https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473',
+        'meta_description' => 'Les Houches – WE Heraeus School on Nonequilibrium Physics in Nanoconfinement, September 14–25, 2026.',
+    ],
+    [
+        'slug'         => 'fluctuations-charged-soft-matter-2026',
+        'title'        => 'Fluctuations in charged and soft matter',
+        'starts_on'    => '2026-10-05', 'ends_on' => '2026-10-08',
+        'location'     => 'Institut Henri Poincaré, Paris',
+        'summary'      => 'The workshop focuses on transport of soft and charged matter at small scales, highlighting its relevance to nanomaterials and biology. Participants explore nonequilibrium systems, thermal fluctuations, complex interactions, and modern approaches from statistical mechanics, active matter, and machine learning.',
+        'description'  => 'Transport of soft and charged matter at small scales underpins advances in nanomaterials and biology, driven by thermal fluctuations and complex interactions. These systems, often far from equilibrium, are modeled as particle suspensions influenced by external forces or active energy conversion. While average behaviors are well-documented, fluctuations — like Casimir interactions or tracer dynamics — are key to understanding transport and kinetics. Tackling these challenges demands tools from statistical mechanics, active matter research, and machine learning.',
+        'external_url' => 'https://www.cecam.org/workshop-details/fluctuations-in-charged-and-soft-matter-1526',
+    ],
+    [
+        'slug'         => 'challenges-ionic-fluids-2027',
+        'title'        => 'Challenges in ionic fluids: Theory, simulation, and experiment',
+        'starts_on'    => '2027-03-22', 'ends_on' => '2027-03-25',
+        'location'     => 'CECAM-HQ-EPFL, Lausanne',
+        'summary'      => 'The workshop brings together experts to address the complex behavior of ionic fluids across scales. It focuses on emerging theoretical, computational, and experimental approaches, fostering collaboration around more accurate models for concentrated and nonequilibrium ionic systems.',
+        'description'  => 'Ionic fluids are vital in science but remain poorly understood due to their complex, multiscale interactions. Traditional theories and simulations struggle with accuracy, especially at high concentrations or in nonequilibrium states. Recent advances in machine learning, density functional theory, and experiments offer new, more precise modeling approaches. These breakthroughs could finally bridge gaps in our understanding. The workshop will gather experts to tackle these challenges collaboratively.',
+        'external_url' => 'https://www.cecam.org/workshop-details/challenges-in-ionic-fluids-theory-simulation-and-experiment-1483',
+    ],
+];
+
+$event_base = ts('2020-01-01');
+foreach ($events as $i => $ev) {
+    $data = $ev;
+    unset($data['description']);
+    // Build the default-template body from the prose description plus any
+    // gallery images in uploads/galleries/{slug}/ (les-houches ignores body).
+    $gallery = gallery_markdown($root, $ev['slug']);
+    $body = trim($ev['description'] ?? '');
+    if ($gallery !== '') {
+        $body = ($body !== '' ? $body . "\n\n" : '') . "## Photos\n\n" . $gallery;
+    }
+    if ($body !== '') {
+        $data['body'] = $body;
+    }
+    insert_entry($db, 'events', $ev['slug'], $data, $event_base + $i);
+}
+echo "Inserted " . count($events) . " events.\n";
 
 /* -------------------------------------------------------------------------
  * Conferences | Workshops
  * ----------------------------------------------------------------------- */
 $conferences = [
+    ['faraday-discussion-angstrom-2026',     'Molecular and ion flows through angstrom-scale channels — Faraday Discussion 2026',            '2026-04-13', '2026-04-15', 'Manchester, UK',                                          '',                                                                                  'Ion-gating through two-dimensional Ångström-scale confined channels', 'Sabiar Rahaman, Radha Boya, Valentino Sanguinetti, Ignacio Pagonabarraga', 'Best poster prize'],
     ['molsim-2026',                          'MolSim-2026',                                                                                  '2026-01-05', '2026-01-16', 'University of Amsterdam',                                  '',                                                                                  'Controlling Charging dynamics of Electrolytic Capacitors',          'Megh Dutta, Mattia Borriello',                              ''],
     ['stuttgart-espresso-2025',              'Systematic coarse-graining and machine learning in soft matter physics with ESPResSo',         '2025-10-06', '2025-10-10', 'University of Stuttgart',                                  '',                                                                                  'Controlling Charging dynamics of Electrolytic Capacitors',          'Megh Dutta, Gabriele Dalla Valle',                          ''],
     ['manchester-pgr-2025',                  'The Department of Physics & Astronomy 2025 Postgraduate Research Conference',                  '2025-09-26', '2025-09-26', 'University of Manchester, UK',                             '',                                                                                  'Hexaazatriphenylene–Diaminobenzidine Covalent Organic Framework',   'Sabiar Rahaman, Radha Boya',                                'Best poster prize (First place)'],
@@ -518,6 +606,46 @@ $publications = [
         'year' => 2025,
         'date' => '2025-08-26',
         'url' => 'https://doi.org/10.1021/acs.chemmater.5c01220',
+    ],
+    [
+        'slug' => 'on-water-2d-cmof-films-adv-mater-2026',
+        'title' => 'On-Water Surface Synthesis of 2D Conjugated Metal–Organic Framework Films With Controllable Layer Orientation Enabling High-Performance Chemiresistive Sensing',
+        'authors' => 'Jianjun Zhang, Víctor García-López, Yutong Wu, Shuai Fu, Yucong Chen, Arsh S. Hazrah, Petko Petkov, Mike Hambsch, Feng Ni, Alina Müller, Ye Yang, Leif Riemenschneider, Shirong Huang, Albertus Mattheüs Sandee, Yilv Guo, David Silva-Brea, Jan-Ole Joswig, Stefan C. B. Mannsfeld, Thomas Heine, Gianaurelio Cuniberti, Mischa Bonn, Zhiyong Wang, Xinliang Feng',
+        'bold_names' => 'Yucong Chen;Mischa Bonn',
+        'journal' => 'Advanced Materials',
+        'year' => 2026,
+        'date' => '2026-06-23',
+        'url' => 'https://doi.org/10.1002/adma.73785',
+    ],
+    [
+        'slug' => 'nanofluidic-ionic-memory-nat-rev-mater-2026',
+        'title' => 'Nanofluidic ionic memory for next-generation computing',
+        'authors' => 'Siddhi Vinayak Pandey, Kalluvadi Veetil Saurav, Abdulghani Ismail, Sabiar Rahaman, Boya Radha',
+        'bold_names' => 'Sabiar Rahaman;Boya Radha',
+        'journal' => 'Nature Reviews Materials',
+        'year' => 2026,
+        'date' => '2026-06-03',
+        'url' => 'https://doi.org/10.1038/s41578-026-00919-1',
+    ],
+    [
+        'slug' => 'hat-quinone-cop-supercapacitors-jacs-2026',
+        'title' => 'Hexaazatriphenylene–Quinone Covalent Organic Polymers as a Platform for Stable and High-Performance Supercapacitors',
+        'authors' => 'Yuchen Liu, Sabiar Rahaman, Hiran Jyothilal, Tirumala Rao Dumpala, Korak Kar, Benjamin Duff, Hadeel Abbas, Alessandro Grillo, Alice Bowen, Ashok Keerthi',
+        'bold_names' => 'Sabiar Rahaman',
+        'journal' => 'Journal of the American Chemical Society',
+        'year' => 2026,
+        'date' => '2026-06-03',
+        'url' => 'https://doi.org/10.1021/jacs.5c20557',
+    ],
+    [
+        'slug' => '2d-mof-supercapacitors-nano-lett-2026',
+        'title' => 'Two-Dimensional Metal–Organic Framework for Supercapacitors: Thickness-Dependent Charge Storage Mechanisms',
+        'authors' => 'Hiran Jyothilal, Sabiar Rahaman, Vikas Sharma, Kavita Pandey, Ashok Keerthi, Boya Radha',
+        'bold_names' => 'Sabiar Rahaman;Boya Radha',
+        'journal' => 'Nano Letters',
+        'year' => 2026,
+        'date' => '2026-01-31',
+        'url' => 'https://doi.org/10.1021/acs.nanolett.5c06178',
     ],
 ];
 
