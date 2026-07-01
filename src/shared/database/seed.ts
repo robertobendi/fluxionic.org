@@ -27,11 +27,12 @@ type SeedField = {
   referenceCollection?: string;
   labelField?: string;
   options?: string[];
+  subFields?: SeedField[];
 };
 
 const fid = () => nanoid(10);
 
-const contentCollections: Array<{ name: string; slug: string; fields: SeedField[] }> = [
+export const contentCollections: Array<{ name: string; slug: string; fields: SeedField[] }> = [
   {
     name: "Principal Investigators",
     slug: "pis",
@@ -54,6 +55,7 @@ const contentCollections: Array<{ name: string; slug: string; fields: SeedField[
       { id: fid(), name: "bio",         label: "Biography",              type: "rich-text" },
       { id: fid(), name: "supervisor",  label: "Supervisor (PI)",        type: "reference", required: true, referenceCollection: "pis", labelField: "name" },
       { id: fid(), name: "institution", label: "Host Institution",       type: "string" },
+      { id: fid(), name: "node",        label: "Node (institution key)", type: "string" },
       { id: fid(), name: "startDate",   label: "Start Date",             type: "date" },
       { id: fid(), name: "website",     label: "Personal website / ORCID", type: "string" },
       { id: fid(), name: "slug",        label: "Slug",                   type: "slug",      generateFrom: "name" },
@@ -84,7 +86,48 @@ const contentCollections: Array<{ name: string; slug: string; fields: SeedField[
       { id: fid(), name: "description", label: "Description", type: "rich-text" },
       { id: fid(), name: "image",       label: "Cover image", type: "media" },
       { id: fid(), name: "link",        label: "External link", type: "string" },
+      { id: fid(), name: "gallery",     label: "Photo gallery", type: "multi-select" },
+      { id: fid(), name: "galleryLink", label: "Photo gallery link", type: "string" },
       { id: fid(), name: "slug",        label: "Slug",        type: "slug",      generateFrom: "title" },
+    ],
+  },
+  {
+    name: "Conferences & Workshops",
+    slug: "conferences",
+    fields: [
+      { id: fid(), name: "title",       label: "Topic",       type: "string",    required: true },
+      { id: fid(), name: "dateRange",   label: "Dates",       type: "string" },
+      { id: fid(), name: "date",        label: "Start date",  type: "date",      required: true },
+      { id: fid(), name: "location",    label: "Location",    type: "string" },
+      { id: fid(), name: "talk",        label: "Talk (by fellow)", type: "text" },
+      { id: fid(), name: "poster",      label: "Poster",      type: "text" },
+      { id: fid(), name: "attendees",   label: "Fellows & PIs", type: "text" },
+      { id: fid(), name: "awards",      label: "Awards",      type: "string" },
+      { id: fid(), name: "gallery",     label: "Photo gallery", type: "multi-select" },
+      { id: fid(), name: "galleryLink", label: "Photo gallery link", type: "string" },
+      { id: fid(), name: "slug",        label: "Slug",        type: "slug",      generateFrom: "title" },
+    ],
+  },
+  {
+    name: "Events",
+    slug: "events",
+    fields: [
+      { id: fid(), name: "title",            label: "Title",            type: "string",    required: true },
+      { id: fid(), name: "dateRange",        label: "Dates",            type: "string" },
+      { id: fid(), name: "date",             label: "Start date",       type: "date",      required: true },
+      { id: fid(), name: "location",         label: "Location",         type: "string" },
+      { id: fid(), name: "status",           label: "Status",           type: "select",    options: ["upcoming", "concluded"] },
+      { id: fid(), name: "image",            label: "Thumbnail",        type: "media" },
+      { id: fid(), name: "shortDescription", label: "Short description", type: "text" },
+      { id: fid(), name: "description",       label: "Description",      type: "rich-text" },
+      { id: fid(), name: "link",             label: "External link",    type: "string" },
+      { id: fid(), name: "gallery",          label: "Photo gallery",    type: "multi-select" },
+      { id: fid(), name: "galleryLink",      label: "Photo gallery link", type: "string" },
+      { id: fid(), name: "lectures",         label: "Lecture slides (protected)", type: "repeater", subFields: [
+        { id: fid(), name: "title", label: "Title", type: "string" },
+        { id: fid(), name: "url",   label: "URL",   type: "string" },
+      ] },
+      { id: fid(), name: "slug",             label: "Slug",             type: "slug",      generateFrom: "title" },
     ],
   },
 ];

@@ -20,6 +20,7 @@ import { instagramRoutes } from "./modules/instagram/index.js";
 import { apiKeyRoutes } from "./modules/apikeys/index.js";
 import { webhookRoutes } from "./modules/webhooks/index.js";
 import { formRoutes } from "./modules/forms/index.js";
+import { lecturesRoutes } from "./modules/lectures/lectures.routes.js";
 import staticRoutes from "./routes/static.js";
 import healthRoutes from "./routes/health.js";
 
@@ -121,6 +122,9 @@ export async function buildApp() {
 
   // Register public content routes (no auth required)
   await fastify.register(publicContentRoutes);
+
+  // Fellows-only lecture slides (password-gated)
+  await fastify.register(lecturesRoutes);
 
   // Background ticker for scheduled publishing + webhook deliveries
   await fastify.register(tickerPlugin);

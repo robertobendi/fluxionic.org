@@ -1,0 +1,501 @@
+{
+  "fellows": [
+    {
+      "name": "Mattia Borriello",
+      "topic": "Molecular dynamics simulations of nanoscale water confinement and transport",
+      "pi": "Prof. Marialore Sulpizi",
+      "organization": "Ruhr Universität Bochum",
+      "description": "The project in the Sulpizi group addresses nanoscale water confinement and transport which occur in a range of natural phenomena (e.g. ion channels, lubrication) and artificial fluidic devices. Molecular dynamics simulations at the ab initio level and using machine learning potentials will be used to investigate the fluid dynamics in nano-confinement, explicitly including electronic aspects suggested by the experiments, such as metallicity, local charges, local protonation/deprotonation."
+    },
+    {
+      "name": "Gabriele Dalla Valle",
+      "topic": "Theoretical analysis of entropic transport in the nanoscale",
+      "pi": "Prof. Ignacio Pagonabarraga",
+      "organization": "University of Barcelona",
+      "description": "The project in the Pagonabarraga group is dedicated to analyze theoretically  the impact of substrate hydrophilicity on flow of different classes of complex fluids across corrugated channels. The project, which will include analytic models and coarse-grained computational models,   will analyze the relevant length and time scales in which dissolved species (such as cations and anions) distribute, diffuse and advect. The project will study systematically the fundamental  principles that control the different flow regimes that emerge due to the dynamical correlations of the dissolved species and heterogeneous substrates , as well as their impact in the accumulation, transport, and rectification of dissolved species. We will use the theoretical and computational results as guidance to understand and propose nano devices for point-of-care analysis"
+    },
+    {
+      "name": "Daniel La Valle",
+      "topic": "Theoretical analysis of electrokinetics in confined microgels",
+      "pi": "Prof. Ignacio Pagonabarraga",
+      "organization": "University of Barcelona",
+      "description": "The project in the Pagonabarraga group is dedicated to analyze theoretically  the mechanical properties of soft and deformable microgels. These are colloidal gel particles that consist of chemically cross-linked three-dimensional polymer networks, and which  can dramatically swell or shrink in response to a variety of external stimuli. The approach, which will include analytic models and coarse-grained computational models,  will be versatile and will allow to consistently account for the interplay between the internal degrees of freedom (particle shape, charge distribution and charge dynamics inside the particles…), and the coupling to the dynamics of the solvent in which these particles are suspended, as well as the corresponding ionic distributions. The project  will analyze the sensitivity of microgels to changes in the environment and the role that the microgel-internal pore structure (from micro to nano) has on its mechanical properties, and the dynamic regimes that control microgels under nanoconfinement, such as channels, slits and porous media subject to different types of actuations."
+    },
+    {
+      "name": "Haoyuan Quan",
+      "topic": "Theoretical prediction of non-linear spectroscopy and non-Markovian friction of confined fluids",
+      "pi": "Prof. Roland Netz",
+      "organization": "Freie Universität Berlin",
+      "description": "The project in the Netz group is dedicated to a theoretical understanding of the spectroscopic and frictional properties of confined fluids. For this, ab initio and force-field molecular dynamics simulations of confined fluids will be combined with analytical models. One goal is to calculate spectra that can be directly compared with experimental linear and non-linear surface-sensitive vibrational spectroscopy data. Non-linear spectra will be predicted based on novel formulations that include quadrupolar and third-order electric-field response. Another goal is to extract frequency-dependent friction between liquids and confining surfaces from simulations and to predict flow and reactions in confinement."
+    },
+    {
+      "name": "Valentino Sangunetti",
+      "topic": "Theoretical Reactivity of MXene-electrolyte interfaces",
+      "pi": "Dr. Marie-Laure BOCQUET, Dr. Lydéric Bocquet",
+      "organization": "CNRS (PhD at the Ecole Normale Supérieure, Paris 5)",
+      "description": "2D metal carbides called MXene are emerging materials for energy related applications since they can acquire an enormous charge in aqueous electrolytes and for sustainable electro-catalytic applications since they can embed SAC (Single Atom Catalyst) and perform as well as referenced expensive electrodes. Hence a subtle interaction between electrons of the metallic MXene and ions and/or small molecules in the aqueous solvent is yet to be discovered via realistic simulations of the solid/liquid interface at the electronic (quantum) scale. This theoretical project will be carried out in close collaboration with the experimental part of the team Micromegas. (https://www.lpens.ens.psl.eu/flu-int/micromegas-nano-fluidique/?lang=en)"
+    },
+    {
+      "name": "Megh Dutta",
+      "topic": "Controlling charge dynamics and flow in nanocapacitors",
+      "pi": "Benjamin Rotenberg and Emmanuel Trizac",
+      "organization": "CNRS (PhD at Sorbonne Université in Paris, France)",
+      "description": "Nanocapacitors involving fluids confined at the nanoscale between electrodes provide new opportunities for sensing or energy production/storage applications, but also to manipulate fluids via electrokinetic couplings. Yet, a question that has been so far overlooked deals with optimizing the time dependence of the required externally applied voltages. The main thrust of this project is to fill this gap for the control of charge and flow in nanocapacitors, with inspiration from the emerging field of “shortcuts to adiabaticity”, using a combination of analytical theories and numerical simulations (molecular dynamics and mesoscopic lattice models)."
+    },
+    {
+      "name": "Alessandro Forina",
+      "topic": "Machine-learning Modeling for Nanoconfined Aqueous Systems",
+      "pi": "Prof. M. Ceriotti",
+      "organization": "EPFL, COSMO LAB",
+      "description": "This doctoral thesis will focus on the extension of state-of-the-art data-driven surrogate models of quantum mechanical calculations (including both machine-learning potentials, and models of dielectric response properties that are needed to estimate experimental observables) to incorporate the physical effects that are essential do describe aqueous systems in a confined environment. This includes for instance the description of long-range physical interactions, including static and polarizable electrostatics. Applications will include water confined in nanostructured silica, as well as potentially model systems relevant for biophysical processes."
+    },
+    {
+      "name": "Paula Sierra Varela",
+      "topic": "Non-equilibrium Simulations of Charge Transport in Confined Environments",
+      "pi": "Dr. S. Bonella",
+      "organization": "EPFL, CECAM",
+      "description": "This doctoral thesis will focus on the extension of state-of-the-art approaches to simulate the dynamics of charged systems in external electric and magnetic fields. Recently developed algorithms for studying nontrivial properties such as the ionic Hall effect in bulk will be adapted to simulations in confined environment. Implementations will study the behaviour of superionic water in supercapacitors and efficient and accurate inclusion of polarization effects in electrodes and electrolytes, with potential applications towards greener technologies."
+    },
+    {
+      "name": "Yann Dumay",
+      "topic": "Two-phase flow in confined geometries",
+      "pi": "Erika Eiser",
+      "organization": "NTNU",
+      "description": "Two-phase flow in porous media — investigating how immiscible fluids organise, fluctuate, and dissipate energy under steady driving. The project uses 3D-printed fluidic cells and optical measurements to study the spatial distribution of phases, flow-field fluctuations, and pressure response in model porous networks. The aim is to better understand which physical and geometrical parameters control the behaviour of steady two-phase flow in controlled porous media."
+    },
+    {
+      "name": "Gökmen Tamer Sanli",
+      "topic": "Coupling mean field colloidal models and MD to probe surface/water interfaces",
+      "pi": "C. Chassagne",
+      "organization": "TU Delft",
+      "description": "Silica and aluminosilicates (clays) are interesting materials to study using these techniques due to their broad range of applications. Clay materials are complex systems due to their polydisperse nature. We have shown that colloidal models can be used to predict (without any adjustable parameter) the electrokinetic response of coarsegrained porous systems50. Polydisperse systems, made of one clay type of various size fractions, will be studied for different volume fractions (from suspensions to porous media), to understand the role of each size fraction in the electrokinetic response of a material with a wide pore size distribution. MD simulations on charged silica slots51 have been used to study overcharging and Stern layer properties in relation with electroosmotic flows in these systems. On the other hand, colloidal models, which can be validated using experimental data, are function of these surface/water interface parameters estimated from MD simulations. The coupling between colloidal models and MD simulations will be realized and electrokinetic experiments will enable us to validate the hypothesis made, making use of forces/fluxes relationships52 . Experimental techniques such as Dielectric Spectroscopy, Electroacoustics (both Electrokinetic Sonic Amplitude and Colloid Vibration Potential), Electroosmosis and Streaming Potential, Electric birefringence (Kerr effect) will be used to probe surface/water interfaces as function at various material porosities (from suspensions to gels), ionic strengths and pH. We will furthermore extend the work presented in53 by developing new protocols for electrokinetic measurements, accounting for unwanted polarization effects stemming from the experimental set-ups."
+    },
+    {
+      "name": "Yucong Chen",
+      "topic": "Characterizing and controlling water structure and dynamics in confinement",
+      "pi": "Mischa Bonn",
+      "organization": "Max Planck Gesellschaft",
+      "description": "We will use two advanced spectroscopic tools to unveil the structure and dynamics of water and hydrogen bonding: two-dimensional infrared (2DIR) and sum-frequency generation (SFG) spectroscopy. 2DIR spectroscopy can provide information on the molecular orientational dynamics by probing water at different combinations of pump and probe pulse polarizations. Applying 2DIR spectroscopy to water with various degrees of confinement, will elucidate the extent of structural dynamics slow-down due to confinement. A drawback of IR spectroscopy is that the signal is ensemble average of the entire system. In nanoscale confinement, we need to disentangle water in contact and not in contact with surface. 2DIR cannot separate these. SFG employs the second-order nonlinear optical process enabling us to probe the interfacial water molecules selectively and can thereby report on interfacial ion concentration and water dissociation56. By applying SFG spectroscopy, and time resolved SFG spectroscopy to water in nanoscale confinement, we shall clarify the hydrogen bond structure of the surface water molecules in the confined space, local ion concentration57, as well as the degree of auto dissociation58. The results will be compared with the SFG spectra of water in contact with extended interfaces (e.g., water-graphene interface) without confinement. Our study will quantitatively reveal how structural dynamics differ between the confined and bulk water, and the topmost surface water's role in altering the hydrogen bonding structure in confinement. Furthermore, spectroscopic data will be corroborated with simulations, providing theoretical and experimental qualification of H-bonding of water in the Å-scale confinement. In project's second stage, effect of ions/flow on water structure will be quantified, and we will explore possibilities to control chemistry in confinement."
+    },
+    {
+      "name": "Sabiar Rahaman",
+      "topic": "Confined water and ions in angstrom-scale capillaries",
+      "pi": "Radha Boya",
+      "organization": "University of Manchester",
+      "description": "Confined water has a number of changes in its structural and dynamic properties compared to bulk water, caused by discrete molecular effects in reduced dimensions and molecular interactions with surfaces. Atomic-level understanding of confined water structure is of great importance not only for improving the knowledge of biological processes such as flow through ion channels, but also for a variety of applications such as water desalination, nanofluidics, voltage generation, flow sensing, and water conservation. The objective of this project is to use Å-scale capillaries as tools to answer some of the key outstanding questions about water in extreme confinement. Å-capillaries are rectangular capillaries made from atomically smooth 2D-materials, where the confinement height can be controlled to within atomic precision. They are a sandwich of three crystals, bottom, spacer and top. The capillary height is determined by the thickness of the spacer crystal and can be just one atomic layer up to as many as required. We will confine water in precise Å-scale capillaries and perform spectroscopy to systematically understand water’s structural dynamics in collaboration with M. Bonn (MPG). Ion selective protein channels are responsible for numerous biological functions and can transport ions with selectivity factors of 102 - 104 across the cell-membranes. Whereas biological channels can efficiently separate even same-charge ions of similar sizes, such exquisite selectivity remains a distant goal for synthetic membranes. Here we propose to make sub-nanometre capillaries from 2D materials and investigate the selectivity between monovalent ions with similar hydrated diameters. We will study the effect of the ionic radii, charge, and polarization of hydration shells, both experimentally and with theoretical analysis (in collaboration with A. Michaelides, UCAM). We will also investigate ionic memory characteristics in Å-capillaries (to compare to neuronal signalling facilitated by biological) ion channels, using various ions, varying temperature and pH. This part will be in collaboration with L. Bocquet (CNRS)."
+    },
+    {
+      "name": "Lauriane Pierot Deseilligny",
+      "topic": "Confinement induced phase transition in liquid binary mixtures",
+      "pi": "Susan Perkin",
+      "organization": "University of Oxford",
+      "description": "Liquid liquid phase separations are a ubiquitous process in many natural processes. Examples include the formation of protein condensates inside cells, which regulate gene expression and cellular organization, and the nucleation of amorphous carbonate in coccolith vesicles of marine microalgae. Such environment are characterized by confined geometries, which means steric constraints limit molecular mobility and the high surface-to-volume ratio enhances interfacial effects. In such environments, deviations from bulk behaviour are expected. Theories predict that stability domains in confinement differ from bulk. Confinement should therfore be treated as a thermodynamic parameter and not only a simple boundary conditions. We use a surface force balance to study how nanoconfinement induces demixing in mixtures of simple molecular liquids. We developed a method to map concentration variations of nanoconfined fluids to identify how the equilibrium phases of a demixed mixture in confinement differ from those in bulk. With surface force measurements, we investigate the interplay between wetting transitions and confinement induced phase separation."
+    },
+    {
+      "name": "Shu Yang",
+      "topic": "Machine-Learning Modelling of Interfacial Superionic Behaviour at Water–Metal Oxide Interfaces",
+      "pi": "Angelos Michaelides",
+      "organization": "University of Cambridge",
+      "description": "This project develops machine-learning-based atomistic models to study proton transfer and superionic behaviour at water–metal oxide interfaces. Using MgO/water as a prototype, it aims to understand how surface hydroxylation, water dissociation, and interfacial hydrogen-bond networks enable fast proton transport. More broadly, the project seeks to identify general mechanisms across metal oxide interfaces and to build reliable computational links between structure, dynamics, and experimental spectroscopic signatures."
+    },
+    {
+      "name": "Hamza ELASSRI",
+      "topic": "Experimental and modeling investigation of a nanofluidic osmotic energy generator",
+      "pi": "Pr. Mikhael BECHELANY, Pr. Lydéric BOCQUET",
+      "organization": "University of Montpellier and Sweetch Energy",
+      "description": "Osmotic energy represents a promising renewable and non-intermittent energy source, harnessed from the salinity gradient between fresh and seawater. Sweetch Energy, a pioneer in this field with unique patented technology, is the global leader in the development of this untapped resource. To optimize and adapt this technology across different environments, a thorough understanding of the complex physical phenomena occurring at the scale of the cell pair unit – composed of anion exchange membranes, cation exchange membranes, and spacers – is required. The aim of this PhD project is to identify and model the interactions among the main parameters influencing osmotic energy generation. The research combines experimental investigations with computational simulations in order to reproduce and analyze the behavior of cell pair units under varying salinity gradients, fluid dynamics, and material properties. The methodology includes electrochemistry, fluidic analysis, surface chemistry characterization of membrane/spacer interfaces, and digital modeling. These approaches will make it possible to propose optimization strategies to improve the energy yield and power output of osmotic energy systems.\nThis project is conducted in collaboration between the Institut Européen des Membranes (University of Montpellier) and Sweetch Energy (Rennes), and is funded by the European Union’s Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement"
+    }
+  ],
+  "pis": [
+    {
+      "name": "Prof. Marialore Sulpizi",
+      "affiliation": "Ruhr Universität Bochum"
+    },
+    {
+      "name": "Prof. Ignacio Pagonabarraga",
+      "affiliation": "University of Barcelona"
+    },
+    {
+      "name": "Prof. Roland Netz",
+      "affiliation": "Freie Universität Berlin"
+    },
+    {
+      "name": "Dr. Marie-Laure BOCQUET, Dr. Lydéric Bocquet",
+      "affiliation": "CNRS (PhD at the Ecole Normale Supérieure, Paris 5)"
+    },
+    {
+      "name": "Benjamin Rotenberg and Emmanuel Trizac",
+      "affiliation": "CNRS (PhD at Sorbonne Université in Paris, France)"
+    },
+    {
+      "name": "Prof. M. Ceriotti",
+      "affiliation": "EPFL, COSMO LAB"
+    },
+    {
+      "name": "Dr. S. Bonella",
+      "affiliation": "EPFL, CECAM"
+    },
+    {
+      "name": "Erika Eiser",
+      "affiliation": "NTNU"
+    },
+    {
+      "name": "C. Chassagne",
+      "affiliation": "TU Delft"
+    },
+    {
+      "name": "Mischa Bonn",
+      "affiliation": "Max Planck Gesellschaft"
+    },
+    {
+      "name": "Radha Boya",
+      "affiliation": "University of Manchester"
+    },
+    {
+      "name": "Susan Perkin",
+      "affiliation": "University of Oxford"
+    },
+    {
+      "name": "Angelos Michaelides",
+      "affiliation": "University of Cambridge"
+    },
+    {
+      "name": "Pr. Mikhael BECHELANY, Pr. Lydéric BOCQUET",
+      "affiliation": "University of Montpellier and Sweetch Energy"
+    }
+  ],
+  "conferences": [
+    {
+      "title": "Journées de Physique Statistique",
+      "dateRange": "30-31 January 2025",
+      "location": "Université Paris Cité, Paris",
+      "talk": "",
+      "poster": "",
+      "attendees": "Megh Dutta, Lydéric Bocquet",
+      "awards": "",
+      "photos": "https://drive.google.com/drive/folders/1bfv0Yq5vIkW0P-wTgUMKlokMjqPMDjSG?usp=sharing"
+    },
+    {
+      "title": "Thematic Day: Nanomaterials",
+      "dateRange": "29-Nov-24",
+      "location": "Sorbonne Université, Paris",
+      "talk": "",
+      "poster": "",
+      "attendees": "Megh Dutta",
+      "awards": "",
+      "photos": "https://drive.google.com/drive/folders/12-lSYdXZCnr_-H3xiAyHqUrqhxnO4ouA?usp=sharing"
+    },
+    {
+      "title": "UFR Young Researchers’ Day",
+      "dateRange": "27-May-25",
+      "location": "Sorbonne Université, Paris",
+      "talk": "Shortcutting the charging time of an Electrolytic capacitor",
+      "poster": "",
+      "attendees": "Megh Dutta",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "ED 388 Doctoral Students' Day",
+      "dateRange": "24-Jun-25",
+      "location": "Sorbonne Université, Paris",
+      "talk": "",
+      "poster": "",
+      "attendees": "Megh Dutta",
+      "awards": "",
+      "photos": "https://drive.google.com/drive/folders/1TpGkmXAYMQuMr31DfGyPbXLy3cituXF4?usp=sharing"
+    },
+    {
+      "title": "Understanding Molecular Simulation",
+      "dateRange": "25 Apr - 05 May 2025",
+      "location": "CECAM-CN IoP CAS, Beijing",
+      "talk": "",
+      "poster": "",
+      "attendees": "Yann Dumay, Valentino Sanguinetti, Alessandro Forina, Haoyuan Quan, Ignacio Pagonabarraga, Daan Frenkel, Jure Dobnikar",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "Understanding Molecular Simulation",
+      "dateRange": "6 Jan - 17 Jan 2025",
+      "location": "Universiteit van Amsterdam",
+      "talk": "",
+      "poster": "",
+      "attendees": "Gabriele Dalla Valle, Yucong Chen, Paula Sierra i Varela",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "non-equilibrium statistical physics School",
+      "dateRange": "7 Apr - 11 Apr 2025",
+      "location": "Universitat de Barcelona",
+      "talk": "",
+      "poster": "",
+      "attendees": "Gabriele Dalla Valle, Daniel La Valle, Ignacio Pagonabarraga",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "Simulations Of Electrochemical Storage Devices: From Quantum To Classical Descriptions",
+      "dateRange": "21 Jul - 24 Jul 2025",
+      "location": "CECAM-FR-MOSER, Sorbonne Université, Paris",
+      "talk": "",
+      "poster": "",
+      "attendees": "Paula Sierra i Varela, Sara Bonella, Benjamin Rotenberg, Marialore Sulpizi",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "38th European Conference of Surface Science (ECOSS-38)",
+      "dateRange": "24 - 29 August 2025",
+      "location": "Braga, Portugal",
+      "talk": "Water under h-BN nanoconfinement: structural and chemical insights from ab initio simulations",
+      "poster": "",
+      "attendees": "Valentino Sanguinetti",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "N-AQUA meeting of January 2025 in Ringberg",
+      "dateRange": "13 - 17 January 2025",
+      "location": "Ringberg, Germany",
+      "talk": "",
+      "poster": "",
+      "attendees": "Valentino Sanguinetti, Yucong Chen, Marie-Laure Bocquet, Lyderic Bocquet",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "N-AQUA meeting of september 2025 in Aussois",
+      "dateRange": "15 - 19 September 2025",
+      "location": "Aussois, France",
+      "talk": "",
+      "poster": "",
+      "attendees": "Valentino Sanguinetti, Yucong Chen, Marie-Laure Bocquet, Lyderic Bocquet",
+      "awards": "",
+      "photos": ""
+    },
+    {
+      "title": "The Department of Physics & Astronomy 2025 Postgraduate Research Conference",
+      "dateRange": "26-Sept-2025",
+      "location": "University of Manchester, UK",
+      "talk": "",
+      "poster": "Hexaazatriphenylene–Diaminobenzidine Covalent Organic Framework: A Promising Nitrogen Abundant Material for Electrochemical Energy Storage Applications",
+      "attendees": "Sabiar Rahaman, Radha Boya",
+      "awards": "Best poster prize (First place)",
+      "photos": ""
+    },
+    {
+      "title": "Systematic coarse-graining and machine learning in soft matter physics with ESPResSo",
+      "dateRange": "6-10 October 2025",
+      "location": "University of Stuttgart",
+      "talk": "",
+      "poster": "Controlling Charging dynamics of Electrolytic Capacitors",
+      "attendees": "Megh Dutta, Gabriele Dalla Valle",
+      "awards": "",
+      "photos": "https://drive.google.com/drive/folders/1yp2jZlE3bywUOWrWLRG1t44SlnLQ0iOM?usp=drive_link"
+    },
+    {
+      "title": "MolSim-2026",
+      "dateRange": "5-16 January 2026",
+      "location": "University of Amsterdam",
+      "talk": "",
+      "poster": "Controlling Charging dynamics of Electrolytic Capacitors",
+      "attendees": "Megh Dutta, Mattia Borriello, Daan Frenkel",
+      "awards": "",
+      "photos": "https://drive.google.com/drive/folders/1YJN5KviVloGpmS5Vfg3nU2Xd10i4BGHQ?usp=sharing"
+    },
+    {
+      "title": "Molecular and ion flows through angstrom-scale channels Faraday Discussion, 2026",
+      "dateRange": "13–15 April 2026",
+      "location": "Manchester, UK",
+      "talk": "",
+      "poster": "Ion-gating through two-dimensional Ångström-scale confined channels",
+      "attendees": "Sabiar Rahaman, Radha Boya, Valentino Sanguinetti, Ignacio Pagonabarraga",
+      "awards": "Best poster prize",
+      "photos": ""
+    }
+  ],
+  "publications": [
+    {
+      "title": "Charging Dynamics of Electric Double-Layer Nanocapacitors in Mean Field",
+      "authors": "Ivan Palaia, Adelchi J. Asta, Megh Dutta, Patrick B. Warren, Benjamin Rotenberg, Emmanuel Trizac",
+      "journal": "Physical Review Letters",
+      "date": "29-Sep-25",
+      "link": "https://journals.aps.org/prl/abstract/10.1103/72b9-c8cq",
+      "abstract": "An electric double-layer capacitor (EDLC) stores energy by modulating the spatial distribution of ions in the electrolytic solution that it contains. We determine the mean-field timescales for planar EDLC relaxation to equilibrium after a potential difference is applied. We tackle first the fully symmetric case, where positive and negative ionic species have the same valence and diffusivity, and then the general, more complex, asymmetric case. Depending on the applied voltage and salt concentration, different regimes appear, revealing a remarkably rich phenomenology relevant for nanocapacitors."
+    },
+    {
+      "title": "Poisson-Nernst-Planck charging dynamics of an electric double-layer capacitor: Symmetric and asymmetric binary electrolytes",
+      "authors": "Ivan Palaia, Adelchi J. Asta, Megh Dutta, Patrick B. Warren, Benjamin Rotenberg, Emmanuel Trizac",
+      "journal": "Physical Review E",
+      "date": "29-Sep-25",
+      "link": "https://journals.aps.org/pre/abstract/10.1103/p4dg-snqf",
+      "abstract": "A parallel plate capacitor containing an electrolytic solution is the simplest model of a supercapacitor or electric double-layer capacitor. Using both analytical and numerical techniques, we solve the Poisson-Nernst-Planck equations for such a system, describing the mean-field charging dynamics of the capacitor, when a constant potential difference is abruptly applied to its plates. Working at constant total number of ions, we focus on the physical processes involved in the relaxation and, whenever possible, give its functional shape and exact time constants. We first review and study the case of a symmetric binary electrolyte, where we assume the two ionic species to have the same charges and diffusivities. We then relax these assumptions and present results for a generic strong (i.e., fully dissociated) binary electrolyte. At low electrolyte concentration, the relaxation is simple to understand, as the dynamics of positive and negative ions appear decoupled. At higher electrolyte concentration, we distinguish several regimes. In the linear regime (low voltages), relaxation is multiexponential, it starts by the buildup of the equilibrium charge profile and continues with neutral mass diffusion, and the relevant timescales feature both the average and the Nernst-Hartley diffusion coefficients. In the purely nonlinear regime (intermediate voltages), the initial relaxation is slowed down exponentially due to increased capacitance, while bulk effects become more and more evident. In the fully nonlinear regime (high voltages), the dynamics of charge and mass are completely entangled and, asymptotically, the relaxation is linear in time. We finally discuss nonideal behavior in real capacitors and provide conditions for which mean-field is expected to hold."
+    },
+    {
+      "title": "Hexaazatriphenylene–Diaminobenzidine Covalent Organic Framework: A Promising Nitrogen Abundant Material for Electrochemical Energy Storage Applications",
+      "authors": "Korak Kar, Sabiar Rahaman, Yuchen Liu, Krishna D Bhalerao, Hiran Jyothilal, Benjamin B Duff, Dinachandra Singh Mayanglambam, Basker Sundararaju, Boya Radha, Kumar Biradha, Ashok Keerthi",
+      "journal": "Chemistry of Materials",
+      "date": "26-Aug-25",
+      "link": "https://doi.org/10.1021/acs.chemmater.5c01220",
+      "abstract": "Covalent organic frameworks (COFs) are emerging as promising electrode materials due to their high surface area, tunable porosity, and design flexibility. However, their practical use in energy storage remains limited by their poor stability and electrochemical performance. Here, we report a nitrogen-rich COF, synthesized via an irreversible aromatic nucleophilic substitution between hexaazatriphenylenehexacarbonitrile and 3,3′-diaminobenzidine (HAT-DAB COF), forming stable – C═N– and −C–N– linkages. The framework integrates redox-active phenazine and arylamine units, offering a porous, crystalline, and nitrogen-rich architecture. Structural and morphological analyses confirm its robust and porous nature. As a bifunctional electrode, HAT-DAB COF shows excellent performance in lithium-ion batteries, with a specific capacity of 265 mAh/g, an energy density of ∼607 Wh/kg, and ∼98% Coulombic efficiency over hundreds of cycles. As a supercapacitor, it delivers 110.5 mF/cm2 at 1 mV/s, with ∼95% capacitance retention and 100% Coulombic efficiency over 8000 cycles. Capacitance arises from a synergy of electric double-layer and redox (Faradaic) processes, with the diffusive component retained even at high scan rates, indicating strong pseudocapacitor behavior. This work demonstrates the value of irreversible linkages and rational redox-active design in achieving durable, high-performance COFs for next-generation energy storage applications."
+    },
+    {
+      "title": "Cosurfactant-Induced Disorder in Polymersome Membrane Enhances Diffusion of Cargo Molecules",
+      "authors": "Gabrielle A. Ong, Priyanka Sharan, Robert Graf, Kaloian Koynov, Yucong Chen, Arsh S. Hazrah, Katharina Landfester",
+      "journal": "ACS Nano",
+      "date": "April 29, 2026",
+      "link": "https://doi.org/10.1021/acsnano.6c00963",
+      "abstract": "Giant polymersomes are widely used as artificial cells due to their resemblance to natural cells; however, their intrinsically low membrane permeability remains a major limitation for applications such as drug delivery and bioreactors. Here, we report a microfluidic approach to fabricate permeable polymersomes using PB-b-PEO as a macromolecular surfactant and oleyl alcohol as a cosurfactant. Incorporation of the cosurfactant into the membrane induces membrane structural disorder in polymer packing, leading to enhanced membrane permeability. Using advanced nuclear magnetic resonance (NMR) spectroscopy, we directly probe the heterogeneity within polymersome membranes, representing membrane-level investigation in giant polymersomes. Comparison with polymer-somes exhibiting tightly packed polymer assemblies reveals pronounced differences in the lateral mobility and permeability of the membrane. Our results demonstrate how subtle changes in formulation translate into distinct membrane structures, establishing a molecular basis for the rational design of polymersomes with tailored permeability."
+    },
+    {
+      "title": "Two-Dimensional Metal–Organic Framework for Supercapacitors: Thickness-Dependent Charge Storage Mechanisms",
+      "authors": "Hiran Jyothilal, Sabiar Rahaman, Vikas Sharma, Kavita Pandey, Ashok Keerthi, Boya Radha",
+      "journal": "Nano Letters",
+      "date": "2026/1/31",
+      "link": "https://doi.org/10.1021/acs.nanolett.5c06178",
+      "abstract": "Additive-free active materials are desirable for energy storage devices as they reduce processing complexity and eliminate variability from binders or conductive additives. We report the synthesis of a highly stable, two-dimensional copper-based metal–organic framework (CuMOF) film with a tunable thickness. The exceptional adhesion of CuMOF films to electrode surfaces enables a binder-free fabrication approach, addressing a key challenge in energy storage applications, particularly in electrode design. The film exhibits a columnar morphology with well-defined grain boundaries and a high surface area, making it optimal for supercapacitor applications. Electrochemical characterization on glassy carbon electrodes yielded an areal capacitance of 2.9 mF/cm2 at a scan rate of 1 mV/s using a ∼160 nm thick CuMOF film. We investigated films as thin as 2.4 nm, where the capacitance is predominantly governed by electrical double-layer effects, highlighting the interplay between the film structure and electrochemical behavior. Thus, CuMOF films offer practical applicability, advancing efficient binder-free energy storage."
+    },
+    {
+      "title": "Hexaazatriphenylene–Quinone Covalent Organic Polymers as a Platform for Stable and High-Performance Supercapacitors",
+      "authors": "Yuchen Liu, Sabiar Rahaman, Hiran Jyothilal, Tirumala Rao Dumpala, Korak Kar, Benjamin Duff, Hadeel Abbas, Alessandro Grillo, Alice Bowen, Ashok Keerthi",
+      "journal": "Journal of the American Chemical Society",
+      "date": "June 3, 2026",
+      "link": "https://doi.org/10.1021/jacs.5c20557",
+      "abstract": "Developing high-performance supercapacitors requires an optimal balance of capacitance, energy, and power density together with long-term cycling stability. Here, we report a family of heteroatom-doped, spin-active, and redox-active hexaazatriphenylene–quinone covalent organic polymers (COPs) prepared through complementary mechanochemical and solution-phase syntheses. These materials exhibit chemical robustness under acidic conditions and strong pseudocapacitive activity arising from delocalized spin centers and quinone redox sites. Among them, COP-2 displays the most favorable electrochemical characteristics, achieving an areal capacitance of up to 6214 mF/cm2 (863 F/g) and an unprecedented energy density of 1.91 mWh/cm2 (266 Wh/kg) at 1 mA/cm2 in symmetric two-electrode devices. The material also demonstrates high-rate capability with a maximum power density of 51.4 mW/cm2 (7139 W/kg) and stable cycling performance, retaining 82.1% capacitance after 50,000 cycles. Mechanistic studies combining spectroscopy, electrochemical analysis, and electronic structure simulations highlight the interplay of redox activity and spin delocalization in governing charge storage. These results establish a molecular-to-device design framework for developing spin-active porous polymers as advanced energy storage materials."
+    },
+    {
+      "title": "Nanofluidic ionic memory for next-generation computing",
+      "authors": "Siddhi Vinayak Pandey, Kalluvadi Veetil Saurav, Abdulghani Ismail, Sabiar Rahaman, Boya Radha",
+      "journal": "Nature Reviews Materials",
+      "date": "June 3, 2026",
+      "link": "https://doi.org/10.1038/s41578-026-00919-1",
+      "abstract": "The biological brain stores and processes information with exceptional energy efficiency, motivating the search for alternatives to traditional von Neumann computing systems that separate memory from processing. Nanofluidic memristors have emerged as promising building blocks for non-conventional neuromorphic computing, in which ion transport under nanoscale confinement generates history-dependent conductance for analog or digital switching. Their performance is governed by surface chemistry, device geometry and electrolyte properties, which together give rise to diverse memristive mechanisms and hysteresis loop types. Exploring new materials not only improves functionality but also deepens our understanding of the diverse physical mechanisms driving memristive behaviour. Despite rapid progress, challenges remain in mechanisms identification, fabrication scalability, variability control, fine tuning of memristive properties, and integration into higher-order neuromorphic architectures. This Perspective summarizes recent advances in materials and mechanisms, outlines characterization protocols and highlights emerging applications from in-sensor computing to visual processing and reservoir computing, while discussing how tailored nanochannel materials may enable next-generation, brain-inspired iontronic neuromorphic systems."
+    },
+    {
+      "title": "On-Water Surface Synthesis of 2D Conjugated Metal–Organic Framework Films With Controllable Layer Orientation Enabling High-Performance Chemiresistive Sensing",
+      "authors": "Jianjun Zhang, Víctor García-López, Yutong Wu, Shuai Fu, Yucong Chen, Arsh S. Hazrah, Petko Petkov, Mike Hambsch, Feng Ni, Alina Müller, Ye Yang, Leif Riemenschneider, Shirong Huang, Albertus Mattheüs Sandee, Yilv Guo, David Silva-Brea, Jan-Ole Joswig, Stefan C. B. Mannsfeld, Thomas Heine, Gianaurelio Cuniberti, Mischa Bonn, Zhiyong Wang, Xinliang Feng",
+      "journal": "Advanced Materials",
+      "date": "June 23, 2026",
+      "link": "https://doi.org/10.1002/adma.73785",
+      "abstract": "Two-dimensional conjugated metal–organic frameworks (2D c-MOFs) offer an appealing platform for electronic devices, particularly chemiresistive sensors, owing to their unique combination of electrical conductivity and intrinsic porosity. However, their pronounced structural and transport anisotropies render device performance highly sensitive to layer orientation, underscoring the need for synthetic strategies that enable the controlled synthesis of well-aligned 2D c-MOF films. Here, we introduce a surfactant monolayer-assisted on‑water synthesis that programs the layer orientation of conductive Ni‑HHTP (HHTP = 2,3,6,7,10,11-hexahydroxytriphenylene) films (face‑on vs. edge‑on) over cm2 ‑scale areas by tuning ligand-surfactant monolayer electrostatic vs. hydrogen‑bonding interactions. Imaging and scattering techniques unambiguously confirm preferential face-on and edge-on layer orientations, while electrical transport and optical pump-THz probe spectroscopy reveal markedly enhanced intralayer charge transport in face-on films, motivating their integration into chemiresistive sensing. Chemiresistive NH 3 sensors based on face‑on Ni‑HHTP films achieve a response of 269.8% at 50 ppm and an ultralow detection limit of 8.45 ppb at room temperature, surpassing edge‑on films and previously reported 2D c‑MOF sensors. These results establish surfactant-programmed"
+    }
+  ],
+  "outreach": [
+    {
+      "title": "International Physics Olympiad 2025",
+      "fellow": "Megh Dutta",
+      "location": "Paris",
+      "dates": "17-25 July 2025",
+      "role": "Team guide: Mentoring and helping students with their schedule planning during the competetion.",
+      "photos": "https://drive.google.com/drive/folders/1CXrvSP56lDCfkgA12QLWw_qc4zEo4-Ss?usp=drive_link"
+    },
+    {
+      "title": "School visit NTNU's Lab",
+      "fellow": "Yann Dumay",
+      "location": "Trondheim",
+      "dates": "28 March 2025",
+      "role": "Giving a presentation to students on polymers and their applications in resarch and the nature. This included live hands-on experiments, quizz and interactions with the school students",
+      "photos": ""
+    },
+    {
+      "title": "Resarcher's Night NTNU Trondheim",
+      "fellow": "Yann Dumay",
+      "location": "Trondheim",
+      "dates": "26 Sep 2025",
+      "role": "The Research's Night at NTNU is a huge event were 1100 high school students from the area around Trondheim are visiting the University. The felow prepared a stand to show live experiments that illustrate the work done in the Eiser group, as well as some videos and a poster.",
+      "photos": ""
+    },
+    {
+      "title": "Talk: Charging Dynamics of Electric Double-Layer Nanocapacitors in Mean Field",
+      "fellow": "Megh Dutta",
+      "location": "Mohali",
+      "dates": "5 December 2025",
+      "role": "Scientific presentation and engaging with the students to describe future career opportunities in science and research.",
+      "photos": "POSTED: Megh - Talk in ex-university"
+    }
+  ],
+  "events": [
+    {
+      "title": "Nonequilibrium Physics in Nanoconfinement",
+      "dateRange": "14-25 September 2025",
+      "location": "Les Houches, France",
+      "link": "https://www.cecam.org/workshop-details/les-houches-we-heraeus-school-nonequilibrium-physics-in-nanoconfinement-1473",
+      "photos": "",
+      "lectures": "",
+      "shortDescription": "",
+      "description": "Water and ion transport in nanoconfinement is crucial for understanding both biological processes and next-generation technologies, but it remains difficult to describe because new physics emerges at the nanoscale. Surface effects, molecular granularity, enhanced fluctuations, and nonequilibrium dynamics make confined fluids behave very differently from bulk systems. Recent experimental tools, advanced simulations, and machine-learning approaches are revealing unusual phenomena such as frictionless flows, selective transport, dielectric anomalies, and efficient osmotic energy conversion. However, many of these effects still lack a unified theoretical explanation. The training school will bring together leading experts to provide young researchers with the tools and perspectives needed to tackle these challenges."
+    },
+    {
+      "title": "FLUXIONIC Initial Orientation Workshop and First training week",
+      "dateRange": "9-13 December 2024",
+      "location": "Max-Planck Institute of Polymer Research Mainz",
+      "link": "",
+      "photos": "",
+      "lectures": "",
+      "shortDescription": "The Mainz Training Week and General Assembly marked the first FLUXIONIC event bringing together PIs and DCs. It launched advanced training, Career Development Plans, the long-term Proposal training module, and planning for the network’s future activities.",
+      "description": "The training week / General Assembly in Mainz was the first FLUXIONIC event where the PIs and DCs were present. We carried out the first advanced training modules and initiated the Career Development Plans through individual interviews of the students by the Steering Committee members. We also launched the Proposal training module that will last throughout the network. We planned the programs for the comming years."
+    },
+    {
+      "title": "FLUXIONIC Midterm Review Meeting and training week",
+      "dateRange": "31 March-4 April 2025",
+      "location": "TU Delft",
+      "link": "",
+      "photos": "https://drive.google.com/drive/folders/1GldAieeH8q3IlEV2V0btH5TkJ8_fzXnI?usp=drive_link",
+      "lectures": "",
+      "shortDescription": "The Delft Annual Meeting and Training Week combined training, project monitoring, and strategic planning. It supported doctoral fellows through scientific and career-focused sessions, reviewed individual and network progress, and strengthened future collaboration across FLUXIONIC.",
+      "description": "The FLUXIONIC Annual Meeting and Training Week in Delft brought together training activities, project monitoring, and network-level planning. The training programme included sessions on machine learning, advanced materials, scientific writing, proposal presentations, secondment planning, and a formal Midterm Review Meeting with the REA Project Officer. It was structured to assess the progress of the doctoral fellows and the overall network, while also supporting future collaboration and career development."
+    },
+    {
+      "title": "FLUXIONIC Students’ Midterm Meeting",
+      "dateRange": "1-3 October 2025",
+      "location": "University of Barcelona",
+      "link": "",
+      "photos": "https://drive.google.com/drive/folders/126muuYlJbgJWv0T7JwBpuUoOyZk4xjoA?usp=sharing",
+      "lectures": "",
+      "shortDescription": "The FLUXIONIC Annual Meeting and Training Week in Delft combined training, project monitoring, and strategic network planning. It included sessions on machine learning, materials, writing, proposals, secondments, and the REA visit.",
+      "description": "The FLUXIONIC Students’ Midterm Meeting was designed to review the progress of the individual research projects within the network, while also fostering collaboration and offering participants practical tools for their work."
+    },
+    {
+      "title": "FLUXIONIC Paris Tech Days",
+      "dateRange": "4-6 March 2026",
+      "location": "ENS Paris - Hummink - Ilion Water Tech - Aqemia",
+      "link": "",
+      "photos": "https://drive.google.com/drive/folders/19a6CJ8V3OqWbvU7TQD1vEOJ0OeYTICrB?usp=sharing",
+      "lectures": "",
+      "shortDescription": "The FLUXIONIC Paris Tech Days connected academic research with innovation, entrepreneurship, and societal challenges. Through discussions, training sessions, and visits to Hummink, Ilion Water Tech, and Aqemia, participants explored research transfer, start-up development, and careers beyond academia.",
+      "description": "The FLUXIONIC Paris Tech Days were designed to expose participants to the links between academic research, innovation, entrepreneurship, and societal challenges. The programme combined scientific discussions on the environmental transition with sessions on intellectual property, spin-off companies, ethics, and scientific conduct. Visits to Hummink, Ilion Water Tech, and Aqemia offered students practical insight into research transfer, start-up development, and career paths beyond academia."
+    },
+    {
+      "title": "FLUXIONIC Trondheim Meeting and training week",
+      "dateRange": "4-8 May 2026",
+      "location": "NTNU Trondheim",
+      "link": "pictures_norway.zip",
+      "photos": "",
+      "lectures": "https://www.dropbox.com/scl/fi/bynpgjf7rbh3im7h8vj96/Archive.zip?rlkey=4hdv2w4fmur4g9dhjseqgjmhf&st=4jpvauaw&dl=0",
+      "shortDescription": "The FLUXIONIC Annual Meeting and Training Week in Trondheim combined advanced scientific training with a comprehensive review of network activities. It included career-development sessions, student presentations, Career Development Plan discussions, future event planning, and exchanges among fellows, supervisors, and partners.",
+      "description": "The FLUXIONIC Annual Meeting and Training Week in Trondheim was designed to combine advanced scientific training with a broad review of the network’s activities. The programme offered students training on hydrodynamic and electrostatic interactions, career-development sessions, and individual discussions on their Career Development Plans. It also provided space for student research presentations, planning of future FLUXIONIC events, and informal exchanges among fellows, supervisors, and partners."
+    },
+    {
+      "title": "Fluctuations in charged and soft matter",
+      "dateRange": "5-8 October 2026",
+      "location": "Institut Henri Poincaré, Paris 5e",
+      "link": "https://www.cecam.org/workshop-details/fluctuations-in-charged-and-soft-matter-1526",
+      "photos": "",
+      "lectures": "",
+      "shortDescription": "The workshop is focused on transport of soft and charged matter at small scales, highlighting its relevance to nanomaterials and biology. Participants will explore nonequilibrium systems, thermal fluctuations, complex interactions, and modern approaches from statistical mechanics, active matter, and machine learning.",
+      "description": "Transport of soft and charged matter at small scales underpins advances in nanomaterials and biology, driven by thermal fluctuations and complex interactions. These systems, often far from equilibrium, are modeled as particle suspensions influenced by external forces or active energy conversion. While average behaviors are well-documented, fluctuations—like Casimir interactions or tracer dynamics—are key to understanding transport and kinetics. Tackling these challenges demands tools from statistical mechanics, active matter research, and machine learning."
+    },
+    {
+      "title": "Challenges in ionic fluids: Theory, simulation, and experiment",
+      "dateRange": "22-25 March 2027",
+      "location": "CECAM-HQ-EPFL, Lausanne",
+      "link": "https://www.cecam.org/workshop-details/challenges-in-ionic-fluids-theory-simulation-and-experiment-1483",
+      "photos": "",
+      "lectures": "",
+      "shortDescription": "The workshop will bring together experts to address the complex behavior of ionic fluids across scales. It will focus on emerging theoretical, computational, and experimental approaches, fostering collaboration around more accurate models for concentrated and nonequilibrium ionic systems.",
+      "description": "Ionic fluids are vital in science but remain poorly understood due to their complex, multiscale interactions. Traditional theories and simulations struggle with accuracy, especially at high concentrations or in nonequilibrium states. Recent advances in machine learning, density functional theory, and experiments offer new, more precise modeling approaches. These breakthroughs could finally bridge gaps in our understanding. The workshop will gather experts to tackle these challenges collaboratively."
+    }
+  ]
+}

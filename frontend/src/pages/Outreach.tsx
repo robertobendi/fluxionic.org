@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Calendar, MapPin, ExternalLink } from 'lucide-react'
+import { Calendar, MapPin, ExternalLink, Images } from 'lucide-react'
 
 interface OutreachEntry {
   slug: string
@@ -10,6 +10,7 @@ interface OutreachEntry {
     description?: string
     image?: string
     link?: string
+    galleryLink?: string
   }
 }
 
@@ -31,7 +32,7 @@ export default function Outreach() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-dark mb-4">
-              Outreach
+              Volunteering &amp; Outreach
             </h1>
             <p className="text-lg text-gray-text">
               Public talks, schools, and community events run by the FLUXIONIC network.
@@ -89,16 +90,28 @@ export default function Outreach() {
                         {item.data.description}
                       </p>
                     )}
-                    {item.data.link && (
-                      <a
-                        href={item.data.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-4 text-sm text-primary inline-flex items-center gap-1 hover:underline"
-                      >
-                        Learn more <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
+                    <div className="mt-4 flex flex-wrap gap-4">
+                      {item.data.link && (
+                        <a
+                          href={item.data.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary inline-flex items-center gap-1 hover:underline"
+                        >
+                          Learn more <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                      {item.data.galleryLink && (
+                        <a
+                          href={item.data.galleryLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary inline-flex items-center gap-1 hover:underline"
+                        >
+                          <Images className="w-3.5 h-3.5" /> Photos
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </article>
               ))}

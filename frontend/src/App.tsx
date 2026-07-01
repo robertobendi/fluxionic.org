@@ -6,17 +6,18 @@ import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import Project from './pages/Project'
 import Members from './pages/Members'
+import NodeDetail from './pages/NodeDetail'
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
 import Events from './pages/Events'
-import Fellows from './pages/Fellows'
+import EventDetail from './pages/EventDetail'
+import Conferences from './pages/Conferences'
+import ConferenceDetail from './pages/ConferenceDetail'
 import Publications from './pages/Publications'
 import Outreach from './pages/Outreach'
-import LesHouches from './pages/event/LesHouches'
 
 function App() {
   const location = useLocation()
-  const isEventPage = location.pathname.startsWith('/events/')
 
   useEffect(() => {
     fetch('/api/metrics/pageview', {
@@ -29,14 +30,6 @@ function App() {
     }).catch(() => {})
   }, [location.pathname])
 
-  if (isEventPage) {
-    return (
-      <Routes>
-        <Route path="/events/les-houches-2026" element={<LesHouches />} />
-      </Routes>
-    )
-  }
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -45,8 +38,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/project" element={<Project />} />
           <Route path="/member-institutions-and-pis" element={<Members />} />
+          <Route path="/nodes/:node" element={<NodeDetail />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/fellows" element={<Fellows />} />
+          <Route path="/events/:slug" element={<EventDetail />} />
+          <Route path="/conferences" element={<Conferences />} />
+          <Route path="/conferences/:slug" element={<ConferenceDetail />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/outreach" element={<Outreach />} />
           <Route path="/news" element={<News />} />

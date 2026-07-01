@@ -30,6 +30,8 @@ const EnvSchema = Type.Object({
   UPLOAD_DIR: Type.String({ default: "./uploads" }),
   METRICS_SALT: Type.String({ default: "change-me-in-production" }),
   INSTAGRAM_ACCESS_TOKEN: Type.String({ default: "" }),
+  // Shared password that unlocks fellows-only lecture slides on event pages.
+  LECTURES_PASSWORD: Type.String({ default: "fluxionic" }),
 });
 
 export type EnvConfig = Static<typeof EnvSchema>;

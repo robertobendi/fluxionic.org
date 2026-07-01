@@ -80,6 +80,11 @@ export const publicContentRoutes: FastifyPluginAsync = async (fastify) => {
           ? await populateReferences(entries, coll.fields, parsed.populate)
           : entries;
 
+        // Lecture links are password-gated; never expose them via the public API.
+        for (const e of populated as Array<{ data?: Record<string, unknown> }>) {
+          if (e?.data && 'lectures' in e.data) delete e.data.lectures;
+        }
+
         const page = Math.floor(parsed.offset / parsed.limit) + 1;
         const totalPages = parsed.limit > 0 ? Math.ceil(total / parsed.limit) : 0;
 
@@ -154,6 +159,11 @@ export const publicContentRoutes: FastifyPluginAsync = async (fastify) => {
           const populateFields = populate.split(',').map((s) => s.trim()).filter(Boolean);
           const [populated] = await populateReferences([entry], coll.fields, populateFields);
           payload = populated;
+        }
+
+        // Lecture links are password-gated; never expose them via the public API.
+        if (payload?.data && 'lectures' in (payload.data as Record<string, unknown>)) {
+          delete (payload.data as Record<string, unknown>).lectures;
         }
 
         return reply.code(200).send({ data: payload });

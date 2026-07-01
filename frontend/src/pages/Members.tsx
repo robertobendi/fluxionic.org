@@ -1,139 +1,21 @@
-import { MapPin } from 'lucide-react'
-
-interface PI {
-  name: string
-  photo?: string
-}
-
-interface Institution {
-  name: string
-  abbrev: string
-  location: string
-  country: string
-  pis: PI[]
-  associates?: string[]
-}
-
-const institutions: Institution[] = [
-  {
-    name: 'University of Barcelona',
-    abbrev: 'UB',
-    location: 'Barcelona',
-    country: 'Spain',
-    pis: [
-      { name: 'Ignacio Pagonabarraga', photo: '/pis/pagonabarraga.jpg' },
-      { name: 'Jure Dobnikar', photo: '/pis/dobnikar.jpg' },
-    ],
-  },
-  {
-    name: 'CNRS Paris',
-    abbrev: 'CNRS',
-    location: 'Paris',
-    country: 'France',
-    pis: [
-      { name: 'Marie-Laure Bocquet', photo: '/pis/ml-bocquet.jpg' },
-      { name: 'Lyderic Bocquet', photo: '/pis/l-bocquet.jpg' },
-      { name: 'Benjamin Rotenberg', photo: '/pis/rotenberg.jpg' },
-      { name: 'Emmanuel Trizac', photo: '/pis/trizac.jpg' },
-    ],
-    associates: ['Ecole Normale Superieure-PSL', 'Universite Sorbonne', 'Universite Paris-Saclay'],
-  },
-  {
-    name: 'Ruhr Universitat Bochum',
-    abbrev: 'RUB',
-    location: 'Bochum',
-    country: 'Germany',
-    pis: [
-      { name: 'Marialore Sulpizi', photo: '/pis/sulpizi.jpg' },
-    ],
-  },
-  {
-    name: 'Freie Universitat Berlin',
-    abbrev: 'FUB',
-    location: 'Berlin',
-    country: 'Germany',
-    pis: [
-      { name: 'Roland Netz', photo: '/pis/netz.jpg' },
-    ],
-  },
-  {
-    name: 'Max Planck Gesellschaft',
-    abbrev: 'MPG',
-    location: 'Mainz',
-    country: 'Germany',
-    pis: [
-      { name: 'Mischa Bonn', photo: '/pis/bonn.jpg' },
-    ],
-  },
-  {
-    name: 'Sweetch Energy',
-    abbrev: 'SWEETCH',
-    location: 'Paris',
-    country: 'France',
-    pis: [
-      { name: 'Pascal Le Melinaire', photo: '/pis/lemelinaire.jpg' },
-    ],
-  },
-  {
-    name: 'Norges Teknisk-Naturvitenskapelige Universitet',
-    abbrev: 'NTNU',
-    location: 'Trondheim',
-    country: 'Norway',
-    pis: [
-      { name: 'Erika Eiser', photo: '/pis/eiser.jpg' },
-    ],
-  },
-  {
-    name: 'TU Delft',
-    abbrev: 'TUD',
-    location: 'Delft',
-    country: 'Netherlands',
-    pis: [
-      { name: 'Claire Chassagne', photo: '/pis/chassagne.jpg' },
-      { name: 'Remco Hartkamp', photo: '/pis/hartkamp.jpg' },
-    ],
-  },
-  {
-    name: 'University of Cambridge',
-    abbrev: 'UCAM',
-    location: 'Cambridge',
-    country: 'United Kingdom',
-    pis: [
-      { name: 'Angelos Michaelides', photo: '/pis/michaelides.jpg' },
-      { name: 'Daan Frenkel', photo: '/pis/frenkel.jpg' },
-    ],
-  },
-  {
-    name: 'University of Manchester',
-    abbrev: 'UNIMAN',
-    location: 'Manchester',
-    country: 'United Kingdom',
-    pis: [
-      { name: 'Radha Boya', photo: '/pis/boya.jpg' },
-    ],
-  },
-  {
-    name: 'University of Oxford',
-    abbrev: 'UOXF',
-    location: 'Oxford',
-    country: 'United Kingdom',
-    pis: [
-      { name: 'Susan Perkin', photo: '/pis/perkin.jpg' },
-    ],
-  },
-  {
-    name: 'Ecole Polytechnique Federale de Lausanne',
-    abbrev: 'EPFL',
-    location: 'Lausanne',
-    country: 'Switzerland',
-    pis: [
-      { name: 'Michele Ceriotti', photo: '/pis/ceriotti.jpg' },
-      { name: 'Sara Bonella', photo: '/pis/bonella.jpg' },
-    ],
-  },
-]
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { MapPin, ArrowRight, GraduationCap } from 'lucide-react'
+import {
+  institutions,
+  fetchFellowsByNode,
+  initials,
+  type Institution,
+  type FellowEntry,
+} from '../data/nodes'
 
 export default function Members() {
+  const [byNode, setByNode] = useState<Record<string, FellowEntry[]>>({})
+
+  useEffect(() => {
+    fetchFellowsByNode().then(setByNode)
+  }, [])
+
   return (
     <>
       {/* Hero Section */}
@@ -141,8 +23,12 @@ export default function Members() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-dark mb-6">
-              Member Institutions and PIs
+              Nodes and Researchers
             </h1>
+            <p className="text-lg text-gray-text">
+              The institutions, principal investigators and doctoral researchers that make up the
+              FLUXIONIC network. Select a node to meet its team and read about their projects.
+            </p>
           </div>
         </div>
       </section>
@@ -152,7 +38,11 @@ export default function Members() {
         <div className="container">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {institutions.map((institution) => (
-              <InstitutionCard key={institution.abbrev} institution={institution} />
+              <NodeCard
+                key={institution.abbrev}
+                institution={institution}
+                fellows={byNode[institution.abbrev.toUpperCase()] ?? []}
+              />
             ))}
           </div>
         </div>
@@ -161,12 +51,15 @@ export default function Members() {
   )
 }
 
-function InstitutionCard({ institution }: { institution: Institution }) {
+function NodeCard({ institution, fellows }: { institution: Institution; fellows: FellowEntry[] }) {
   return (
-    <div className="bg-gradient-to-br from-white to-light-blue/40 border border-gray-100 rounded-xl p-6 hover:shadow-lg transition-all hover:scale-[1.02]">
+    <Link
+      to={`/nodes/${institution.abbrev.toLowerCase()}`}
+      className="group bg-gradient-to-br from-white to-light-blue/40 border border-gray-100 rounded-xl p-6 hover:shadow-lg transition-all hover:scale-[1.02] flex flex-col"
+    >
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h3 className="text-lg font-heading font-bold text-dark mb-1">
+          <h3 className="text-lg font-heading font-bold text-dark mb-1 group-hover:text-primary transition-colors">
             {institution.name}
           </h3>
           <div className="flex items-center text-sm text-gray-text">
@@ -179,44 +72,49 @@ function InstitutionCard({ institution }: { institution: Institution }) {
         </span>
       </div>
 
-      {institution.associates && institution.associates.length > 0 && (
-        <div className="mb-4 text-sm text-gray-text">
-          <span className="font-medium">Associated: </span>
-          {institution.associates.join(', ')}
+      <div className="border-t border-gray-200/50 pt-4 mb-4">
+        <h4 className="text-xs font-medium text-gray-text uppercase tracking-wide mb-2">
+          Principal Investigators
+        </h4>
+        <p className="text-sm text-dark">{institution.pis.map((p) => p.name).join(', ')}</p>
+      </div>
+
+      {fellows.length > 0 && (
+        <div className="border-t border-gray-200/50 pt-4 mt-auto">
+          <h4 className="text-xs font-medium text-gray-text uppercase tracking-wide mb-3">
+            Doctoral Researchers
+          </h4>
+          <div className="flex items-center gap-2">
+            {fellows.slice(0, 5).map((f) => (
+              <div
+                key={f.slug}
+                className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary/20 bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-xs font-medium"
+                title={f.data.name}
+              >
+                {f.data.photo ? (
+                  <img src={f.data.photo} alt={f.data.name} className="w-full h-full object-cover" />
+                ) : (
+                  initials(f.data.name)
+                )}
+              </div>
+            ))}
+            {fellows.length > 5 && (
+              <span className="text-xs text-gray-text">+{fellows.length - 5}</span>
+            )}
+          </div>
         </div>
       )}
 
-      <div className="border-t border-gray-200/50 pt-4">
-        <h4 className="text-sm font-medium text-dark mb-3">Principal Investigators</h4>
-        <div className="space-y-3">
-          {institution.pis.map((pi) => (
-            <div key={pi.name} className="flex items-center">
-              <div className="w-16 h-16 rounded-full overflow-hidden mr-3 flex-shrink-0 ring-2 ring-primary/20">
-                {pi.photo ? (
-                  <img
-                    src={pi.photo}
-                    alt={pi.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.style.display = 'none'
-                      const parent = target.parentElement
-                      if (parent) {
-                        parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-dark text-white font-medium">${pi.name.split(' ').pop()?.charAt(0)}</div>`
-                      }
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-dark text-white font-medium">
-                    {pi.name.split(' ').pop()?.charAt(0)}
-                  </div>
-                )}
-              </div>
-              <span className="text-sm text-dark">{pi.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+      <span className="inline-flex items-center text-primary text-sm font-medium mt-4 group-hover:gap-2 gap-1 transition-all">
+        {fellows.length > 0 ? (
+          <>
+            <GraduationCap className="w-4 h-4" /> View node &amp; projects
+          </>
+        ) : (
+          'View node'
+        )}
+        <ArrowRight className="w-4 h-4" />
+      </span>
+    </Link>
   )
 }
