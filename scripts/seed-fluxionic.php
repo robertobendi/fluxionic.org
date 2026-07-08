@@ -595,7 +595,7 @@ $publications = [
         'journal' => 'Physical Review E',
         'year' => 2025,
         'date' => '2025-09-29',
-        'url' => '',
+        'url' => 'https://journals.aps.org/pre/abstract/10.1103/p4dg-snqf',
     ],
     [
         'slug' => 'hat-dab-cof-chem-mater-2025',
