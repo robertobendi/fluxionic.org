@@ -35,6 +35,20 @@
             {% if entry.field('external_url') %}
                 <p><a href="{{ entry.field('external_url') }}" rel="noopener" target="_blank" class="btn btn-outline">Event website →</a></p>
             {% endif %}
+            {% if entry.field('lectures_url') and entry.field('lectures_password') %}
+                <div id="presentations" style="margin-top:2rem;padding:1.5rem;border:1px solid var(--light-blue-30);border-radius:.75rem;background:linear-gradient(to bottom, var(--light-blue-30), #fff);">
+                    <h2 style="margin-top:0;">Presentations</h2>
+                    <p>The presentation files from this meeting are available to network members. Enter the shared password to download them.</p>
+                    {% if lectures_error %}
+                        <p style="color:#b91c1c;font-weight:500;">That password is not correct — please try again.</p>
+                    {% endif %}
+                    <form method="post" action="/events/{{ entry.slug }}/lectures" style="display:flex;gap:.75rem;flex-wrap:wrap;">
+                        <input type="password" name="password" placeholder="Password" required autocomplete="off"
+                               style="flex:1;min-width:200px;padding:.6rem .9rem;border:1px solid #d6d3d1;border-radius:.5rem;font:inherit;">
+                        <button type="submit" class="btn">Download presentations</button>
+                    </form>
+                </div>
+            {% endif %}
         </article>
     </div>
 </section>

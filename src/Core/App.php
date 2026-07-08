@@ -226,6 +226,10 @@ final class App
         $public = new PublicController($this);
         $r->get('/', fn ($req) => $public->home($req));
 
+        // Password gate for event presentation archives (lectures_url field).
+        // Registered before the collection-derived routes like the SEO ones.
+        $r->post('/events/{slug}/lectures', fn ($req) => $public->lectures($req));
+
         $publicCollections = [];
         foreach ($this->collections->all() as $name => $collection) {
             if ($collection->isForm()) {

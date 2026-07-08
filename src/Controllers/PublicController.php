@@ -72,6 +72,38 @@ final class PublicController
         return $this->renderEntry($request, $entry, $collectionName);
     }
 
+    /**
+     * Password gate for an event's presentation archive. The archive URL
+     * (lectures_url) is never rendered client-side; visitors POST the shared
+     * password and get redirected to it on a match.
+     */
+    public function lectures(Request $request): Response
+    {
+        $slug = (string) $request->param('slug', '');
+        $entry = $slug === '' ? null : $this->repo->findBySlug('events', $slug);
+        if ($entry === null || !$entry->isPublished()) {
+            return $this->renderNotFound();
+        }
+        $url = trim((string) $entry->field('lectures_url', ''));
+        $password = (string) $entry->field('lectures_password', '');
+        if ($url === '' || $password === '') {
+            return $this->renderNotFound();
+        }
+        $given = (string) ($request->post['password'] ?? '');
+        if (!hash_equals($password, $given)) {
+            sleep(1); // slow down brute-force guessing
+            $collection = $this->app->collections->get('events');
+            $template = $collection?->template() ?? 'page.twig';
+            $body = $this->app->view->render('@theme/' . $template, $this->context([
+                'entry'          => $entry,
+                'collection'     => $collection,
+                'lectures_error' => true,
+            ]));
+            return Response::html($body, 403);
+        }
+        return Response::redirect($url);
+    }
+
     private function track(Request $request): void
     {
         // Best-effort — never let metrics break the page render.

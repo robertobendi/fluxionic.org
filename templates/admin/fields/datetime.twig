@@ -1,5 +1,8 @@
 <div class="field">
     <label for="f-{{ name }}" class="{{ field.required() ? 'field-required' : '' }}">{{ field.label() }}</label>
-    <input id="f-{{ name }}" name="{{ name }}" type="datetime-local" value="{{ value }}" {{ field.required() ? 'required' : '' }}>
+    {# datetime-local inputs only accept YYYY-MM-DDTHH:MM — normalise stored
+       values (e.g. bare "2026-05-04" dates from the seed) or the browser
+       renders the input empty and saving would wipe the date. #}
+    <input id="f-{{ name }}" name="{{ name }}" type="datetime-local" value="{{ value ? value|date('Y-m-d\\TH:i') : '' }}" {{ field.required() ? 'required' : '' }}>
     {% if field.help() %}<div class="help">{{ field.help() }}</div>{% endif %}
 </div>

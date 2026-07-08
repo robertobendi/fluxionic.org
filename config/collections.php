@@ -125,6 +125,8 @@ return [
             'cover_url'   => ['type' => 'url', 'label' => 'Cover image URL'],
             'body'        => ['type' => 'markdown', 'label' => 'Body'],
             'external_url' => ['type' => 'url', 'label' => 'External event URL'],
+            'lectures_url'      => ['type' => 'url', 'label' => 'Presentations link (kept private)', 'help' => 'Link to the presentation files (e.g. a Dropbox or Zenodo archive). Never shown to visitors — they must first enter the presentations password below.'],
+            'lectures_password' => ['type' => 'text', 'label' => 'Presentations password', 'help' => 'The password visitors must type to download the presentations. Share it with network members. Leave empty to hide the download box.'],
             'meta_description' => ['type' => 'textarea', 'label' => 'Meta description'],
         ],
     ],

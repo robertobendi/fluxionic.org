@@ -458,6 +458,10 @@ $events = [
         'title'     => 'FLUXIONIC Trondheim Meeting and Training Week',
         'starts_on' => '2026-05-04', 'ends_on' => '2026-05-08',
         'location'  => 'NTNU Trondheim',
+        // Presentations archive behind the password gate (spreadsheet "lectures"
+        // column). The URL is never rendered publicly — see PublicController::lectures().
+        'lectures_url'      => 'https://www.dropbox.com/scl/fi/bynpgjf7rbh3im7h8vj96/Archive.zip?rlkey=4hdv2w4fmur4g9dhjseqgjmhf&st=4jpvauaw&dl=1',
+        'lectures_password' => 'Trondheim2026',
         'summary'   => 'The FLUXIONIC Annual Meeting and Training Week in Trondheim combined advanced scientific training with a comprehensive review of network activities. It included career-development sessions, student presentations, Career Development Plan discussions, future event planning, and exchanges among fellows, supervisors, and partners.',
         'description' => 'The FLUXIONIC Annual Meeting and Training Week in Trondheim was designed to combine advanced scientific training with a broad review of the network’s activities. The programme offered students training on hydrodynamic and electrostatic interactions, career-development sessions, and individual discussions on their Career Development Plans. It also provided space for student research presentations, planning of future FLUXIONIC events, and informal exchanges among fellows, supervisors, and partners.',
     ],
