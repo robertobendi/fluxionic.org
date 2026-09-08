@@ -326,6 +326,108 @@
             background: var(--primary); border-radius: 9999px;
         }
 
+        .lh-programme { margin-top: 3.5rem; }
+        .lh-programme-head {
+            display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-300);
+        }
+        .lh-programme-head h3 { font-size: 1.5rem; }
+        .lh-programme-kicker {
+            color: var(--primary);
+            font-family: 'Poppins', system-ui, sans-serif;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-bottom: .25rem;
+        }
+        .lh-programme-note { color: var(--gray-text); font-size: .875rem; font-style: italic; }
+        .lh-programme-day { margin-top: 2rem; }
+        .lh-programme-day h4 { font-size: 1.125rem; margin-bottom: .75rem; }
+        .lh-programme-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--gray-300);
+            border-radius: .75rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,.04);
+        }
+        .lh-programme-table {
+            width: 100%;
+            min-width: 46rem;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-size: .9375rem;
+        }
+        .lh-programme-table col.time { width: 9rem; }
+        .lh-programme-table col.format { width: 11.5rem; }
+        .lh-programme-table th {
+            background: var(--dark);
+            color: #fff;
+            padding: .75rem 1rem;
+            text-align: left;
+            font-family: 'Poppins', system-ui, sans-serif;
+            font-size: .8125rem;
+            font-weight: 600;
+        }
+        .lh-programme-table td {
+            padding: .75rem 1rem;
+            border-top: 1px solid var(--gray-300);
+            color: var(--gray-text);
+            line-height: 1.5;
+            vertical-align: top;
+        }
+        .lh-programme-table td:first-child {
+            color: var(--dark);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+        .lh-programme-table tbody tr:nth-child(even) { background: var(--gray-50); }
+        .lh-programme-table tbody tr.is-pause { background: rgba(0,103,255,.07); }
+        .lh-programme-table tbody tr.is-pause td { color: var(--gray-text); font-style: italic; }
+        @media (max-width:767px) {
+            .lh-programme-head { align-items: flex-start; flex-direction: column; gap: .5rem; }
+            .lh-programme-table-wrap { overflow: visible; border: 0; box-shadow: none; }
+            .lh-programme-table { min-width: 0; border-collapse: separate; }
+            .lh-programme-table colgroup { display: none; }
+            .lh-programme-table thead {
+                position: absolute;
+                width: 1px; height: 1px;
+                padding: 0; margin: -1px;
+                overflow: hidden;
+                clip: rect(0, 0, 0, 0);
+                white-space: nowrap;
+                border: 0;
+            }
+            .lh-programme-table tbody { display: grid; gap: .75rem; }
+            .lh-programme-table tr {
+                display: block;
+                overflow: hidden;
+                border: 1px solid var(--gray-300);
+                border-radius: .75rem;
+                background: #fff;
+            }
+            .lh-programme-table tbody tr:nth-child(even) { background: #fff; }
+            .lh-programme-table tbody tr.is-pause { background: rgba(0,103,255,.07); }
+            .lh-programme-table td {
+                display: grid;
+                grid-template-columns: 6.5rem minmax(0, 1fr);
+                gap: .75rem;
+                width: 100%;
+                padding: .65rem .75rem;
+                border-top: 1px solid var(--gray-300);
+            }
+            .lh-programme-table td:first-child { border-top: 0; }
+            .lh-programme-table td::before {
+                content: attr(data-label);
+                color: var(--dark);
+                font-family: 'Poppins', system-ui, sans-serif;
+                font-size: .75rem;
+                font-style: normal;
+                font-weight: 600;
+            }
+            .lh-programme-table td[data-label="Session / Speaker"]:empty { display: none; }
+        }
+
         /* ======= School info ======= */
         .lh-school-grid {
             display: grid; gap: 3rem; align-items: center;
@@ -590,7 +692,172 @@
                 <li>Experimental techniques</li>
                 <li>Nanomaterials production and characterization</li>
             </ul>
-            <p style="font-size:.875rem;color:var(--gray-text);margin-top:1.5rem;font-style:italic;">The detailed program will be announced soon.</p>
+            <p style="font-size:.875rem;color:var(--gray-text);margin-top:1.5rem;font-style:italic;">The detailed day-by-day programme is provided below.</p>
+        </div>
+
+        {% set conference_programme = [
+            {
+                'day': 'Monday, 14 September',
+                'sessions': [
+                    {'time': '17:00–17:30', 'format': 'Welcome', 'session': 'Jure Dobnikar'},
+                    {'time': '17:30–19:00', 'format': 'Lecture', 'session': 'Small-Scale Hydrodynamics — Ignacio Pagonabarraga'}
+                ]
+            },
+            {
+                'day': 'Tuesday, 15 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Nanofluidics — Lydéric Bocquet'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Nanofluidics — Lydéric Bocquet'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'Patrick Huber — “Nature’s Blueprint: Water-Enabled Functions in Hierarchically Porous Media”'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Angelos Michaelides — TBA'}
+                ]
+            },
+            {
+                'day': 'Wednesday, 16 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Spectroscopy Experiments — Mischa Bonn'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Spectroscopy Experiments — Mischa Bonn'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'Patrick Warren — “Salt Tweezers: Trapping Particles and Macromolecules with Diffusiophoresis from an Injected Salt Solution”'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Contributed talks (3 × 20 min)'}
+                ]
+            },
+            {
+                'day': 'Thursday, 17 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Machine-Learning Force-Field Simulations of Ions in Water: The Good, the Bad and the Ugly — Gábor Csányi'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Machine-Learning Force-Field Simulations of Ions in Water: The Good, the Bad and the Ugly — Gábor Csányi'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'Marie-Laure Bocquet — “Water/hBN Interface: A Synergistic Use Case for Nanofluidics”'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Susan Perkin — “Solvation Forces in Electrolyte Solutions, from the Dilute to Concentrated Limits”'}
+                ]
+            },
+            {
+                'day': 'Friday, 18 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Scanning Probe Microscopy of Interfacial Structure and Dynamics: From Open Surfaces to Nanoconfinement — Ying Jiang'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Scanning Probe Microscopy of Interfacial Structure and Dynamics: From Open Surfaces to Nanoconfinement — Ying Jiang'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–15:30', 'format': 'Lecture', 'session': 'David Dean — “Stochastic Field Theories for Dipole Dynamics: From Thermal van der Waals Interactions to Viscosity”'},
+                    {'time': '15:30–16:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '16:00–17:00', 'format': 'Research presentation', 'session': 'Contributed talks (3 × 20 min)'},
+                    {'time': '17:00–18:00', 'format': 'Open presentation', 'session': 'TBA'}
+                ]
+            },
+            {
+                'day': 'Saturday–Sunday',
+                'sessions': [
+                    {'time': '', 'format': 'Social activities', 'session': '', 'pause': true}
+                ]
+            },
+            {
+                'day': 'Monday, 21 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Ionic Transport at the Nanoscale — Benjamin Rotenberg'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Ionic Transport at the Nanoscale — Benjamin Rotenberg'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'Nikita Kavokine — “On the Microscopic Origins of Liquid–Solid Friction”'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Maria-Lore Sulpizi — TBA'}
+                ]
+            },
+            {
+                'day': 'Tuesday, 22 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Fluctuations and Spectroscopy — Roland Netz'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Fluctuations and Spectroscopy — Roland Netz'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'Alexandre Tkatchenko — “AI-Enabled Molecular Simulations: Advances, Magic Moments, and Challenges”'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Contributed talks (3 × 20 min)'}
+                ]
+            },
+            {
+                'day': 'Wednesday, 23 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Nanomaterials — Radha Boya'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:30', 'format': 'Lecture 2', 'session': 'Nanomaterials — Radha Boya'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'René van Roij — “Coupling Iontronics to Chemistry: Towards Computing with Water?”'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Claire Chassagne — “Probing the Clay/Electrolyte Interface: From Electrokinetics to Zeta Potential”'}
+                ]
+            },
+            {
+                'day': 'Thursday, 24 September',
+                'sessions': [
+                    {'time': '09:00–10:30', 'format': 'Lecture 1', 'session': 'Computational Methods — Daan Frenkel'},
+                    {'time': '10:30–11:00', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '11:00–12:00', 'format': 'Research presentation', 'session': 'TBA'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Break and discussions', 'session': '', 'pause': true},
+                    {'time': '17:00–18:00', 'format': 'Research presentation', 'session': 'Erika Eiser — TBA'},
+                    {'time': '18:00–19:00', 'format': 'Research presentation', 'session': 'Contributed talks (3 × 20 min)'}
+                ]
+            },
+            {
+                'day': 'Friday, 25 September',
+                'sessions': [
+                    {'time': '09:00–10:00', 'format': 'Research presentation', 'session': 'TBA'},
+                    {'time': '10:00–10:30', 'format': 'Break', 'session': '', 'pause': true},
+                    {'time': '10:30–12:00', 'format': 'Lecture 2', 'session': 'Computational Methods — Daan Frenkel'},
+                    {'time': '12:00–12:30', 'format': 'Concluding remarks', 'session': 'Ignacio Pagonabarraga and Jure Dobnikar'},
+                    {'time': '12:30–14:00', 'format': 'Lunch', 'session': '', 'pause': true},
+                    {'time': '14:00–17:00', 'format': 'Departure', 'session': '', 'pause': true}
+                ]
+            }
+        ] %}
+
+        <div class="lh-programme">
+            <div class="lh-programme-head">
+                <div>
+                    <p class="lh-programme-kicker">14–25 September 2026</p>
+                    <h3>Conference Programme</h3>
+                </div>
+                <p class="lh-programme-note">Programme subject to change.</p>
+            </div>
+
+            {% for programme_day in conference_programme %}
+                <section class="lh-programme-day">
+                    <h4 id="programme-day-{{ loop.index }}">{{ programme_day.day }}</h4>
+                    <div class="lh-programme-table-wrap">
+                        <table class="lh-programme-table" aria-labelledby="programme-day-{{ loop.index }}">
+                            <colgroup>
+                                <col class="time">
+                                <col class="format">
+                                <col>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Format</th>
+                                    <th scope="col">Session / Speaker</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in programme_day.sessions %}
+                                    <tr{% if item.pause|default(false) %} class="is-pause"{% endif %}>
+                                        <td data-label="Time">{{ item.time }}</td>
+                                        <td data-label="Format">{{ item.format }}</td>
+                                        <td data-label="Session / Speaker">{{ item.session }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            {% endfor %}
         </div>
     </div>
 </section>
