@@ -336,10 +336,10 @@ $nodes = [
             'logo_url' => '/assets/logos/oxford.jpg',
             'pi_1_name' => 'Susan Perkin', 'pi_1_photo_url' => '/assets/pis/perkin.jpg',
 
-            'student_1_name' => 'Lauriane Pierot Deseilligny',
+            'student_1_name' => 'Lauriane Pierrot-Deseilligny',
             'student_1_supervisor' => 'Susan Perkin',
             'student_1_topic' => $lauriane_description,
-            'student_1_photo_url' => '/assets/fellows/lauriane-pierot-deseilligny.jpg',
+            'student_1_photo_url' => '/assets/fellows/lauriane-pierrot-deseilligny.jpg',
         ],
     ],
     [
@@ -401,7 +401,7 @@ $fellows = [
     ['gokmen-tamer-sanli',        'Gökmen Tamer Sanli',       'tu-delft',   'TU Delft',                                    'Claire Chassagne',                       'Coupling mean-field colloidal models and MD to probe surface/water interfaces.'],
     ['yucong-chen',               'Yucong Chen',              'mpg-mainz',  'Max Planck Institute for Polymer Research',   'Mischa Bonn',                            'Characterizing and controlling water structure and dynamics in confinement.'],
     ['sabiar-rahaman',            'Sabiar Rahaman',           'manchester', 'University of Manchester',                    'Radha Boya',                             'Confined water and ions in angstrom-scale capillaries.'],
-    ['lauriane-pierot-deseilligny', 'Lauriane Pierot Deseilligny', 'oxford', 'University of Oxford',                       'Susan Perkin',                           $lauriane_description],
+    ['lauriane-pierrot-deseilligny', 'Lauriane Pierrot-Deseilligny', 'oxford', 'University of Oxford',                    'Susan Perkin',                           $lauriane_description],
     ['shu-yang',                  'Shu Yang',                 'cambridge',  'University of Cambridge',                     'Angelos Michaelides',                    'Accurate quantum simulations of nanoconfined salty water.'],
     ['hamza-el-assri',            'Hamza El Assri',           'sweetch',    'Sweetch Energy & University of Montpellier',  'Mikhael Bechelany & Lydéric Bocquet',    'Experimental and modelling investigation of a nanofluidic osmotic energy generator.'],
 ];
