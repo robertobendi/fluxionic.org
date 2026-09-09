@@ -133,6 +133,19 @@ insert_entry($db, 'pages', 'project', [
  * ----------------------------------------------------------------------- */
 $node_base = ts('2025-01-01');
 
+$yann_description = 'Two-phase flow in porous media — investigating how immiscible fluids organise, fluctuate, and dissipate energy under steady driving. '
+    . 'The project uses 3D-printed fluidic cells and optical measurements to study the spatial distribution of phases, flow-field fluctuations, and pressure response in model porous networks. '
+    . 'The aim is to better understand which physical and geometrical parameters control the behaviour of steady two-phase flow in controlled porous media.';
+
+$lauriane_description = 'Liquid liquid phase separations are a ubiquitous process in many natural processes. '
+    . 'Examples include the formation of protein condensates inside cells, which regulate gene expression and cellular organization, and the nucleation of amorphous carbonate in coccolith vesicles of marine microalgae. '
+    . 'Such environment are characterized by confined geometries, which means steric constraints limit molecular mobility and the high surface-to-volume ratio enhances interfacial effects. '
+    . 'In such environments, deviations from bulk behaviour are expected. Theories predict that stability domains in confinement differ from bulk. '
+    . 'Confinement should therfore be treated as a thermodynamic parameter and not only a simple boundary conditions. '
+    . 'We use a surface force balance to study how nanoconfinement induces demixing in mixtures of simple molecular liquids. '
+    . 'We developed a method to map concentration variations of nanoconfined fluids to identify how the equilibrium phases of a demixed mixture in confinement differ from those in bulk. '
+    . 'With surface force measurements, we investigate the interplay between wetting transitions and confinement induced phase separation.';
+
 $nodes = [
     [
         'slug' => 'barcelona',
@@ -259,7 +272,7 @@ $nodes = [
 
             'student_1_name' => 'Yann Dumay',
             'student_1_supervisor' => 'Erika Eiser',
-            'student_1_topic' => 'Two-phase flow in confined geometries — coupled hydrodynamic and ionic transport of two-phase fluid dispersions in 3D-printed porous media, with an emphasis on electrical signals from droplets passing through pore-scale "necks" and on the coupling of heat transport and ionic currents.',
+            'student_1_topic' => $yann_description,
             'student_1_photo_url' => '/assets/fellows/yann-dumay.jpg',
         ],
     ],
@@ -325,7 +338,7 @@ $nodes = [
 
             'student_1_name' => 'Lauriane Pierot Deseilligny',
             'student_1_supervisor' => 'Susan Perkin',
-            'student_1_topic' => 'Confinement-induced phase transition in liquid binary mixtures — surface-force-balance, calorimetric and electrochemical study of three-component electrolytes (salt, neutral solvent, zwitterionic osmolyte) under nanoscale confinement.',
+            'student_1_topic' => $lauriane_description,
             'student_1_photo_url' => '/assets/fellows/lauriane-pierot-deseilligny.jpg',
         ],
     ],
@@ -384,11 +397,11 @@ $fellows = [
     ['megh-dutta',                'Megh Dutta',               'cnrs-paris', 'CNRS — Sorbonne Université',                  'Benjamin Rotenberg & Emmanuel Trizac',   'Controlling charge dynamics and flow in nanocapacitors.'],
     ['alessandro-forina',         'Alessandro Forina',        'epfl',       'EPFL — COSMO Lab',                            'Michele Ceriotti',                       'Machine-learning modelling for nanoconfined aqueous systems.'],
     ['paula-sierra-varela',       'Paula Sierra i Varela',    'epfl',       'EPFL — CECAM',                                'Sara Bonella',                           'Non-equilibrium simulations of charge transport in confined environments.'],
-    ['yann-dumay',                'Yann Dumay',               'ntnu',       'NTNU — PoreLab',                              'Erika Eiser',                            'Two-phase flow in confined geometries.'],
+    ['yann-dumay',                'Yann Dumay',               'ntnu',       'NTNU — PoreLab',                              'Erika Eiser',                            $yann_description],
     ['gokmen-tamer-sanli',        'Gökmen Tamer Sanli',       'tu-delft',   'TU Delft',                                    'Claire Chassagne',                       'Coupling mean-field colloidal models and MD to probe surface/water interfaces.'],
     ['yucong-chen',               'Yucong Chen',              'mpg-mainz',  'Max Planck Institute for Polymer Research',   'Mischa Bonn',                            'Characterizing and controlling water structure and dynamics in confinement.'],
     ['sabiar-rahaman',            'Sabiar Rahaman',           'manchester', 'University of Manchester',                    'Radha Boya',                             'Confined water and ions in angstrom-scale capillaries.'],
-    ['lauriane-pierot-deseilligny', 'Lauriane Pierot Deseilligny', 'oxford', 'University of Oxford',                       'Susan Perkin',                           'Confinement-induced phase transition in liquid binary mixtures.'],
+    ['lauriane-pierot-deseilligny', 'Lauriane Pierot Deseilligny', 'oxford', 'University of Oxford',                       'Susan Perkin',                           $lauriane_description],
     ['shu-yang',                  'Shu Yang',                 'cambridge',  'University of Cambridge',                     'Angelos Michaelides',                    'Accurate quantum simulations of nanoconfined salty water.'],
     ['hamza-el-assri',            'Hamza El Assri',           'sweetch',    'Sweetch Energy & University of Montpellier',  'Mikhael Bechelany & Lydéric Bocquet',    'Experimental and modelling investigation of a nanofluidic osmotic energy generator.'],
 ];
@@ -517,17 +530,18 @@ echo "Inserted " . count($events) . " events.\n";
  * Conferences | Workshops
  * ----------------------------------------------------------------------- */
 $conferences = [
+    ['euromxene26-2026',                     'EuroMXene26 Conference',                                                                       '2026-06-03', '2026-06-05', 'Dublin, Ireland',                                          'Insights into the behavior of the MXenes functional groups in working conditions from ab-initio level calculations', '',                                                                  'Valentino Sanguinetti',                                     ''],
     ['faraday-discussion-angstrom-2026',     'Molecular and ion flows through angstrom-scale channels — Faraday Discussion 2026',            '2026-04-13', '2026-04-15', 'Manchester, UK',                                          '',                                                                                  'Ion-gating through two-dimensional Ångström-scale confined channels', 'Sabiar Rahaman, Radha Boya, Valentino Sanguinetti, Ignacio Pagonabarraga', 'Best poster prize'],
-    ['molsim-2026',                          'MolSim-2026',                                                                                  '2026-01-05', '2026-01-16', 'University of Amsterdam',                                  '',                                                                                  'Controlling Charging dynamics of Electrolytic Capacitors',          'Megh Dutta, Mattia Borriello',                              ''],
+    ['molsim-2026',                          'MolSim-2026',                                                                                  '2026-01-05', '2026-01-16', 'University of Amsterdam',                                  '',                                                                                  'Controlling Charging dynamics of Electrolytic Capacitors',          'Megh Dutta, Mattia Borriello, Daan Frenkel',                ''],
     ['stuttgart-espresso-2025',              'Systematic coarse-graining and machine learning in soft matter physics with ESPResSo',         '2025-10-06', '2025-10-10', 'University of Stuttgart',                                  '',                                                                                  'Controlling Charging dynamics of Electrolytic Capacitors',          'Megh Dutta, Gabriele Dalla Valle',                          ''],
     ['manchester-pgr-2025',                  'The Department of Physics & Astronomy 2025 Postgraduate Research Conference',                  '2025-09-26', '2025-09-26', 'University of Manchester, UK',                             '',                                                                                  'Hexaazatriphenylene–Diaminobenzidine Covalent Organic Framework',   'Sabiar Rahaman, Radha Boya',                                'Best poster prize (First place)'],
     ['n-aqua-aussois-2025',                  'N-AQUA meeting (September 2025, Aussois)',                                                     '2025-09-15', '2025-09-19', 'Aussois, France',                                          '',                                                                                  '',                                                                  'Valentino Sanguinetti, Yucong Chen, Marie-Laure Bocquet, Lydéric Bocquet', ''],
     ['ecoss-38-2025',                        '38th European Conference of Surface Science (ECOSS-38)',                                       '2025-08-24', '2025-08-29', 'Braga, Portugal',                                          'Water under h-BN nanoconfinement: structural and chemical insights from ab initio simulations', '',                                                                  'Valentino Sanguinetti',                                     ''],
-    ['cecam-electrochemical-2025',           'Simulations of Electrochemical Storage Devices: From Quantum to Classical Descriptions',       '2025-07-21', '2025-07-24', 'CECAM-FR-MOSER, Sorbonne Université, Paris',               '',                                                                                  '',                                                                  'Paula Sierra i Varela',                                     ''],
+    ['cecam-electrochemical-2025',           'Simulations of Electrochemical Storage Devices: From Quantum to Classical Descriptions',       '2025-07-21', '2025-07-24', 'CECAM-FR-MOSER, Sorbonne Université, Paris',               '',                                                                                  '',                                                                  'Paula Sierra i Varela, Sara Bonella, Benjamin Rotenberg, Marialore Sulpizi', ''],
     ['ed388-doctoral-day-2025',              'ED 388 Doctoral Students\' Day',                                                               '2025-06-24', '2025-06-24', 'Sorbonne Université, Paris',                               '',                                                                                  '',                                                                  'Megh Dutta',                                                ''],
     ['ufr-young-researchers-2025',           'UFR Young Researchers\' Day',                                                                  '2025-05-27', '2025-05-27', 'Sorbonne Université, Paris',                               'Shortcutting the charging time of an Electrolytic capacitor',                       '',                                                                  'Megh Dutta',                                                ''],
-    ['ums-beijing-2025',                     'Understanding Molecular Simulation (Beijing)',                                                 '2025-04-25', '2025-05-05', 'CECAM-CN IoP CAS, Beijing',                                '',                                                                                  '',                                                                  'Yann Dumay, Valentino Sanguinetti, Alessandro Forina, Haoyuan Quan', ''],
-    ['barcelona-noneq-school-2025',          'Non-equilibrium statistical physics School',                                                   '2025-04-07', '2025-04-11', 'Universitat de Barcelona',                                 '',                                                                                  '',                                                                  'Gabriele Dalla Valle, Daniel La Valle',                     ''],
+    ['ums-beijing-2025',                     'Understanding Molecular Simulation (Beijing)',                                                 '2025-04-25', '2025-05-05', 'CECAM-CN IoP CAS, Beijing',                                '',                                                                                  '',                                                                  'Yann Dumay, Valentino Sanguinetti, Alessandro Forina, Haoyuan Quan, Ignacio Pagonabarraga, Daan Frenkel, Jure Dobnikar', ''],
+    ['barcelona-noneq-school-2025',          'Non-equilibrium statistical physics School',                                                   '2025-04-07', '2025-04-11', 'Universitat de Barcelona',                                 '',                                                                                  '',                                                                  'Gabriele Dalla Valle, Daniel La Valle, Ignacio Pagonabarraga', ''],
     ['journees-physique-statistique-2025',   'Journées de Physique Statistique',                                                             '2025-01-30', '2025-01-31', 'Université Paris Cité, Paris',                             '',                                                                                  '',                                                                  'Megh Dutta, Lydéric Bocquet',                               ''],
     ['n-aqua-ringberg-2025',                 'N-AQUA meeting (January 2025, Ringberg)',                                                      '2025-01-13', '2025-01-17', 'Ringberg, Germany',                                        '',                                                                                  '',                                                                  'Valentino Sanguinetti, Yucong Chen, Marie-Laure Bocquet, Lydéric Bocquet', ''],
     ['ums-amsterdam-2025',                   'Understanding Molecular Simulation (Amsterdam)',                                               '2025-01-06', '2025-01-17', 'Universiteit van Amsterdam',                               '',                                                                                  '',                                                                  'Gabriele Dalla Valle, Yucong Chen, Paula Sierra i Varela',  ''],
@@ -572,6 +586,26 @@ echo "Inserted " . count($outreach) . " outreach entries.\n";
  * ----------------------------------------------------------------------- */
 $publications = [
     [
+        'slug' => 'accelerating-charging-dynamics-edlc-2026',
+        'title' => 'Accelerating charging dynamics of electric double-layer capacitors',
+        'authors' => 'Megh Dutta, Ivan Palaia, Emmanuel Trizac, Benjamin Rotenberg',
+        'bold_names' => 'Megh Dutta;Emmanuel Trizac;Benjamin Rotenberg',
+        'journal' => 'Journal of Chemical Physics',
+        'year' => 2026,
+        'date' => '2026-08-13',
+        'url' => 'https://pubs.aip.org/aip/jcp/article/165/6/064116/3401068/Accelerating-charging-dynamics-of-electric-double',
+    ],
+    [
+        'slug' => 'charge-localization-patchy-nanochannels-2026',
+        'title' => 'Charge localization, rectification, and transport in electrolyte patchy nanochannels',
+        'authors' => 'Sergi G. Leyva, Gabriele Dalla Valle, Tine Curk, Ignacio Pagonabarraga',
+        'bold_names' => 'Gabriele Dalla Valle;Ignacio Pagonabarraga',
+        'journal' => 'Faraday Discussions',
+        'year' => 2026,
+        'date' => '2026-07-07',
+        'url' => 'https://doi.org/10.1039/d6fd00007j',
+    ],
+    [
         'slug' => 'cosurfactant-induced-disorder-polymersome-2026',
         'title' => 'Cosurfactant-Induced Disorder in Polymersome Membrane Enhances Diffusion of Cargo Molecules',
         'authors' => 'Gabrielle A. Ong, Priyanka Sharan, Robert Graf, Kaloian Koynov, Yucong Chen, Arsh S. Hazrah, Katharina Landfester',
@@ -604,7 +638,7 @@ $publications = [
     [
         'slug' => 'hat-dab-cof-chem-mater-2025',
         'title' => 'Hexaazatriphenylene–Diaminobenzidine Covalent Organic Framework: A Promising Nitrogen Abundant Material for Electrochemical Energy Storage Applications',
-        'authors' => 'Korak Kar, Sabiar Rahaman, Yuchen Liu, Krishna D Bhalerao, Hiran Jyothilal, Benjamin B Duff, Dinachandra Singh Mayanglambam, Basker Sundararaju, Boya Radha, Kumar Biradha, Ashok Keerthi',
+        'authors' => 'Korak Kar†, Sabiar Rahaman†, Yuchen Liu, Krishna D Bhalerao, Hiran Jyothilal, Benjamin B Duff, Dinachandra Singh Mayanglambam, Basker Sundararaju, Boya Radha, Kumar Biradha, Ashok Keerthi',
         'bold_names' => 'Sabiar Rahaman;Boya Radha',
         'journal' => 'Chemistry of Materials',
         'year' => 2025,
@@ -634,7 +668,7 @@ $publications = [
     [
         'slug' => 'hat-quinone-cop-supercapacitors-jacs-2026',
         'title' => 'Hexaazatriphenylene–Quinone Covalent Organic Polymers as a Platform for Stable and High-Performance Supercapacitors',
-        'authors' => 'Yuchen Liu, Sabiar Rahaman, Hiran Jyothilal, Tirumala Rao Dumpala, Korak Kar, Benjamin Duff, Hadeel Abbas, Alessandro Grillo, Alice Bowen, Ashok Keerthi',
+        'authors' => 'Yuchen Liu†, Sabiar Rahaman†, Hiran Jyothilal, Tirumala Rao Dumpala, Korak Kar, Benjamin Duff, Hadeel Abbas, Alessandro Grillo, Alice Bowen, Ashok Keerthi',
         'bold_names' => 'Sabiar Rahaman',
         'journal' => 'Journal of the American Chemical Society',
         'year' => 2026,

@@ -37,6 +37,7 @@
                             {% endif %}
                         {% endfor %}
                     {% endif %}
+                    {% set authors_html = authors_html|replace({'†': '<sup class="equal-contribution-mark">†</sup>'}) %}
                     <p style="font-style:italic;color:var(--gray-text);"><strong style="font-style:italic;">Authors:</strong> {{ authors_html|raw }}</p>
                 {% endif %}
                 {% if entry.field('publication_url') %}

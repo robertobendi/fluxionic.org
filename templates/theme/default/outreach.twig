@@ -25,7 +25,6 @@
                 {% if entry.field('fellow_name') %}<span><span class="label">Fellow</span> {{ entry.field('fellow_name') }}</span>{% endif %}
             </div>
 
-            {% if entry.field('summary') %}<p style="font-size:1.125rem;color:var(--dark);font-weight:500;">{{ entry.field('summary') }}</p>{% endif %}
             {% if entry.field('role') %}
                 <h2>Role</h2>
                 <p>{{ entry.field('role')|nl2br }}</p>

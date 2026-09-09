@@ -60,6 +60,7 @@
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
+                        {% set authors_html = authors_html|replace({'†': '<sup class="equal-contribution-mark">†</sup>'}) %}
                         <li>
                             {% if p.field('publication_url') %}<a href="{{ p.field('publication_url') }}" rel="noopener" target="_blank">{{ p.field('title') }}</a>{% else %}{{ p.field('title') }}{% endif %};
                             {{ authors_html|raw }};
@@ -67,6 +68,7 @@
                         </li>
                     {% endfor %}
                 </ol>
+                <p class="publication-note"><sup class="equal-contribution-mark">†</sup> These authors contributed equally to this work.</p>
             </div>
         </div>
     </section>
