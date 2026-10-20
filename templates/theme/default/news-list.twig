@@ -65,6 +65,12 @@
                             {% if p.field('publication_url') %}<a href="{{ p.field('publication_url') }}" rel="noopener" target="_blank">{{ p.field('title') }}</a>{% else %}{{ p.field('title') }}{% endif %};
                             {{ authors_html|raw }};
                             {{ p.field('journal') }}{% if p.field('year') %} ({{ p.field('year') }}){% endif %}
+                            {% if p.field('abstract') %}
+                                <details class="pub-abstract">
+                                    <summary>Abstract</summary>
+                                    <p>{{ p.field('abstract') }}</p>
+                                </details>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ol>

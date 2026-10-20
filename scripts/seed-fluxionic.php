@@ -586,6 +586,17 @@ echo "Inserted " . count($outreach) . " outreach entries.\n";
  * ----------------------------------------------------------------------- */
 $publications = [
     [
+        'slug' => 'visible-light-air-water-interface-pnas-2026',
+        'title' => 'Visible light leaves evaporation and interfacial structure of neat water unchanged at the air–water interface',
+        'authors' => 'Yucong Chen, Joseph C. Shirley, Zi Xuan Ng, Yongkang Wang, Yuki Nagata, Arsh S. Hazrah, Mischa Bonn',
+        'bold_names' => 'Yucong Chen;Mischa Bonn',
+        'journal' => 'Proceedings of the National Academy of Sciences',
+        'year' => 2026,
+        'date' => '2026-09-14',
+        'url' => 'https://doi.org/10.1073/pnas.2615377123',
+        'abstract' => 'Visible light-induced “photomolecular” enhancement of water evaporation has been proposed as a fundamentally new mode of light–matter interaction at aqueous interfaces, with far-reaching implications for climate processes and light-driven water technologies. Yet, the response of neat interfacial water to visible photons has not been directly quantified at both macroscopic and molecular scales. Here, we combine high-precision confocal displacement measurements with a surface-specific vibrational probe that detects the OH-stretch vibrations of interfacial water molecules with subnanometer depth sensitivity, allowing us to resolve even subtle blue shifts of the hydrogen-bonded continuum and changes in the amplitude and position of the free-OH peak that report on interfacial hydrogen-bond strength and molecular orientation. This approach enables us to track both evaporation kinetics and molecular structure at the air–water boundary. Continuous 450, 532, and 635 nm illumination leaves the macroscopic evaporation rate unchanged over a wide range of humidities, while the interfacial vibrational spectra show no detectable modification of water hydrogen-bonding or molecular orientation under identical environmental conditions. To directly test a nonthermal, field-driven mechanism, we further exposed the interface to femtosecond visible and near-infrared pulses spanning 515, 800, and 1030 nm; the peak intensities were increased by more than ten orders of magnitude, and no structural change was observed. Together, these measurements show that the neat air–water interface is remarkably insensitive to visible irradiation, implying that any substantial light-enhanced evaporation is most consistent with photothermal or geometric effects in complex materials rather than from a new, nonthermal and nonresonant pathway intrinsic to liquid water.',
+    ],
+    [
         'slug' => 'accelerating-charging-dynamics-edlc-2026',
         'title' => 'Accelerating charging dynamics of electric double-layer capacitors',
         'authors' => 'Megh Dutta, Ivan Palaia, Emmanuel Trizac, Benjamin Rotenberg',
@@ -594,6 +605,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-08-13',
         'url' => 'https://pubs.aip.org/aip/jcp/article/165/6/064116/3401068/Accelerating-charging-dynamics-of-electric-double',
+        'abstract' => 'Electric double-layer capacitors (EDLCs), consisting of an ionic fluid between two metallic electrodes, are electrochemical energy storage devices complementary to batteries, allowing for a faster charge/discharge. The charging dynamics in response to a voltage step features a variety of regimes and relaxation timescales, depending on the applied voltage and the various lengths characterizing the system, most importantly the inter-electrode distance and the Debye length over which electrostatic effects are screened in the electrolyte. Inspired by recent works on “shortcut to adiabaticity” in colloidal systems, here we investigate the possibility to control the charge and discharge of planar EDLCs using time-dependent voltages. In particular, our aim is to achieve a full charge or discharge within a finite time shorter than their intrinsic relaxation timescales. Within the Poisson–Nernst–Planck model and the small-voltage regime, we derive time-dependent protocols that can eliminate an arbitrary number of relaxation modes. This permits to approach the equilibrium charged state within a finite time, which can be in practice an order of magnitude faster than the natural equilibration time. We illustrate the relevance and efficacy of the method on polynomial drivings and show that the surface charge density, charge-density profiles, and global deviation from equilibrium (quantified by a Kullback–Leibler-like divergence) can all be significantly accelerated, even for driving times comparable to or shorter than the natural RC time of the system.',
     ],
     [
         'slug' => 'charge-localization-patchy-nanochannels-2026',
@@ -604,6 +616,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-07-07',
         'url' => 'https://doi.org/10.1039/d6fd00007j',
+        'abstract' => 'We study ionic charge localization and transport in electrolyte-filled nanochannels with heterogeneous walls. Localized charged patches at the channel boundaries trap counterions, enabling controlled charge accumulation in otherwise straight channels. Combining lattice-Boltzmann simulations with analytical modeling, we show that the stability and mobility of these charge clouds result from a balance between electrostatic forces, hydrodynamic drag, and diffusion. Under applied electric fields and pressure gradients, localized charge produces diode-like rectification. Pressure-driven flow shifts the dissociation threshold of the counterion cloud, yielding strongly asymmetric current–voltage characteristics. A minimal force-balance model quantitatively captures the rectification window and its linear dependence on the pressure gradient, demonstrating rectification in the absence of geometric asymmetry. We further examine dynamic control using moving wall patches. In the linear electrostatic regime, charge responds diffusively to patch motion, while strong wall potentials induce a strong colocalization and active charge transport. We identify drift- and diffusion-dominated transport regimes and a critical patch velocity beyond which charge localization fails. These results establish patchy wall potentials as a minimal mechanism for controlling ionic localization, rectification, and transport in nanochannels.',
     ],
     [
         'slug' => 'cosurfactant-induced-disorder-polymersome-2026',
@@ -614,6 +627,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-04-29',
         'url' => 'https://doi.org/10.1021/acsnano.6c00963',
+        'abstract' => 'Giant polymersomes are widely used as artificial cells due to their resemblance to natural cells; however, their intrinsically low membrane permeability remains a major limitation for applications such as drug delivery and bioreactors. Here, we report a microfluidic approach to fabricate permeable polymersomes using PB-b-PEO as a macromolecular surfactant and oleyl alcohol as a cosurfactant. Incorporation of the cosurfactant into the membrane induces membrane structural disorder in polymer packing, leading to enhanced membrane permeability. Using advanced nuclear magnetic resonance (NMR) spectroscopy, we directly probe the heterogeneity within polymersome membranes, representing membrane-level investigation in giant polymersomes. Comparison with polymersomes exhibiting tightly packed polymer assemblies reveals pronounced differences in the lateral mobility and permeability of the membrane. Our results demonstrate how subtle changes in formulation translate into distinct membrane structures, establishing a molecular basis for the rational design of polymersomes with tailored permeability.',
     ],
     [
         'slug' => 'edl-nanocapacitor-charging-prl-2025',
@@ -624,6 +638,7 @@ $publications = [
         'year' => 2025,
         'date' => '2025-09-29',
         'url' => 'https://journals.aps.org/prl/abstract/10.1103/72b9-c8cq',
+        'abstract' => 'An electric double-layer capacitor (EDLC) stores energy by modulating the spatial distribution of ions in the electrolytic solution that it contains. We determine the mean-field timescales for planar EDLC relaxation to equilibrium after a potential difference is applied. We tackle first the fully symmetric case, where positive and negative ionic species have the same valence and diffusivity, and then the general, more complex, asymmetric case. Depending on the applied voltage and salt concentration, different regimes appear, revealing a remarkably rich phenomenology relevant for nanocapacitors.',
     ],
     [
         'slug' => 'pnp-charging-dynamics-pre-2025',
@@ -634,6 +649,7 @@ $publications = [
         'year' => 2025,
         'date' => '2025-09-29',
         'url' => 'https://journals.aps.org/pre/abstract/10.1103/p4dg-snqf',
+        'abstract' => 'A parallel plate capacitor containing an electrolytic solution is the simplest model of a supercapacitor or electric double-layer capacitor. Using both analytical and numerical techniques, we solve the Poisson-Nernst-Planck equations for such a system, describing the mean-field charging dynamics of the capacitor, when a constant potential difference is abruptly applied to its plates. Working at constant total number of ions, we focus on the physical processes involved in the relaxation and, whenever possible, give its functional shape and exact time constants. We first review and study the case of a symmetric binary electrolyte, where we assume the two ionic species to have the same charges and diffusivities. We then relax these assumptions and present results for a generic strong (i.e., fully dissociated) binary electrolyte. At low electrolyte concentration, the relaxation is simple to understand, as the dynamics of positive and negative ions appear decoupled. At higher electrolyte concentration, we distinguish several regimes. In the linear regime (low voltages), relaxation is multiexponential, it starts by the buildup of the equilibrium charge profile and continues with neutral mass diffusion, and the relevant timescales feature both the average and the Nernst-Hartley diffusion coefficients. In the purely nonlinear regime (intermediate voltages), the initial relaxation is slowed down exponentially due to increased capacitance, while bulk effects become more and more evident. In the fully nonlinear regime (high voltages), the dynamics of charge and mass are completely entangled and, asymptotically, the relaxation is linear in time. We finally discuss nonideal behavior in real capacitors and provide conditions for which mean-field is expected to hold.',
     ],
     [
         'slug' => 'hat-dab-cof-chem-mater-2025',
@@ -644,6 +660,7 @@ $publications = [
         'year' => 2025,
         'date' => '2025-08-26',
         'url' => 'https://doi.org/10.1021/acs.chemmater.5c01220',
+        'abstract' => 'Covalent organic frameworks (COFs) are emerging as promising electrode materials due to their high surface area, tunable porosity, and design flexibility. However, their practical use in energy storage remains limited by their poor stability and electrochemical performance. Here, we report a nitrogen-rich COF, synthesized via an irreversible aromatic nucleophilic substitution between hexaazatriphenylenehexacarbonitrile and 3,3′-diaminobenzidine (HAT-DAB COF), forming stable –C═N– and –C–N– linkages. The framework integrates redox-active phenazine and arylamine units, offering a porous, crystalline, and nitrogen-rich architecture. Structural and morphological analyses confirm its robust and porous nature. As a bifunctional electrode, HAT-DAB COF shows excellent performance in lithium-ion batteries, with a specific capacity of 265 mAh/g, an energy density of ∼607 Wh/kg, and ∼98% Coulombic efficiency over hundreds of cycles. As a supercapacitor, it delivers 110.5 mF/cm² at 1 mV/s, with ∼95% capacitance retention and 100% Coulombic efficiency over 8000 cycles. Capacitance arises from a synergy of electric double-layer and redox (Faradaic) processes, with the diffusive component retained even at high scan rates, indicating strong pseudocapacitor behavior. This work demonstrates the value of irreversible linkages and rational redox-active design in achieving durable, high-performance COFs for next-generation energy storage applications.',
     ],
     [
         'slug' => 'on-water-2d-cmof-films-adv-mater-2026',
@@ -654,6 +671,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-06-23',
         'url' => 'https://doi.org/10.1002/adma.73785',
+        'abstract' => 'Two-dimensional conjugated metal–organic frameworks (2D c-MOFs) offer an appealing platform for electronic devices, particularly chemiresistive sensors, owing to their unique combination of electrical conductivity and intrinsic porosity. However, their pronounced structural and transport anisotropies render device performance highly sensitive to layer orientation, underscoring the need for synthetic strategies that enable the controlled synthesis of well-aligned 2D c-MOF films. Here, we introduce a surfactant monolayer-assisted on-water synthesis that programs the layer orientation of conductive Ni-HHTP (HHTP = 2,3,6,7,10,11-hexahydroxytriphenylene) films (face-on vs. edge-on) over cm²-scale areas by tuning ligand-surfactant monolayer electrostatic vs. hydrogen-bonding interactions. Imaging and scattering techniques unambiguously confirm preferential face-on and edge-on layer orientations, while electrical transport and optical pump-THz probe spectroscopy reveal markedly enhanced intralayer charge transport in face-on films, motivating their integration into chemiresistive sensing. Chemiresistive NH₃ sensors based on face-on Ni-HHTP films achieve a response of 269.8% at 50 ppm and an ultralow detection limit of 8.45 ppb at room temperature, surpassing edge-on films and previously reported 2D c-MOF sensors. These results establish surfactant-programmed on-water synthesis as a new route to macroscopic orientation control in 2D c-MOFs, enabling deliberate exploitation of their anisotropic charge transport in high-performance sensing and electronic devices.',
     ],
     [
         'slug' => 'nanofluidic-ionic-memory-nat-rev-mater-2026',
@@ -664,6 +682,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-06-03',
         'url' => 'https://doi.org/10.1038/s41578-026-00919-1',
+        'abstract' => 'The biological brain stores and processes information with exceptional energy efficiency, motivating the search for alternatives to traditional von Neumann computing systems that separate memory from processing. Nanofluidic memristors have emerged as promising building blocks for non-conventional neuromorphic computing, in which ion transport under nanoscale confinement generates history-dependent conductance for analog or digital switching. Their performance is governed by surface chemistry, device geometry and electrolyte properties, which together give rise to diverse memristive mechanisms and hysteresis loop types. Exploring new materials not only improves functionality but also deepens our understanding of the diverse physical mechanisms driving memristive behaviour. Despite rapid progress, challenges remain in mechanisms identification, fabrication scalability, variability control, fine tuning of memristive properties, and integration into higher-order neuromorphic architectures. This Perspective summarizes recent advances in materials and mechanisms, outlines characterization protocols and highlights emerging applications from in-sensor computing to visual processing and reservoir computing, while discussing how tailored nanochannel materials may enable next-generation, brain-inspired iontronic neuromorphic systems.',
     ],
     [
         'slug' => 'hat-quinone-cop-supercapacitors-jacs-2026',
@@ -674,6 +693,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-06-03',
         'url' => 'https://doi.org/10.1021/jacs.5c20557',
+        'abstract' => 'Developing high-performance supercapacitors requires an optimal balance of capacitance, energy, and power density together with long-term cycling stability. Here, we report a family of heteroatom-doped, spin-active, and redox-active hexaazatriphenylene–quinone covalent organic polymers (COPs) prepared through complementary mechanochemical and solution-phase syntheses. These materials exhibit chemical robustness under acidic conditions and strong pseudocapacitive activity arising from delocalized spin centers and quinone redox sites. Among them, COP-2 displays the most favorable electrochemical characteristics, achieving an areal capacitance of up to 6214 mF/cm² (863 F/g) and an unprecedented energy density of 1.91 mWh/cm² (266 Wh/kg) at 1 mA/cm² in symmetric two-electrode devices. The material also demonstrates high-rate capability with a maximum power density of 51.4 mW/cm² (7139 W/kg) and stable cycling performance, retaining 82.1% capacitance after 50,000 cycles. Mechanistic studies combining spectroscopy, electrochemical analysis, and electronic structure simulations highlight the interplay of redox activity and spin delocalization in governing charge storage. These results establish a molecular-to-device design framework for developing spin-active porous polymers as advanced energy storage materials.',
     ],
     [
         'slug' => '2d-mof-supercapacitors-nano-lett-2026',
@@ -684,6 +704,7 @@ $publications = [
         'year' => 2026,
         'date' => '2026-01-31',
         'url' => 'https://doi.org/10.1021/acs.nanolett.5c06178',
+        'abstract' => 'Additive-free active materials are desirable for energy storage devices as they reduce processing complexity and eliminate variability from binders or conductive additives. We report the synthesis of a highly stable, two-dimensional copper-based metal–organic framework (CuMOF) film with a tunable thickness. The exceptional adhesion of CuMOF films to electrode surfaces enables a binder-free fabrication approach, addressing a key challenge in energy storage applications, particularly in electrode design. The film exhibits a columnar morphology with well-defined grain boundaries and a high surface area, making it optimal for supercapacitor applications. Electrochemical characterization on glassy carbon electrodes yielded an areal capacitance of 2.9 mF/cm² at a scan rate of 1 mV/s using a ∼160 nm thick CuMOF film. We investigated films as thin as 2.4 nm, where the capacitance is predominantly governed by electrical double-layer effects, highlighting the interplay between the film structure and electrochemical behavior. Thus, CuMOF films offer practical applicability, advancing efficient binder-free energy storage.',
     ],
 ];
 
@@ -697,6 +718,7 @@ foreach ($publications as $p) {
         'journal' => $p['journal'],
         'year' => $p['year'],
         'publication_url' => $p['url'],
+        'abstract' => $p['abstract'],
     ], ts($p['date']));
 }
 echo "Inserted " . count($publications) . " publications.\n";

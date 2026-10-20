@@ -215,6 +215,7 @@ return [
             'journal'         => ['type' => 'text', 'label' => 'Journal (publication only)'],
             'year'            => ['type' => 'number', 'label' => 'Year (publication only)'],
             'publication_url' => ['type' => 'url', 'label' => 'Publication URL (publication only)'],
+            'abstract'        => ['type' => 'textarea', 'label' => 'Abstract (publication only)'],
 
             'meta_description' => ['type' => 'textarea', 'label' => 'Meta description'],
         ],
